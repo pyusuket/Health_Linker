@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'user/homes#index'
+  
   devise_for :user, skip: [:passwords], controllers: {
     registrations: "user/registrations",
     sessions: 'user/sessions'
