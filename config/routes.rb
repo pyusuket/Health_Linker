@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   root 'user/homes#index'
   
-  devise_for :user, skip: [:passwords], controllers: {
+  devise_scope :user do
+    get 'users/sign_out', to: 'user/sessions#destroy'
+    post "users/guest_sign_in", to: "user/sessions#guest_sign_in"
+  end
+  
+  devise_for :users, skip: [:passwords], controllers: {
     registrations: "user/registrations",
     sessions: 'user/sessions'
   }
@@ -11,8 +16,9 @@ Rails.application.routes.draw do
   }
   
   devise_scope :user do
-    post "users/guest_sign_in", to: "user/sessions#guest_sign_in"
   end
+  
+
   
   namespace :admin do
   end
