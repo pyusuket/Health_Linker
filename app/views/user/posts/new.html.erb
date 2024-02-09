@@ -2,16 +2,6 @@
   <div class="mt-2 flex justify-center">
     <div class="border-b border-gray-900/10 pb-12 sm:max-w-md">
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-full">
-          <div>
-            <%= f.label :タグ, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%= f.email_field :tag, autofocus: true, class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
-          </div>
-        </div>
-        <div class="col-span-full">
-            <%= f.label :本文, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%= f.text_area :body, class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %> 
-        </div>
         <div class="col-span-full">
           <%= f.label :写真, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
           <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
@@ -23,6 +13,16 @@
                   <%= f.file_field :image, autofocus: true ,class: "rounded"%>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="col-span-full">
+            <%= f.label :本文, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+            <%= f.text_area :body, class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %> 
+        </div>
+        <div class="sm:col-span-full">
+          <div>
+            <%= f.label :タグ, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+            <%= f.email_field :tag, autofocus: true, class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
           </div>
         </div>
       </div>
