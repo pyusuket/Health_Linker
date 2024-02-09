@@ -2,27 +2,24 @@
 <div class="bg-white py-6 sm:py-8 lg:py-12">
   <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
     <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">ログイン</h2>
-
     <form class="mx-auto max-w-lg rounded-lg border">
       <div class="flex flex-col gap-4 p-4 md:p-8">
         <div>
-          <label for="email" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">メールアドレス</label>
+          <%= f.label :メールアドレス, class:"mb-2 inline-block text-sm text-gray-800 sm:text-base" %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
         </div>
-
         <div>
-          <label for="password" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">パスワード</label>
+          <%= f.label :パスワード, class:"mb-2 inline-block text-sm text-gray-800 sm:text-base" %>
           <%= f.password_field :password, autocomplete: "current-password", class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
         </div>
         <% if devise_mapping.rememberable? %>
-        <div class="field">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me %>
-        </div>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
         <% end %>
-        <button class="block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base">ログイン</button>
-
-        <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, method: :post, class:"block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
+        <%= f.submit 'ログイン', class:"block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
+        <%= f.submit "ゲストログイン（閲覧用）", url: users_guest_sign_in_path, class:"block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
         <div class="relative flex items-center justify-center">
           <span class="absolute inset-x-0 h-px bg-gray-300"></span>
           <span class="relative bg-white px-4 text-sm text-gray-400">Log in with social</span>
