@@ -5,4 +5,8 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :nices, dependent: :destroy
+  
+  def niced_by?(user)
+    nices.exists?(user_id: user.id)
+  end
 end
