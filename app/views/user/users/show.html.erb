@@ -1,0 +1,21 @@
+
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+    <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+      <div>
+        <% @user.posts.each do |post| %>
+        <a href="#" class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
+          <%= image_tag(post.image) %>
+        </a>
+
+        <div class="flex items-start justify-between gap-2 px-2">
+          <div class="flex flex-col">
+            <a href="#" class="text-lg font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-xl"><%= post.body %></a>
+            <p class="text-sm text-gray-600 mt-1">いいね：<%#= post.nices_count %> 件</p>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

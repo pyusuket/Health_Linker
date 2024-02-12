@@ -46,6 +46,9 @@ ActiveRecord::Schema.define(version: 2024_02_04_063307) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "name", default: "", null: false
+    t.string "age", default: "", null: false
+    t.string "sex", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
@@ -53,7 +56,9 @@ ActiveRecord::Schema.define(version: 2024_02_04_063307) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string "body", default: "", null: false
+    t.integer "post_id", null: false
+    t.integer "user_id", null: false
+    t.text "body", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -66,25 +71,30 @@ ActiveRecord::Schema.define(version: 2024_02_04_063307) do
   end
 
   create_table "nices", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "user_id", null: false
     t.string "nice_status", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "posts", force: :cascade do |t|
+    t.integer "user_id", null: false
     t.string "body", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "taggings", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "tag_id", null: false
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name", default: "", null: false
+    t.string "name", default: ""
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -95,12 +105,15 @@ ActiveRecord::Schema.define(version: 2024_02_04_063307) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "last_name", default: "", null: false
-    t.string "first_name", default: "", null: false
-    t.string "last_name_kana", default: "", null: false
-    t.string "first_name_kana", default: "", null: false
-    t.string "birthday", default: "", null: false
-    t.string "sex", default: "", null: false
+    t.datetime "last_sign_in_at"
+    t.string "user_name", default: "", null: false
+    t.text "introduction", limit: 200, default: ""
+    t.date "birthday"
+    t.string "sex", default: ""
+    t.string "postal_code", default: ""
+    t.string "prefecture", default: ""
+    t.string "city", default: ""
+    t.string "apartment", default: ""
     t.boolean "user_status", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

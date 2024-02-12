@@ -62,3 +62,5 @@ gem 'kaminari','~> 1.2.1'
 gem 'tailwindcss-rails', '~> 2.0'
 
 gem "enum_help"
+
+gem 'inline_svg'

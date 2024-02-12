@@ -1,0 +1,32 @@
+<div class="flex h-100%">
+  <main class="min-w-0 flex-1 overflow-auto bg-blue-50">
+    <div class="bg-white py-6 sm:py-8 lg:py-12">
+      <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+          <div class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110 group relative mb-2 block h-80 overflow-hidden rounded-lg bg-gray-100 lg:mb-3">
+            <%= image_tag(@post.image) %>
+            <div class="flex items-end gap-2">
+              <%= @post.created_at.strftime("%Y/%-m/%-d")%></br>
+              <%= @post.body %>
+            </div>
+          
+          <div>
+            <p>コメント件数：<%= @post.comments.count %></p>
+            <% @post.comments.each do |comment| %>
+              <p><%#= image_tag post_comment.user.get_profile_image(100,100) %></p>
+              <%= @comment.user.name %>
+              <%= @comment.created_at.strftime('%Y/%m/%d') %><%#= comment.comment %>
+            <% end %>
+          </div>
+          <div>
+            <%#= form_with model: [@post, @comment] do |f| %>
+              <%#= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+              <%#= f.submit "送信する" %>
+            <%# end %>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

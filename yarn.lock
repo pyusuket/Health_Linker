@@ -1168,6 +1168,13 @@
     webpack-cli "^3.3.12"
     webpack-sources "^1.4.3"
 
+"@tailwindcss/forms@^0.5.7":
+  version "0.5.7"
+  resolved "https://registry.npmjs.org/@tailwindcss/forms/-/forms-0.5.7.tgz"
+  integrity sha512-QE7X69iQI+ZXwldE+rzasvbJiyV/ju1FGHH0Qn2W3FKbuYtqp8LKcy6iSw79fVUT5/Vvf+0XgLCeYVG+UV6hOw==
+  dependencies:
+    mini-svg-data-uri "^1.2.3"
+
 "@tailwindcss/typography@^0.5.10":
   version "0.5.10"
   resolved "https://registry.npmjs.org/@tailwindcss/typography/-/typography-0.5.10.tgz"
@@ -1625,6 +1632,18 @@ atob@^2.1.2:
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+autoprefixer@^10.4.17:
+  version "10.4.17"
+  resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.17.tgz"
+  integrity sha512-/cpVNRLSfhOtcGflT13P2794gVSgmPgTR+erw5ifnMLZb0UnSlkK4tquLmkd3BhA+nLo5tX8Cu0upUsGKvKbmg==
+  dependencies:
+    browserslist "^4.22.2"
+    caniuse-lite "^1.0.30001578"
+    fraction.js "^4.3.7"
+    normalize-range "^0.1.2"
+    picocolors "^1.0.0"
+    postcss-value-parser "^4.2.0"
+
 autoprefixer@^9.6.1:
   version "9.8.8"
   resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-9.8.8.tgz"
@@ -1637,18 +1656,6 @@ autoprefixer@^9.6.1:
     picocolors "^0.2.1"
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
-
-autoprefixer@10:
-  version "10.4.17"
-  resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.17.tgz"
-  integrity sha512-/cpVNRLSfhOtcGflT13P2794gVSgmPgTR+erw5ifnMLZb0UnSlkK4tquLmkd3BhA+nLo5tX8Cu0upUsGKvKbmg==
-  dependencies:
-    browserslist "^4.22.2"
-    caniuse-lite "^1.0.30001578"
-    fraction.js "^4.3.7"
-    normalize-range "^0.1.2"
-    picocolors "^1.0.0"
-    postcss-value-parser "^4.2.0"
 
 available-typed-arrays@^1.0.5:
   version "1.0.5"
@@ -4763,6 +4770,11 @@ mini-css-extract-plugin@^0.9.0:
     schema-utils "^1.0.0"
     webpack-sources "^1.1.0"
 
+mini-svg-data-uri@^1.2.3:
+  version "1.4.4"
+  resolved "https://registry.npmjs.org/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz"
+  integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
+
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz"
@@ -6184,10 +6196,10 @@ postcss-values-parser@^2.0.0, postcss-values-parser@^2.0.1:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-"postcss@^7.0.0 || ^8.0.1", postcss@^8.0.0, postcss@^8.1.0, postcss@^8.2.14, postcss@^8.3.5, postcss@^8.4.21, postcss@^8.4.23, postcss@>=8.0.9, postcss@8:
-  version "8.4.33"
-  resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.33.tgz"
-  integrity sha512-Kkpbhhdjw2qQs2O2DGX+8m5OVqEcbB9HRBvuYM9pgrjEFUg30A9LmXNlTAUj4S9kgtGyrMbTzVjH7E+s5Re2yg==
+"postcss@^7.0.0 || ^8.0.1", postcss@^8.0.0, postcss@^8.1.0, postcss@^8.2.14, postcss@^8.3.5, postcss@^8.4.21, postcss@^8.4.23, postcss@^8.4.35, postcss@>=8.0.9:
+  version "8.4.35"
+  resolved "https://registry.npmjs.org/postcss/-/postcss-8.4.35.tgz"
+  integrity sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA==
   dependencies:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
@@ -7411,7 +7423,7 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-tailwindcss@^3.4.1, "tailwindcss@>=3.0.0 || insiders":
+tailwindcss@^3.4.1, "tailwindcss@>=3.0.0 || >= 3.0.0-alpha.1", "tailwindcss@>=3.0.0 || insiders":
   version "3.4.1"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.1.tgz"
   integrity sha512-qAYmXRfk3ENzuPBakNK0SRrUDipP8NQnEY6772uDhflcQz5EhRdD7JNZxyrFHVQNCwULPBn6FNPp9brpO7ctcA==

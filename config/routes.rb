@@ -15,16 +15,13 @@ Rails.application.routes.draw do
     sessions: "admin/sessions"
   }
   
-  devise_scope :user do
-  end
-  
-
-  
   namespace :admin do
   end
   
   namespace :user do
     resources :users
-    resources :posts
+    resources :posts do
+      resources :comments, only: [:create]
+    end
   end
 end
