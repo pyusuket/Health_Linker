@@ -15,6 +15,7 @@ class User::PostsController < ApplicationController
   def index
     @user = current_user
     @posts = Post.all
+    @comment = Comment.new
   end
 
   def show
