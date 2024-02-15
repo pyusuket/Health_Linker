@@ -10,6 +10,7 @@ class User < ApplicationRecord
   
   GUEST_USER_EMAIL = "guest@example.com"
 
+  # ゲストログイン
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       user.password = SecureRandom.urlsafe_base64
@@ -23,6 +24,7 @@ class User < ApplicationRecord
   end
   end
   
+  # 画像取得処理
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/sample-author1.jpg')
@@ -30,5 +32,24 @@ class User < ApplicationRecord
     end
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
+  
+  # フォロー・フォロワー機能
+  has_many :active_relationships, class_name: "follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :passive_relationships, class_name: "follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followings, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+  
+  def follow(user)
+    active_follow.create(followed_id: user.id)
+  end
+  
+  def unfollow(user)
+    active_follow.find_by(followed_id: user.id).destroy
+  end
+  
+  def following?(user)
+    follow.include?(user)
+  end
+  
   
 end

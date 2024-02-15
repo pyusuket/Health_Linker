@@ -19,10 +19,15 @@ Rails.application.routes.draw do
   end
   
   namespace :user do
-    resources :users
+    resources :users, only: [:index, :show, :edit, :update] do
+      resource :follow, only: [:create, :destroy]
+      get "followings" => "follow#followings", as: "followings"
+      get "followers" => "follow#followers", as: "followers"
+  end
     resources :posts do
       resources :comments, only: [:create]
       resource :nices, only: [:create, :destroy]
     end
   end
+  
 end

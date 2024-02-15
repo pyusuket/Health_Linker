@@ -4,7 +4,7 @@
       <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
         <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
           <div class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110 group relative mb-2 block h-80 overflow-hidden rounded-lg lg:mb-3">
-            <%= image_tag(@post.image) %>
+            <%= image_tag(@post.image, class: "object-contain") %>
             <div class="flex items-end gap-2">
               <%= @post.created_at.strftime("%Y/%-m/%-d")%></br>
               <%= @post.body %>

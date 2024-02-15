@@ -3,9 +3,11 @@ class User::UsersController < ApplicationController
     @user = current_user
     @post = Post.all
   end
+  
   def show
+    @users = User.find(params[:id])
     @user = current_user
-    @post = Post.all
+    @posts = Post.all
   end
   
   def edit
