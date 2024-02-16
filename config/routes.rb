@@ -21,8 +21,8 @@ Rails.application.routes.draw do
   namespace :user do
     resources :users, only: [:index, :show, :edit, :update] do
       resource :follow, only: [:create, :destroy]
-      get "followings" => "follow#followings", as: "followings"
-      get "followers" => "follow#followers", as: "followers"
+      get "followings" => "follows#followings", as: "followings"
+      get "followers" => "follows#followers", as: "followers"
   end
     resources :posts do
       resources :comments, only: [:create]

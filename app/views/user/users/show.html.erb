@@ -6,27 +6,22 @@
       <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
     <% end %>
     <div class="w-3/4 pl-4">
-      <div class="flex items-center mb-2">
-        <h1 class="text-2xl font-semibold mb-0"><%= link_to @user.user_name, user_posts_path(@user) %></h1>
-        <% if current_user != @user %>
-          <% if current_user.following?(@user) %>
-            <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "ml-5 bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded" %>
-          <% else %>
-            <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "ml-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
-          <% end %>
+      <h1 class="text-2xl font-semibold mb-2"><%= link_to @user.user_name, user_posts_path(@user) %></h1>
+      <% if current_user && current_user != @user %>
+        <% if current_user.following?(@user) %>
+          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded ml-5" %>
+        <% else %>
+          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" %>
         <% end %>
-      </div>
+      <% end %>
       <%= link_to "プロフィール編集", edit_user_user_path(@user), class: "text-blue-500 hover:underline" %>
       <div class="flex items-center mt-4">
         <span class="mr-4 font-bold">投稿数 : <%= @user.posts.count %> 件</span>
-        <span class="mr-4 font-bold">フォロワー : <%= @user.followers.count %> 人</span>
-        <span class="mr-4 font-bold">フォロー中 : <%= @user.followings.count %> 人</span>
+        <span class="mr-4 font-bold"> <%= link_to "フォロワー :#{ @user.followers.count } 人", user_user_followers_path(@user) %></span>
+        <span class="mr-4 font-bold"> <%= link_to "フォロー中 :#{ @user.followings.count } 人", user_user_followings_path(@user) %></span>
       </div>
     </div>
   </div>
-</div>
-<div class="bg-white py-6 sm:py-8 lg:py-12">
-  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
     <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
       <div>
         <% @posts.each do |post| %> 
@@ -42,5 +37,4 @@
         <% end %>
       </div>
     </div>
-  </div>
 </div>

@@ -1,28 +1,27 @@
 <div class="container mx-auto p-4">
   <div class="flex items-center mb-8">
-      <% if @user.profile_image.present? %>
-        <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
-      <% else %>
-        <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
-      <% end %>
+    <% if @user.profile_image.present? %>
+      <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
+    <% else %>
+      <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
+    <% end %>
     <div class="w-3/4 pl-4">
       <h1 class="text-2xl font-semibold mb-2"><%= link_to @user.user_name, user_posts_path(@user) %></h1>
-      <% if current_user != @users %>
-        <% if current_user.following?(user) %>
-          <%= link_to "フォロー外す", user_user_follow_path(user.id), method: :delete, class: options[:class].presence || "btn btn-info" %>
+      <% if current_user && current_user != @user %>
+        <% if current_user.following?(@user) %>
+          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded ml-5" %>
         <% else %>
-          <%= link_to "フォローする", user_user_follow_path(user.id), method: :post, class: options[:class].presence || "btn btn-success" %>
+          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" %>
         <% end %>
       <% end %>
       <%= link_to "プロフィール編集", edit_user_user_path(@user), class: "text-blue-500 hover:underline" %>
       <div class="flex items-center mt-4">
-        <span class="mr-4">投稿数 :  <%= @user.posts.count %></span>
-        <span class="mr-4">フォロワー :  <%#= @user.follower_id.count %></span>
-        <span class="mr-4">フォロー中 :  <%#= @user.followed_id.count %></span>
+        <span class="mr-4 font-bold">投稿数 : <%= @user.posts.count %> 件</span>
+        <span class="mr-4 font-bold"> <%= link_to "フォロワー :#{ @user.followers.count } 人", user_user_followers_path(@user) %></span>
+        <span class="mr-4 font-bold"> <%= link_to "フォロー中 :#{ @user.followings.count } 人", user_user_followings_path(@user) %></span>
       </div>
     </div>
   </div>
-</div>
 
 <div class="bg-white py-6 sm:py-8 lg:py-12">
   <div class="mx-auto max-w-screen-2xl px-4 md:px-8">

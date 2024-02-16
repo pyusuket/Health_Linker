@@ -13,12 +13,16 @@ class User::FollowsController < ApplicationController
   end
   
   def followings
+    @user_current = current_user
     user = User.find(params[:user_id])
+    @user = User.find(params[:user_id])
     @users = user.followings
   end
   
   def followers
+    @user_current = current_user
     user = User.find(params[:user_id])
+    @user = User.find(params[:user_id])
     @users = user.followers
   end
 end
