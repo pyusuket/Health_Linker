@@ -1,17 +1,17 @@
 class User::UsersController < ApplicationController
   def index
-    @user = current_user
+    @user_current = current_user
     @post = Post.all
   end
   
   def show
-    @users = User.find(params[:id])
-    @user = current_user
-    @posts = Post.all
+    @user_current = current_user
+    @user = User.find(params[:id])
+    @posts = @user.posts
   end
   
   def edit
-    @user = current_user
+    @user_current = current_user
   end
   
   def update

@@ -7,7 +7,7 @@
       <% end %>
     <div class="w-3/4 pl-4">
       <h1 class="text-2xl font-semibold mb-2"><%= link_to @user.user_name, user_posts_path(@user) %></h1>
-      <% if current_user != @user %>
+      <% if current_user != @users %>
         <% if current_user.following?(user) %>
           <%= link_to "フォロー外す", user_user_follow_path(user.id), method: :delete, class: options[:class].presence || "btn btn-info" %>
         <% else %>

@@ -2,7 +2,7 @@ class User::PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @user = current_user
+    @user_current = current_user
   end
   
   def create
@@ -13,14 +13,14 @@ class User::PostsController < ApplicationController
   end
   
   def index
-    @user = current_user
+    @user_current = current_user
     @posts = Post.all
     @comment = Comment.new
   end
 
   def show
     @post = Post.find(params[:id])
-    @user = current_user
+    @user_current = current_user
     @comment = Comment.all
     @comment = Comment.new
   end

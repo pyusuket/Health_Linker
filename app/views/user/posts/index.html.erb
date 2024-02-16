@@ -18,7 +18,7 @@
                   <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2 mb-2 ml-2" %>
                 <% end %>
               <% end %>
-              <span class="font-bold"><%= link_to post.user.user_name, user_user_path(@user.id) %></span> 
+              <span class="font-bold"><%= link_to post.user.user_name, user_user_path(post.user.id) %></span> 
             </div>
             <%= link_to user_post_path(post) do %>
               <%= image_tag post.image, class: "w-full h-80 object-cover rounded-lg" %>
