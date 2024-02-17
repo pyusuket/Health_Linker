@@ -23,11 +23,11 @@
         </div>
         <% if post.images.attached? %>
           <%= link_to user_post_path(post) do %>
-            <%= image_tag post.images, class: "w-full h-80 object-cover rounded-lg" %>
+            <%= image_tag post.images.first, class: "w-full h-80 object-cover rounded-lg" %>
           <% end %>
         <% else %>
-          <p class="w-full h-80 object-cover rounded-lg">no_image</p>
-        <% end %>
+  <p class="w-full h-80 object-cover rounded-lg">no_image</p>
+<% end %>
         <div class="flex justify-between items-center mt-2">
         <% if post.nices.exists?(user_id: current_user.id) %>
           <%= link_to user_post_nice_path(post.user, post), method: :delete, remote: true, class: "nice-link" do %>

@@ -4,6 +4,7 @@ class User::PostsController < ApplicationController
     @post = Post.new
     @user_current = current_user
     @tags = Tag.all
+    6.times { @post.images.build }
   end
   
   def create

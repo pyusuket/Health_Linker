@@ -1,18 +1,23 @@
-<div class="flex h-100%">
+<div class="flex h-full justify-center items-center">
   <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
       <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
-        <div class="h-full w-full relative mb-2 block h-80 overflow-hidden rounded-lg lg:mb-3">
-          <div class="slick-carousel">
-            <% @post.images.each do |image| %>
-              <%= image_tag(image, class: "object-contain") %>
-            <% end %>
+        <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
+          <div class="slick-carousel text-center">
+          <% @post.images.each do |image| %>
+            <%= image_tag(image, class: "w-full h-full object-cover inline-block") %>
+          <% end %>
+        </div>
+        </div>
+      </div>
+        <div class="flex flex-col items-start lg:items-center">
+          <div class="flex items-end gap-2 lg:flex-row">
+            <p><%= @post.created_at.strftime("%Y/%-m/%-d")%></p>
           </div>
-          <div class="flex items-end gap-2">
-            <%= @post.created_at.strftime("%Y/%-m/%-d")%></br>
-            <%= @post.body %>
+          <div>
+            <p><%= @post.body %></p>
           </div>
-          <p>コメント件数：<%= @post.comments.count %></p>
+          <p class="lg:ml-auto">コメント件数：<%= @post.comments.count %></p>
           <div class="mt-10">
             <h1>コメント欄</h1>
             <% @post.comments.each do |comment| %>
@@ -33,7 +38,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <script>
@@ -47,6 +51,4 @@
     });
   });
 </script>
-
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
