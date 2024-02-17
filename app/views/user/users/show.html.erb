@@ -26,7 +26,11 @@
       <div>
         <% @posts.each do |post| %> 
         <a href="#" class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
-          <%= image_tag(post.image) %>
+          <% if post.images.attached? %>
+            <a href="#" class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
+              <%= image_tag(post.images.first) %>
+            </a>
+          <% end %>
         </a>
         <div class="flex items-start justify-between gap-2 px-2">
           <div class="flex flex-col">
