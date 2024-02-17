@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# Tagテーブルの内容
+tags = ["旅行", "散歩・ジョギング", "登山", "家族", "娯楽", "終活", "日課"]
+
+tags.each do |tag_name|
+  Tag.create(name: tag_name)
+end

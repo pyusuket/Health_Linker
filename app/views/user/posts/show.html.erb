@@ -1,15 +1,18 @@
 <div class="flex h-100%">
-  <main class="min-w-0 flex-1 overflow-auto bg-blue-50">
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
-      <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-        <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
-          <div class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110 group relative mb-2 block h-80 overflow-hidden rounded-lg lg:mb-3">
-            <%= image_tag(@post.image, class: "object-contain") %>
-            <div class="flex items-end gap-2">
-              <%= @post.created_at.strftime("%Y/%-m/%-d")%></br>
-              <%= @post.body %>
-            </div>
-            <p>コメント件数：<%= @post.comments.count %></p>
+  <div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+      <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+        <div class="h-full w-full relative mb-2 block h-80 overflow-hidden rounded-lg lg:mb-3">
+          <div class="slick-carousel">
+            <% @post.images.each do |image| %>
+              <%= image_tag(image, class: "object-contain") %>
+            <% end %>
+          </div>
+          <div class="flex items-end gap-2">
+            <%= @post.created_at.strftime("%Y/%-m/%-d")%></br>
+            <%= @post.body %>
+          </div>
+          <p>コメント件数：<%= @post.comments.count %></p>
           <div class="mt-10">
             <h1>コメント欄</h1>
             <% @post.comments.each do |comment| %>
@@ -27,9 +30,23 @@
               </div>
             <% end %>
           </div>
-          </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    $('.slick-carousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    });
+  });
+</script>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

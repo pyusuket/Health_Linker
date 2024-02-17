@@ -21,8 +21,12 @@
           <% end %>
           <span class="font-bold"><%= link_to post.user.user_name, user_user_path(post.user.id) %></span> 
         </div>
-        <%= link_to user_post_path(post) do %>
-          <%= image_tag post.image, class: "w-full h-80 object-cover rounded-lg" %>
+        <% if post.images.attached? %>
+          <%= link_to user_post_path(post) do %>
+            <%= image_tag post.images, class: "w-full h-80 object-cover rounded-lg" %>
+          <% end %>
+        <% else %>
+          <p class="w-full h-80 object-cover rounded-lg">no_image</p>
         <% end %>
         <div class="flex justify-between items-center mt-2">
         <% if post.nices.exists?(user_id: current_user.id) %>

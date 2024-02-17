@@ -15,6 +15,7 @@
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
     "postcss-loader": "4",
+    "slick-carousel": "^1.8.1",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12"

@@ -1,36 +1,73 @@
-<%= form_with model: @post, url: user_posts_path, method: :post do |f| %>
-  <div class="mt-2 flex justify-center">
-    <div class="pb-12 sm:max-w-md">
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+<h2 class="text-lg font-bold text-center">新規投稿</h2>
+<%= form_with model: @post, url: user_posts_path, method: :post, multipart: true do |f| %>
+  <div class="px-4 sm:px-0 flex justify-center"> 
+    <div class="sm:max-w-md w-full"> 
+      <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="col-span-full">
-          <%= f.label :写真, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+          <%= f.label :写真, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+        <div id="selected-images" class="col-span-full grid grid-cols-3 gap-4"></div>
           <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div class="text-center">
-              <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-              </svg>
-              <div class="mt-4 flex text-sm leading-6 text-gray-600">
-                  <%= f.file_field :image, autofocus: true, accept: "image/*", class: "rounded"%>
-              </div>
+              <label for="image-upload" class="cursor-pointer">
+                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                </svg>
+                <div class="flex text-sm leading-6 text-gray-600">
+                  <span id="image-upload-label">ファイルを選択（最大6枚まで）</span>
+                  <%= file_field_tag 'images[]', multiple: true, accept: "image/*", class: "hidden", id: "image-upload" %>
+              </label>
             </div>
           </div>
         </div>
-        <div class="col-span-full">
-            <%= f.label :本文, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%= f.text_area :body, class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %> 
+        <div class="col-span-full mt-2">
+          <%= f.label :本文, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+          <%= f.text_area :body, placeholder: "本文を入力してください", class: "w-full rounded border bg-gray-50 px-3 py-6 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %> <!-- 本文の高さを調整 -->
         </div>
-        <div class="sm:col-span-full">
+        <div class="sm:col-span-full mt-2">
           <div>
-            <%= f.label :タグ, class:"mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%# f.text_field :tagging, autofocus: true, class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+            <%= f.label :タグ（複数選択可）, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+            <%= f.select :tagging, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring", multiple: true } %>
           </div>
         </div>
+      <div class="mt-2 flex items-center justify-end gap-x-6">
+        <%= link_to "取り消し", user_posts_path, class: "text-sm font-semibold leading-6 text-gray-900" %> 
+        <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %> <!-- ② 投稿ボタンの色を緑に変更 -->
       </div>
-      <div class="mt-6 flex items-center justify-end gap-x-6">
-        <%= link_to "取り消し", user_posts_path, class:"text-sm font-semibold leading-6 text-gray-900" %>
-        <%= f.submit '投稿', class:"rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"%>
       </div>
     </div>
   </div>
 <% end %>
 
+<script>
+  document.getElementById('image-upload').addEventListener('change', function(e) {
+    const files = e.target.files; // 選択されたすべてのファイルを取得
+    const selectedImagesContainer = document.getElementById('selected-images'); // 選択された画像を表示するコンテナ
+    const uploadLabel = document.getElementById('image-upload-label'); // ファイルを選択のラベル
+
+    // 最大6枚までの画像を処理する
+    const maxImages = 6;
+    const remainingImages = maxImages - selectedImagesContainer.children.length;
+    if (files.length > remainingImages) {
+      alert(`最大で${maxImages}枚までしか選択できません。`);
+      return;
+    }
+
+    // 選択されたすべての画像について処理
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const imageDiv = document.createElement('div'); // 画像を表示するための<div>要素を作成
+        imageDiv.style.backgroundImage = `url('${e.target.result}')`;
+        imageDiv.style.backgroundSize = 'cover';
+        imageDiv.style.backgroundPosition = 'center';
+        imageDiv.classList.add('w-full', 'h-40', 'bg-gray-200', 'rounded-lg'); // 画像のスタイルを追加
+        selectedImagesContainer.appendChild(imageDiv); // 画像をコンテナに追加
+      }
+
+      reader.readAsDataURL(file); // 画像を読み込む
+    }
+  });
+  
+</script>
