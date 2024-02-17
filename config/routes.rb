@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   end
     resources :posts do
       resources :comments, only: [:create]
-      resource :nices, only: [:create, :destroy]
+      resources :nices, only: [:create, :destroy, :index]
     end
   end
   
