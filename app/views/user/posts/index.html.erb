@@ -1,14 +1,13 @@
 <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-  <div class="mb-6 flex items-end justify-between gap-4">
-    <%= link_to '新規投稿', new_user_post_path, class:"inline-block rounded-lg border bg-green-500 hover:bg-green-600 focus:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 px-4 py-2 text-center text-sm font-semibold text-white transition duration-300 ease-in-out md:px-8 md:py-3 md:text-base" %>
-    <%= form_with(url: user_posts_path, method: "get", class: "flex") do |form| %>
-      <%= form.text_field :search, class: "rounded-lg border px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent", placeholder: "検索" %>
-      <%= form.submit "検索", class: "inline-block rounded-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 px-4 py-2 text-sm font-semibold text-white transition duration-300 ease-in-out ml-2" %>    
+  <div class="mb-6 flex flex-col md:flex-row items-end justify-between gap-4">
+    <%= link_to '新規投稿', new_user_post_path, class:"inline-block w-full md:w-auto rounded-lg border bg-green-500 hover:bg-green-600 focus:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 px-4 py-2 text-center text-sm font-semibold text-white transition duration-300 ease-in-out md:px-8 md:py-3 md:text-base" %>
+    <%= form_with(url: user_posts_path, method: "get", class: "flex w-full md:w-auto") do |form| %>
+      <%= form.text_field :search, class: "rounded-lg border px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full md:w-auto", placeholder: "検索" %>
     <% end %>
   </div>
   <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
     <% @posts.each do |post| %>
-      <div class="relative mb-2">
+      <div class="relative mb-2 post">
         <div class="flex items-center"> 
           <% if post.user.profile_image.present? %>
             <%= link_to user_users_path(post.user) do %>
@@ -26,23 +25,28 @@
             <%= image_tag post.images.first, class: "w-full h-80 object-cover rounded-lg" %>
           <% end %>
         <% else %>
-  <p class="w-full h-80 object-cover rounded-lg">no_image</p>
-<% end %>
-        <div class="flex justify-between items-center mt-2">
-        <% if post.nices.exists?(user_id: current_user.id) %>
-          <%= link_to user_post_nice_path(post.user, post), method: :delete, remote: true, class: "nice-link" do %>
-            <i class="fa-solid fa-heart fa-xl" style="color: #f882bb;"></i>
-            <%= post.nices.count %> 
-          <% end %>
-        <% else %>
-          <%= link_to user_post_nices_path(post.user, post), method: :post, remote: true, class: "nice-link" do %>
-            <i class="fa-regular fa-heart fa-xl" style="color: #d9d3d6;"></i>              
-            <%= post.nices.count %> 
-          <% end %>
+          <p class="w-full h-80 object-cover rounded-lg">no_image</p>
         <% end %>
+        <div class="flex justify-between items-center mt-2">
+          <% if post.nices.exists?(user_id: current_user.id) %>
+            <%= link_to user_post_nice_path(post.user, post), method: :delete, remote: true, class: "nice-link" do %>
+              <i class="fa-solid fa-heart fa-xl" style="color: #f882bb;"></i>
+              <%= post.nices.count %> 
+            <% end %>
+          <% else %>
+            <%= link_to user_post_nices_path(post.user, post), method: :post, remote: true, class: "nice-link" do %>
+              <i class="fa-regular fa-heart fa-xl" style="color: #d9d3d6;"></i>              
+              <%= post.nices.count %> 
+            <% end %>
+          <% end %>
         </div>
         <% truncated_body = post.body.length > 10 ? post.body[0..9] + '...' : post.body %>
         <p class="whitespace-pre-line"><%= truncated_body %></p>
+        <div class="tags">
+          <% post.tags.each do |tag| %>
+            <span class="tag">#<%= tag.name %></span>
+          <% end %>
+        </div>
         <%= form_with(model: [post, Comment.new], url: user_post_comments_path(post)) do |f| %>
           <div class="mt-2 flex justify-end">
             <%= f.text_area :body, rows: '1', placeholder: "コメントをここに", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-indigo-500 text-sm" %>
@@ -90,4 +94,23 @@
       });
     });
   });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.querySelector('form input[type="text"]');
+  const posts = document.querySelectorAll('.post p');
+
+  searchInput.addEventListener('keyup', function() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
+    posts.forEach(post => {
+      const postBody = post.textContent.toLowerCase();
+      const postContainer = post.closest('.post');
+      if (postBody.includes(searchTerm)) {
+        postContainer.style.display = 'block';
+      } else {
+        postContainer.style.display = 'none';
+      }
+    });
+  });
+});
 </script>
