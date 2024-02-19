@@ -1,47 +1,57 @@
-<div class="container mx-auto p-4">
-  <div class="flex items-center mb-8">
+<div class="flex items-center flex-col md:flex-row mb-8">
+  <div class="mb-4 md:mb-0 md:mr-4">
     <% if @user.profile_image.present? %>
       <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
     <% else %>
       <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
     <% end %>
-    <div class="w-3/4 pl-4">
-      <h1 class="text-2xl font-semibold mb-2"><%= link_to @user.user_name, user_posts_path(@user) %></h1>
+  </div>
+  <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
+    <h1 class="text-2xl font-semibold mb-2 md:mb-0">
+      <%= link_to @user.user_name, user_posts_path(@user) %>
+    </h1>
+    <% if @user == current_user %>
+      <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
+    <% end %>
+    <div class="flex items-center">
       <% if current_user && current_user != @user %>
         <% if current_user.following?(@user) %>
-          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded ml-5" %>
+          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
         <% else %>
-          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" %>
+          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
         <% end %>
       <% end %>
-      <%= link_to "プロフィール編集", edit_user_user_path(@user), class: "text-blue-500 hover:underline" %>
-      <div class="flex items-center mt-4">
-        <span class="mr-4 font-bold">投稿数 : <%= @user.posts.count %> 件</span>
-        <span class="mr-4 font-bold"> <%= link_to "フォロワー :#{ @user.followers.count } 人", user_user_followers_path(@user) %></span>
-        <span class="mr-4 font-bold"> <%= link_to "フォロー中 :#{ @user.followings.count } 人", user_user_followings_path(@user) %></span>
+      <div class="flex flex-wrap justify-center mt-2">
+        <span class="mr-4">
+          <% followers_count = @user.followers.count %>
+          <% if followers_count > 10000 %>
+            <% ten_thousands = followers_count / 10000 %>
+            <%= link_to "フォロワー : #{ten_thousands} 万人", user_user_followers_path(@user) %>
+          <% else %>
+            <%= link_to "フォロワー : #{number_with_delimiter(followers_count)} 人", user_user_followers_path(@user) %>
+          <% end %>
+        </span>
+        <span class="mr-4">
+          <% followings_count = @user.followings.count %>
+          <% if followings_count > 10000 %>
+            <% ten_thousands = followings_count / 10000 %>
+            <%= link_to "フォロー中 : #{ten_thousands} 万人", user_user_followings_path(@user) %>
+          <% else %>
+            <%= link_to "フォロー中 : #{number_with_delimiter(followings_count)} 人", user_user_followings_path(@user) %>
+          <% end %>
+        </span>
       </div>
     </div>
   </div>
-
-<div class="bg-white py-6 sm:py-8 lg:py-12">
-  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-    <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
-      <div>
-        <% @user.posts.each do |post| %>
-        <% if post.images.attached? %>
-  <a href="#" class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
-    <%= image_tag(post.images.first) %>
-  </a>
-<% end %>
-
-        <div class="flex items-start justify-between gap-2 px-2">
-          <div class="flex flex-col">
-            <a href="#" class="text-lg font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-xl"><%= post.body %></a>
-            <p class="text-sm text-gray-600 mt-1">いいね：<%#= post.nices_count %> 件</p>
-          </div>
-        </div>
+</div>
+<div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+  <% @posts.each do |post| %> 
+    <div class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
+      <% if post.images.attached? %>
+        <%= link_to user_post_path(post.user, post), class: "group relative block h-full overflow-hidden" do %>
+          <%= image_tag(post.images.first, class: "object-cover w-full h-full") %>
         <% end %>
-      </div>
+      <% end %>
     </div>
-  </div>
+  <% end %>
 </div>

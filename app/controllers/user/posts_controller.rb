@@ -31,7 +31,7 @@ class User::PostsController < ApplicationController
   
   def index
     @user_current = current_user
-    @posts = Post.all
+    @posts = Post.order(created_at: :desc)
     @comment = Comment.new
   end
 

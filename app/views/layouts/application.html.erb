@@ -35,7 +35,6 @@
       </div>
     </div>
   </div>
-<body class="bg-gray-100">
   <!-- メニューバー -->
   <div class="md:hidden fixed top-0 left-0 z-50 w-full bg-gray-800 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,8 +76,9 @@
       <img class="h-8 w-8" src="<%= @user_current && @user_current.profile_image.present? ? @user_current.profile_image : 'no_image.jpg' %>" alt="User Profile">
     </div>
   </div>
+  
   <!-- メインコンテンツ -->
-  <main class="md:ml-64 p-4 mt-14">
+  <main class="md:ml-64 p-4 mt-14 bg-orange-100 text-brown-900 font-sans text-lg font-medium">
     <%= yield %>
   </main>
 

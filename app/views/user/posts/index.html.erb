@@ -95,22 +95,27 @@
     });
   });
   
-  document.addEventListener('DOMContentLoaded', function() {
-  const searchInput = document.querySelector('form input[type="text"]');
-  const posts = document.querySelectorAll('.post p');
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('form input[type="text"]');
+    const posts = document.querySelectorAll('.post');
 
-  searchInput.addEventListener('keyup', function() {
-    const searchTerm = searchInput.value.trim().toLowerCase();
+    searchInput.addEventListener('keyup', function() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
 
-    posts.forEach(post => {
-      const postBody = post.textContent.toLowerCase();
-      const postContainer = post.closest('.post');
-      if (postBody.includes(searchTerm)) {
-        postContainer.style.display = 'block';
-      } else {
-        postContainer.style.display = 'none';
-      }
+      posts.forEach(post => {
+        const postBody = post.querySelector('p').textContent.toLowerCase();
+        const postTags = post.querySelectorAll('.tag');
+        let tagContent = '';
+        postTags.forEach(tag => {
+          tagContent += tag.textContent.toLowerCase() + ' ';
+        });
+        const postContainer = post.closest('.post');
+        if (postBody.includes(searchTerm) || tagContent.includes(searchTerm)) {
+          postContainer.style.display = 'block';
+        } else {
+          postContainer.style.display = 'none';
+        }
+      });
     });
   });
-});
 </script>

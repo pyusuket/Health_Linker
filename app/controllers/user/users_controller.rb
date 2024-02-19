@@ -2,13 +2,13 @@ class User::UsersController < ApplicationController
   def index
     @user_current = current_user
     @user = current_user 
-    @post = Post.all
+    @posts = @user.posts.order(created_at: :desc)
   end
   
   def show
     @user_current = current_user
     @user = User.find(params[:id])
-    @posts = @user.posts
+    @posts = @user.posts.order(created_at: :desc)
   end
   
   def edit
