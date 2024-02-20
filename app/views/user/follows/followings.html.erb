@@ -1,6 +1,5 @@
-<div class="flex h-100%">
-  <main class="min-w-0 flex-1 overflow-auto bg-blue-50">
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
+<h1 class="font-semibold leading-7 text-gray-900">フォロー</h1>
+    <div class="py-6 sm:py-8 lg:py-12">
       <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
           <% @users.each do |user| %>
           <ul role="list" class="divide-y divide-gray-100">
@@ -21,13 +20,11 @@
               </div>
             </div>
             <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <% if current_user && current_user != @user %>
                 <% if current_user.following?(@user) %>
-                  <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded ml-5" %>
-                <% else %>
                   <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-5" %>
+                <% else %>
+                  <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded ml-5" %>
                 <% end %>
-              <% end %>
               <div class="mt-1 flex items-center gap-x-1.5">
                 <div class="flex-none rounded-full bg-emerald-500/20 p-1">
                   <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
@@ -40,5 +37,4 @@
         <% end %>
       </div>
     </div>
-  </main>
-</div>
+

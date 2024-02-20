@@ -1,12 +1,6 @@
 class User::NicesController < ApplicationController
     before_action :find_post
   
-  def index
-    @user_current = current_user
-    @user = current_user 
-    @posts = current_user.nices.includes(:post).map(&:post)
-  end
-  
   def create
     nice = @post.nices.new(user: current_user)
     if nice.save

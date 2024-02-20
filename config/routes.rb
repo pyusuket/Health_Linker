@@ -21,13 +21,16 @@ Rails.application.routes.draw do
   
   namespace :user do
     resources :users, only: [:index, :show, :edit, :update] do
+      member do 
+        get "nices" 
+      end 
       resource :follow, only: [:create, :destroy]
       get "followings" => "follows#followings", as: "followings"
       get "followers" => "follows#followers", as: "followers"
   end
     resources :posts do
       resources :comments, only: [:create]
-      resources :nices, only: [:create, :destroy, :index]
+      resource :nices, only: [:create, :destroy]
     end
   end
   

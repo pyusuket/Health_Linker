@@ -10,11 +10,11 @@
       <div class="relative mb-2 post">
         <div class="flex items-center"> 
           <% if post.user.profile_image.present? %>
-            <%= link_to user_users_path(post.user) do %>
+            <%= link_to user_user_path(post.user.id) do %>
               <%= image_tag post.user.profile_image, class: "w-10 h-10 rounded-full mr-2 mb-2 ml-2" %>
             <% end %>
           <% else %>
-            <%= link_to user_users_path(post.user) do %>
+            <%= link_to user_user_path(post.user.id) do %>
               <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2 mb-2 ml-2" %>
             <% end %>
           <% end %>
@@ -29,12 +29,12 @@
         <% end %>
         <div class="flex justify-between items-center mt-2">
           <% if post.nices.exists?(user_id: current_user.id) %>
-            <%= link_to user_post_nice_path(post.user, post), method: :delete, remote: true, class: "nice-link" do %>
+            <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
               <i class="fa-solid fa-heart fa-xl" style="color: #f882bb;"></i>
               <%= post.nices.count %> 
             <% end %>
           <% else %>
-            <%= link_to user_post_nices_path(post.user, post), method: :post, remote: true, class: "nice-link" do %>
+            <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
               <i class="fa-regular fa-heart fa-xl" style="color: #d9d3d6;"></i>              
               <%= post.nices.count %> 
             <% end %>

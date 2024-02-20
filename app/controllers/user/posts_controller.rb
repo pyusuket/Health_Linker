@@ -8,8 +8,7 @@ class User::PostsController < ApplicationController
   end
   
   def create
-    @post = Post.new(post_params)
-    @post.user_id = current_user.id
+    @post = current_user.posts.build(post_params)
   
     if @post.save
       # 画像が送信されている場合のみ処理を行う

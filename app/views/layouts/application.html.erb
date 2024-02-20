@@ -14,9 +14,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
 
- <body class="bg-white">
+ <body class="bg-orange-100">
   <!-- メニューバー -->
   <div class="md:hidden fixed top-0 left-0 z-50 w-full bg-gray-800 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,22 +59,31 @@
     <div class="p-4">
       <div class="flex items-center mb-6">
         <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-        <span class="text-white font-semibold text-xl ml-2">Your Company</span>
+        <span class="text-white font-semibold text-xl ml-2">Health Linker</span>
       </div>
       <ul class="space-y-2">
+        <div class="flex items-center text-white">
+          <% if @user_current && @user_current.profile_image.present? %>
+            <%= image_tag @user_current.profile_image, class: "h-8 w-8 rounded-full ml-3" %>
+          <% else %>
+            <%= image_tag "no_image.jpg", class: "w-8 h-8 rounded-full ml-3" %>
+          <% end %>
+          <% if @user_current && @user_current.user_name.present? %>
+            <p class="text-sm font-medium ml-2">
+              <%= link_to @user_current.user_name, user_posts_path(@user) %>
+            </p>
+          <% end %>
+        </div>
         <li><%= link_to "投稿一覧", user_posts_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% if user_signed_in? %>
           <li><%= link_to "マイページ", user_users_path(current_user), class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "いいね一覧", user_post_nices_path(current_user), class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "いいね一覧", nices_user_user_path(current_user), class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% else %>
           <li><%= link_to "新規登録", new_user_registration_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログイン", new_user_session_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium" %></li>
         <% end %>
       </ul>
-    </div>
-    <div class="flex justify-center py-4">
-      <img class="h-8 w-8" src="<%= @user_current && @user_current.profile_image.present? ? @user_current.profile_image : 'no_image.jpg' %>" alt="User Profile">
     </div>
   </div>
   
