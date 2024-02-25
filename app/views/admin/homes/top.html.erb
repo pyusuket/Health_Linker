@@ -1,19 +1,12 @@
-<div class="container mx-auto py-8">
   <!-- アクティブユーザー数 -->
   <div class="mb-8">
     <h2 class="text-lg font-bold mb-4">アクティブユーザー数</h2>
-    <div>
-      <canvas id="activeUsersChart" width="800" height="400"></canvas>
-    </div>
+    <canvas id="activeUsersChart"></canvas>
     <script>
       const activeUserCounts = <%= @daily_active_users.to_json.html_safe %>;
-    
       const dailyData = Object.values(activeUserCounts);
-    
       const dates = Object.keys(activeUserCounts);
-    
       const ctx = document.getElementById('activeUsersChart').getContext('2d');
-      
       const activeUsersChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -38,30 +31,70 @@
   </div>
 
   <!-- 新規登録数 -->
-<div class="mb-8">
-  <h2 class="text-lg font-bold mb-4">新規登録数</h2>
-  <div>
-    <canvas id="newUsersChart" width="800" height="400"></canvas>
+  <div class="mb-8">
+    <h2 class="text-lg font-bold mb-4">新規登録数</h2>
+      <canvas id="newUsersChart"></canvas>
+    <script>
+      const newUsersData = <%= @daily_new_active_users.to_json.html_safe %>;
+      const newdayData = Object.values(newUsersData);
+      const newdates = Object.keys(newUsersData);
+      const ctx2 = document.getElementById('newUsersChart').getContext('2d');
+      const newUsersChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: newdates,
+          datasets: [{
+            label: '新規登録者数',
+            data: newdayData,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // Canvas のサイズを親要素に合わせる
+      const newUsersChartCanvas = document.getElementById('newUsersChart');
+      newUsersChartCanvas.width = newUsersChartCanvas.parentElement.clientWidth;
+      newUsersChartCanvas.height = newUsersChartCanvas.parentElement.clientHeight;
+    </script>
   </div>
-  <script>
-    const newUserData = <%= @daily_new_active_users.to_json.html_safe %>;
+</div>
+
+<!-- ページビュー数 -->
+<div class="mb-8">
+  <h2 class="text-lg font-bold mb-4">ページビュー数</h2>
+  <canvas id="pageViewsChart" width="800" height="400"></canvas>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
   
-    const dailyData = Object.values(newUserData);
-  
-    const dates = Object.keys(newUserData);
-  
-    const ctx = document.getElementById('newUsersChart').getContext('2d');
-  
-    const newUsersChart = new Chart(ctx, {
-      type: 'line',
+
+    // ページビュー数を取得
+    const pageViewsData = <%= @page_views_data.to_json.html_safe %>;
+
+    const pageIds = Object.keys(pageViewsData);
+    const pageViews = Object.values(pageViewsData);
+
+    // グラフの描画
+    const ctx = document.getElementById('pageViewsChart').getContext('2d');
+    window.pageViewsChart = new Chart(ctx, {
+      type: 'bar',
       data: {
-        labels: dates,
+        labels: pageIds,
         datasets: [{
-          label: '新規登録者数',
-          data: dailyData,
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
+          label: 'ページビュー数',
+          data: pageViews,
+          backgroundColor: 'rgb(75, 192, 192)',
+          borderWidth: 1
         }]
       },
       options: {
@@ -72,72 +105,7 @@
         }
       }
     });
-  </script>
-</div>
+  });
+</script>
 
-  <!-- ページビュー数 -->
-  <div class="mb-8">
-    <h2 class="text-lg font-bold mb-4">ページビュー数</h2>
-    <!-- Chart.jsを使ったグラフ表示 -->
-    <canvas id="pageViewsChart" width="800" height="400"></canvas>
-  </div>
-
-  <!-- ユーザーの地域情報 -->
-  <div class="mb-8">
-    <h2 class="text-lg font-bold mb-4">ユーザーの地域情報</h2>
-    <!-- テーブル形式で地域情報を表示 -->
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead>
-        <tr>
-          <th class="px-4 py-2">地域</th>
-          <th class="px-4 py-2">ユーザー数</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- データを表示するためのループ処理 -->
-        <% @users.each do |user| %>
-          <tr>
-            <td class="px-4 py-2"><%= user.user_name %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- デバイス別の利用率 -->
-  <div class="mb-8">
-    <h2 class="text-lg font-bold mb-4">デバイス別の利用率</h2>
-    <!-- Chart.jsを使った円グラフ表示 -->
-    <canvas id="deviceUsageChart" width="400" height="400"></canvas>
-  </div>
-
-  <!-- 離脱率（バウンス率） -->
-  <div class="mb-8">
-    <h2 class="text-lg font-bold mb-4">離脱率（バウンス率）</h2>
-    <!-- 表形式で離脱率を表示 -->
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead>
-        <tr>
-          <th class="px-4 py-2">ページ</th>
-          <th class="px-4 py-2">離脱率</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- データを表示するためのループ処理 -->
-        <%# @bounce_rates.each do |page, bounce_rate| %>
-          <tr>
-            <td class="px-4 py-2"><%#= page %></td>
-            <td class="px-4 py-2"><%#= bounce_rate %></td>
-          </tr>
-        <%# end %>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- ユーザーの属性情報 -->
-  <div>
-    <h2 class="text-lg font-bold mb-4">ユーザーの属性情報</h2>
-    <!-- チャートや表形式でユーザーの属性情報を表示 -->
-    <!-- 例: 年齢、性別、職業 -->
-  </div>
 </div>

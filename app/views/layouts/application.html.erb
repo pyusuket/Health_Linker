@@ -81,7 +81,9 @@
           <li><%= link_to "いいね一覧", nices_user_user_path(current_user), class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% elsif admin_signed_in? %>
-          <li><%= link_to "トップページ", root_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "全体管理", admin_homes_top_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ユーザー管理", admin_users_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "投稿管理", admin_posts_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% else %>
           <li><%= link_to "新規登録", new_user_registration_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>

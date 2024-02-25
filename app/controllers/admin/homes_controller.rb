@@ -22,7 +22,7 @@ class Admin::HomesController < ApplicationController
     end
     
     # 新規登録者数
-    daily_new_active_users = User.where("DATE(created_at) BETWEEN ? AND ? AND user_status = ?", start_date, end_date, true)
+    daily_new_active_users = User.where(created_at: start_date.beginning_of_day..end_date.end_of_day, user_status: true)
                               .group("DATE(created_at)")
                               .order("DATE(created_at)")
                               .count
@@ -33,6 +33,17 @@ class Admin::HomesController < ApplicationController
       date_str = date.strftime("%Y-%m-%d")
       @daily_new_active_users[date_str] = daily_new_active_users[date_str] || 0
     end
+    
+    # ページビュー数の表示（人気の投稿）
+    @top_page_views = Post.order(views_count: :desc).limit(10).pluck(:id)
+    
+    page_views_data = {}
+    @top_page_views.each do |page_id|
+      page_views_data[page_id] = Post.find(page_id).views_count
+    end
+    
+    @page_views_data = page_views_data
+    
     
   end
 end
