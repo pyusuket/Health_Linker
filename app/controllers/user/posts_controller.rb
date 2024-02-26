@@ -37,6 +37,7 @@ class User::PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @post.increment!(:views_count)
+    @user = @post.user
     @user_current = current_user
     @comment = Comment.all
     @comment = Comment.new

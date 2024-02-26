@@ -40,11 +40,11 @@
             <% end %>
           <% end %>
         </div>
-        <% truncated_body = post.body.length > 10 ? post.body[0..9] + '...' : post.body %>
+        <% truncated_body = post.body.length > 20 ? post.body[0..20] + '...' : post.body %>
         <p class="whitespace-pre-line"><%= truncated_body %></p>
         <div class="tags">
           <% post.tags.each do |tag| %>
-            <span class="tag">#<%= tag.name %></span>
+            <span class="tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
           <% end %>
         </div>
         <%= form_with(model: [post, Comment.new], url: user_post_comments_path(post)) do |f| %>

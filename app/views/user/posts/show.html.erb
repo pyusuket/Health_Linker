@@ -1,3 +1,48 @@
+<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4">投稿詳細</h1>
+<div class="flex items-center flex-col md:flex-row mb-8">
+  <div class="mb-4 md:mb-0 md:mr-4">
+    <% if @user.profile_image.present? %>
+      <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
+    <% else %>
+      <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
+    <% end %>
+  </div>
+  <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
+    <h1 class="text-2xl font-semibold mb-2 md:mb-0">
+      <%= link_to @user.user_name, user_posts_path(@user) %>
+    </h1>
+    <div class="flex items-center">
+      <% if current_user && current_user != @user %>
+        <% if current_user.following?(@user) %>
+          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
+        <% else %>
+          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
+        <% end %>
+      <% end %>
+    </div>
+      <div class="flex flex-wrap justify-center mt-2">
+        <span class="mr-4">
+          <% followers_count = @user.followers.count %>
+          <% if followers_count > 10000 %>
+            <% ten_thousands = followers_count / 10000 %>
+            <%= link_to "フォロワー : #{ten_thousands} 万人", user_user_followers_path(@user) %>
+          <% else %>
+            <%= link_to "フォロワー : #{number_with_delimiter(followers_count)} 人", user_user_followers_path(@user) %>
+          <% end %>
+        </span>
+        <span class="mr-4">
+          <% followings_count = @user.followings.count %>
+          <% if followings_count > 10000 %>
+            <% ten_thousands = followings_count / 10000 %>
+            <%= link_to "フォロー中 : #{ten_thousands} 万人", user_user_followings_path(@user) %>
+          <% else %>
+            <%= link_to "フォロー中 : #{number_with_delimiter(followings_count)} 人", user_user_followings_path(@user) %>
+          <% end %>
+        </span>
+      </div>
+    </div>
+  </div>
+
 <div class="flex h-full justify-center items-center">
   <div class="bg-white py-6 sm:py-8 lg:py-12">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
@@ -10,16 +55,21 @@
         </div>
         </div>
       </div>
-        <div class="flex flex-col items-start lg:items-center">
           <div class="flex items-end gap-2 lg:flex-row">
-            <p><%= @post.created_at.strftime("%Y/%-m/%-d")%></p>
+            <p>投稿日：<%= @post.created_at.strftime("%Y/%-m/%-d")%></p>
           </div>
           <div>
             <p><%= @post.body %></p>
           </div>
-          <p class="lg:ml-auto">コメント件数：<%= @post.comments.count %></p>
+          <div class="mt-6">
+            <div class="flex flex-wrap gap-2">
+              <% @post.tags.each do |tag| %>
+                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
+              <% end %>
+            </div>
+          </div>
           <div class="mt-10">
-            <h1>コメント欄</h1>
+            <h1>コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
             <% @post.comments.each do |comment| %>
               <div class="flex items-center mb-2">
                 <% if comment.user.profile_image.present? %>

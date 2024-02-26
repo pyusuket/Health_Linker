@@ -8,19 +8,14 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :nices, dependent: :destroy
   
-  GUEST_USER_EMAIL = "guest@example.com"
+  GUEST_USER_EMAIL = "guest@test.com"
 
   # ゲストログイン
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       user.password = SecureRandom.urlsafe_base64
-      user.last_name = "guest"
-      user.first_name = "user"
-      user.last_name_kana = "ゲスト"
-      user.first_name_kana = "ユーザー"
-      user.birthday = "2024/1/1"
-      user.sex = "男性"
-      user.user_status = "true"
+      user.user_name = "ゲストユーザー"
+      user.introduction = "ゲストユーザーです。よろしくお願いします。"
   end
   end
   
