@@ -30,12 +30,12 @@
         <div class="flex justify-between items-center mt-2">
           <% if post.nices.exists?(user_id: current_user.id) %>
             <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
-              <i class="fa-solid fa-heart fa-xl" style="color: #f882bb;"></i>
+              <i class="fa-solid fa-heart fa-xl text-pink-500 mr-1"></i>
               <%= post.nices.count %> 
             <% end %>
           <% else %>
             <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
-              <i class="fa-regular fa-heart fa-xl" style="color: #d9d3d6;"></i>              
+              <i class="fa-regular fa-heart fa-xl" style="color: #777777;"></i>              
               <%= post.nices.count %> 
             <% end %>
           <% end %>

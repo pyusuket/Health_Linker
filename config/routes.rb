@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
   
   namespace :user do
+    get '/homes/mypage' => 'homes#mypage', as: 'homes_mypage'
     resources :users, only: [:index, :show, :edit, :update] do
       member do 
         get "nices" 

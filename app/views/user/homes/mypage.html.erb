@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4">お気に入り一覧</h1>
+<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4">マイページ</h1>
 <div class="flex items-center flex-col md:flex-row mb-8">
   <div class="mb-4 md:mb-0 md:mr-4">
     <% if @user.profile_image.present? %>
@@ -8,9 +8,12 @@
     <% end %>
   </div>
   <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
-    <h2 class="text-2xl font-semibold mb-2 md:mb-0">
+    <div class="text-2xl font-semibold mb-2 md:mb-0">
       <%= link_to @user.user_name, user_posts_path(@user) %>
-    </h2>
+    </div>
+    <% if @user == current_user %>
+      <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
+    <% end %>
       <div class="flex flex-wrap justify-center mt-2">
         <span class="mr-4">
           <% followers_count = @user.followers.count %>
@@ -33,6 +36,7 @@
       </div>
     </div>
   </div>
+</div>
 <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 justify-center items-center">
   <% @posts.each do |post| %>
     <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
@@ -60,21 +64,10 @@
         </div>
         <div class="flex justify-between items-center">
           <div class="flex items-center">
-            <div class="flex items-center">
-              <% if post.nices.exists?(user_id: current_user.id) %>
-                <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
-                  <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
-                  <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span> 
-                <% end %>
-              <% else %>
-                <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
-                  <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
-                  <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span>
-                <% end %>
-              <% end %>
-              <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1 ml-2"></i>
-              <span class="text-sm text-gray-500"><%= post.comments.count %></span>
-            </div>
+            <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1 ml-2"></i>
+            <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %> </span>
+            <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1 ml-2"></i>
+            <span class="text-sm text-gray-500"><%= post.comments.count %> </span>
           </div>
           <p class="text-sm text-gray-500"><%= post.created_at.strftime("%Y/%-m/%-d") %></p>
         </div>
@@ -94,4 +87,3 @@
     });
   });
 </script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

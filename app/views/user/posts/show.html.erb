@@ -43,52 +43,59 @@
     </div>
   </div>
 
-<div class="flex h-full justify-center items-center">
-  <div class="bg-white py-6 sm:py-8 lg:py-12">
-    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-      <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
-        <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
-          <div class="slick-carousel text-center">
-          <% @post.images.each do |image| %>
-            <%= image_tag(image, class: "w-full h-full object-cover inline-block") %>
+  <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
+    <div class="slick-carousel text-center">
+      <% @post.images.each do |image| %>
+        <%= image_tag(image, class: "w-full h-full object-cover") %>
+      <% end %>
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <% if @post.nices.exists?(user_id: current_user.id) %>
+          <%= link_to user_post_nices_path(@post), method: :delete, class: "nice-link" do %>
+            <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
+            <span class="text-sm text-gray-500"><%= @post.nices.count %></span> 
           <% end %>
-        </div>
+        <% else %>
+          <%= link_to user_post_nices_path(@post), method: :post, class: "nice-link" do %>
+            <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
+            <span class="text-sm text-gray-500"><%= @post.nices.count %></span>
+          <% end %>
+        <% end %>
+        <div class="flex items-center ml-4">
+          <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1"></i>
+          <span class="text-sm text-gray-500"><%= @post.comments.count %></span>
         </div>
       </div>
-          <div class="flex items-end gap-2 lg:flex-row">
-            <p>投稿日：<%= @post.created_at.strftime("%Y/%-m/%-d")%></p>
-          </div>
-          <div>
-            <p><%= @post.body %></p>
-          </div>
-          <div class="mt-6">
-            <div class="flex flex-wrap gap-2">
-              <% @post.tags.each do |tag| %>
-                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
-              <% end %>
-            </div>
-          </div>
-          <div class="mt-10">
-            <h1>コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
-            <% @post.comments.each do |comment| %>
-              <div class="flex items-center mb-2">
-                <% if comment.user.profile_image.present? %>
-                  <%= image_tag comment.user.profile_image, class: "w-10 h-10 rounded-full mr-2" %>
-                <% else %>
-                  <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2" %>
-                <% end %>
-                <div>
-                  <%= comment.user.user_name %>
-                  <p><%= comment.body %></p>
-                  <p><%= comment.created_at.strftime('%Y/%m/%d') %></p>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
+      <p class="text-sm text-gray-500"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
+    </div>
+      <p><%= @post.body %></p>
+    
+    <div class="mt-6">
+      <div class="flex flex-wrap gap-2">
+        <% @post.tags.each do |tag| %>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
+        <% end %>
       </div>
     </div>
-</div>
+    <div class="mt-10">
+      <h1>コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
+      <% @post.comments.each do |comment| %>
+        <div class="flex items-center mb-2">
+          <% if comment.user.profile_image.present? %>
+            <%= image_tag comment.user.profile_image, class: "w-10 h-10 rounded-full mr-2" %>
+          <% else %>
+            <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2" %>
+          <% end %>
+          <div>
+            <%= comment.user.user_name %>
+            <p><%= comment.body %></p>
+            <p><%= comment.created_at.strftime('%Y/%m/%d') %></p>
+          </div>
+        </div>
+      <% end %>
+      </div>
+    </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
