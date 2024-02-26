@@ -69,15 +69,20 @@
       </div>
       <p class="text-sm text-gray-500"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
     </div>
-      <p><%= @post.body %></p>
     
-    <div class="mt-6">
-      <div class="flex flex-wrap gap-2">
+    <div class="mt-2">
+      <div class="flex flex-wrap gap-2 items-center">
         <% @post.tags.each do |tag| %>
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
         <% end %>
+        <% if user_signed_in? && current_user.id == @post.user_id %>
+          <%= link_to user_post_path, method: :delete, class: "ml-auto", data: { confirm: "本当に削除しますか？" } do %>
+            <i class="fa-solid fa-trash-can text-gray-500"></i>
+          <% end %>
+        <% end %>
       </div>
     </div>
+    <p><%= @post.body %></p>
     <div class="mt-10">
       <h1>コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
       <% @post.comments.each do |comment| %>

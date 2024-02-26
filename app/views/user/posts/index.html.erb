@@ -27,19 +27,26 @@
         <% else %>
           <p class="w-full h-80 object-cover rounded-lg">no_image</p>
         <% end %>
-        <div class="flex justify-between items-center mt-2">
-          <% if post.nices.exists?(user_id: current_user.id) %>
-            <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
-              <i class="fa-solid fa-heart fa-xl text-pink-500 mr-1"></i>
-              <%= post.nices.count %> 
+        <div class="flex items-center justify-between mt-2">
+          <div class="flex items-center">
+            <% if post.nices.exists?(user_id: current_user.id) %>
+              <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
+                <i class="fa-solid fa-heart fa-xl text-pink-500 mr-1"></i>
+                <span class="text-sm text-gray-500"><%= post.nices.count %></span> 
+              <% end %>
+            <% else %>
+              <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
+                <i class="fa-regular fa-heart fa-xl" style="color: #777777;"></i>              
+                <span class="text-sm text-gray-500"><%= post.nices.count %></span>
+              <% end %>
             <% end %>
-          <% else %>
-            <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
-              <i class="fa-regular fa-heart fa-xl" style="color: #777777;"></i>              
-              <%= post.nices.count %> 
-            <% end %>
-          <% end %>
-        </div>
+            <div class="flex items-center ml-4">
+              <i class="fa-solid fa-comment fa-xl text-yellow-500 mr-1"></i>
+              <span class="text-sm text-gray-500"><%= post.comments.count %></span>
+            </div>
+          </div>
+      <p class="text-sm text-gray-500"><%= post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
+    </div>
         <% truncated_body = post.body.length > 20 ? post.body[0..20] + '...' : post.body %>
         <p class="whitespace-pre-line"><%= truncated_body %></p>
         <div class="tags">

@@ -32,8 +32,7 @@
         </span>
       </div>
     </div>
-  </div>
-<div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 justify-center items-center">
+<div class="mt-5 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 justify-center items-center">
   <% @posts.each do |post| %>
     <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
       <div class="relative mb-2 post">
@@ -52,7 +51,7 @@
         <div class="slick-carousel text-center">
           <% if post.images.attached? %>
             <%= link_to user_post_path(post) do %>
-              <%= image_tag post.images.first, class: "w-80 h-80 object-cover rounded-lg" %>
+              <%= image_tag post.images.first, class: "w-full h-80 object-cover rounded-lg" %>
             <% end %>
           <% else %>
             <p class="w-full h-80 object-cover rounded-lg">no_image</p>
@@ -81,6 +80,7 @@
       </div>
     </div>
   <% end %>
+</div>
 </div>
 
 <script>

@@ -43,6 +43,16 @@ class User::PostsController < ApplicationController
     @comment = Comment.new
   end
   
+  def destroy
+    @post = Post.find(params[:id])
+    if @post.destroy
+      flash[:notice] = "削除が完了しました。"
+    else
+      flash[:alert] = "削除に失敗しました。"
+    end
+    redirect_to user_homes_mypage_path
+  end
+    
   private
   
   def post_params

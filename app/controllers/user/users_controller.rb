@@ -27,6 +27,16 @@ class User::UsersController < ApplicationController
     end
   end
   
+  def destroy
+    @user = User.find(params[:id])
+    if @user.destroy
+      redirect_to new_user_registration_path
+    else
+      flash[:alert] = "削除できませんでした。"
+      render :edit
+    end
+  end
+  
   def nices
     @user_current = current_user
     @user = User.find(params[:id])
