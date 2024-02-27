@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :posts do
       resources :comments, only: [:create]
       resource :nices, only: [:create, :destroy]
+      resources :searches, only: [:index]
     end
   end
   

@@ -1,5 +1,5 @@
 class User::NicesController < ApplicationController
-    before_action :find_post
+  before_action :find_post
   
   def create
     nice = @post.nices.new(user: current_user)

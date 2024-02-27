@@ -3,11 +3,11 @@
     <h2 class="text-lg font-bold mb-4">アクティブユーザー数</h2>
     <canvas id="activeUsersChart"></canvas>
     <script>
-      const activeUserCounts = <%= @daily_active_users.to_json.html_safe %>;
-      const dailyData = Object.values(activeUserCounts);
-      const dates = Object.keys(activeUserCounts);
-      const ctx = document.getElementById('activeUsersChart').getContext('2d');
-      const activeUsersChart = new Chart(ctx, {
+      var activeUserCounts = <%= @daily_active_users.to_json.html_safe %>;
+      var dailyData = Object.values(activeUserCounts);
+      var dates = Object.keys(activeUserCounts);
+      var ctx = document.getElementById('activeUsersChart').getContext('2d');
+      var activeUsersChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: dates,
@@ -35,11 +35,11 @@
     <h2 class="text-lg font-bold mb-4">新規登録数</h2>
       <canvas id="newUsersChart"></canvas>
     <script>
-      const newUsersData = <%= @daily_new_active_users.to_json.html_safe %>;
-      const newdayData = Object.values(newUsersData);
-      const newdates = Object.keys(newUsersData);
-      const ctx2 = document.getElementById('newUsersChart').getContext('2d');
-      const newUsersChart = new Chart(ctx2, {
+      var newUsersData = <%= @daily_new_active_users.to_json.html_safe %>;
+      var newdayData = Object.values(newUsersData);
+      var newdates = Object.keys(newUsersData);
+      var ctx2 = document.getElementById('newUsersChart').getContext('2d');
+      var newUsersChart = new Chart(ctx2, {
         type: 'line',
         data: {
           labels: newdates,
@@ -59,9 +59,7 @@
           }
         }
       });
-
-      // Canvas のサイズを親要素に合わせる
-      const newUsersChartCanvas = document.getElementById('newUsersChart');
+      var newUsersChartCanvas = document.getElementById('newUsersChart');
       newUsersChartCanvas.width = newUsersChartCanvas.parentElement.clientWidth;
       newUsersChartCanvas.height = newUsersChartCanvas.parentElement.clientHeight;
     </script>
@@ -75,17 +73,11 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-  
-
-    // ページビュー数を取得
-    const pageViewsData = <%= @page_views_data.to_json.html_safe %>;
-
-    const pageIds = Object.keys(pageViewsData);
-    const pageViews = Object.values(pageViewsData);
-
-    // グラフの描画
-    const ctx = document.getElementById('pageViewsChart').getContext('2d');
+  document.addEventListener('turbolinks:load', function () {
+    var pageViewsData = <%= @page_views_data.to_json.html_safe %>;
+    var pageIds = Object.keys(pageViewsData);
+    var pageViews = Object.values(pageViewsData);
+    var ctx = document.getElementById('pageViewsChart').getContext('2d');
     window.pageViewsChart = new Chart(ctx, {
       type: 'bar',
       data: {

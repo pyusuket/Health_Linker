@@ -1,5 +1,6 @@
 class User::PostsController < ApplicationController
-
+  before_action :is_current_user, only: [:destroy]
+   
   def new
     @post = Post.new
     @user_current = current_user
@@ -52,11 +53,18 @@ class User::PostsController < ApplicationController
     end
     redirect_to user_homes_mypage_path
   end
-    
+  
   private
   
   def post_params
     params.require(:post).permit(:images,:body)
+  end
+  
+  def is_current_user
+    @post = Post.find(params[:id])
+    unless @post.user == current_user
+      redirect_to user_posts_path
+    end
   end
   
 end
