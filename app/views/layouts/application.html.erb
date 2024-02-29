@@ -15,9 +15,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
   </head>
 
  <body class="bg-white">
+   <% if params[:controller] != "user/messages" || params[:action] != "show" %>
   <!-- メニューバー -->
   <div class="md:hidden fixed top-0 left-0 z-50 w-full bg-gray-800 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,6 +56,35 @@
       </div>
     </div>
   </div>
+    <!-- ナビゲーションバー -->
+  <% if user_signed_in? %>
+  <div class="md:hidden fixed bottom-0 left-0 z-50 w-full bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <a href="<%= user_posts_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+          <i class="fa-solid fa-house text-2xl" style="color: #000;"></i>
+        </a>
+        <a href="<%= user_user_messages_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+          <i class="fa-solid fa-magnifying-glass text-2xl" style="color: #000;"></i>
+        </a>
+        <a href="<%= new_user_post_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+          <i class="fa-regular fa-square-plus text-2xl" style="color: #000;"></i>
+        </a>
+        <a href="<%= nices_user_user_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+          <i class="fa-solid fa-heart text-2xl" style="color: #000;"></i>
+        </a>
+          <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
+            <% if user_signed_in? && @user_current.profile_image.present? %>
+              <%= image_tag @user_current.profile_image, class: "h-10 w-10 rounded-full" %>
+            <% else %>
+              <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
+            <% end %>
+          </a>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <% end %>
   <!-- サイドバー -->
   <div class="md:flex md:flex-col md:h-full md:w-64 md:fixed md:left-0 md:top-0 md:justify-between bg-gray-800 hidden" id="sidebar">
     <div class="p-4">
@@ -91,34 +122,9 @@
       </ul>
     </div>
   </div>
-  <!-- ナビゲーションバー -->
-  <div class="md:hidden fixed bottom-0 left-0 z-50 w-full bg-white shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <a href="<%= user_posts_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-solid fa-house text-2xl" style="color: #000;"></i>
-        </a>
-        <a href="#" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-solid fa-magnifying-glass text-2xl" style="color: #000;"></i>
-        </a>
-        <a href="<%= new_user_post_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-regular fa-square-plus text-2xl" style="color: #000;"></i>
-        </a>
-        <a href="<%= nices_user_user_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-solid fa-heart text-2xl" style="color: #000;"></i>
-        </a>
-          <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
-            <% if user_signed_in? && @user_current.profile_image.present? %>
-              <%= image_tag @user_current.profile_image, class: "h-10 w-10 rounded-full" %>
-            <% else %>
-              <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
-            <% end %>
-          </a>
-      </div>
-    </div>
-  </div>
+
   <!-- メインコンテンツ -->
-  <main class="md:ml-64 p-4 mt-14 mb-14 bg-white text-brown-900 font-sans text-lg font-medium">
+  <main class="md:ml-64 bg-white text-brown-900 font-sans text-lg font-medium">
     <%= yield %>
   </main>
 

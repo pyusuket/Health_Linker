@@ -48,6 +48,6 @@ class User < ApplicationRecord
   
   # ダイレクトメッセージ＆通知機能
   has_many :notifications
-  has_many :sent_messages,     class_name: "Message", foreign_key: "sender_id"
-  has_many :received_messages, class_name: "Message", foreign_key: "receiver_id"
+  has_many :sent_messages,     class_name: "Message", foreign_key: "sender_id",dependent: :destroy
+  has_many :received_messages, class_name: "Message", foreign_key: "receiver_id",dependent: :destroy
 end

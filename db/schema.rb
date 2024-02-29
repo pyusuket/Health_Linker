@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(version: 2024_02_29_100632) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "sender_id", null: false
-    t.integer "receiver_id", null: false
+    t.integer "sender_id", default: 0, null: false
+    t.integer "receiver_id", default: 0, null: false
     t.text "content", default: "", null: false
     t.boolean "read", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2024_02_29_100632) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id", default: 0, null: false
     t.text "content", default: "", null: false
     t.boolean "read", default: false, null: false
     t.datetime "created_at", precision: 6, null: false

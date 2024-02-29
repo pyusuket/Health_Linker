@@ -1,28 +1,29 @@
-<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4">ユーザーページ</h1>
-<div class="flex items-center flex-col md:flex-row mb-8">
-  <div class="mb-4 md:mb-0 md:mr-4">
-    <% if @user.profile_image.present? %>
-      <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
-    <% else %>
-      <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
-    <% end %>
-  </div>
-  <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
-    <h1 class="text-2xl font-semibold mb-2 md:mb-0">
-      <%= link_to @user.user_name, user_posts_path(@user) %>
-    </h1>
-    <% if @user == current_user %>
-      <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
-    <% end %>
-    <div class="flex items-center">
-      <% if current_user && current_user != @user %>
-        <% if current_user.following?(@user) %>
-          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
-        <% else %>
-          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
-        <% end %>
+<div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+  <div class="flex flex-col md:flex-row mb-8">
+    <div class="mb-4 md:mb-0 md:mr-4">
+      <% if @user.profile_image.present? %>
+        <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
+      <% else %>
+        <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
       <% end %>
     </div>
+    <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
+      <h1 class="text-2xl font-semibold mb-2 md:mb-0">
+        <%= link_to @user.user_name, user_posts_path(@user) %>
+      </h1>
+      <% if @user == current_user %>
+        <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
+      <% end %>
+      <div class="flex items-center">
+        <% if current_user && current_user != @user %>
+          <% if current_user.following?(@user) %>
+            <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
+          <% else %>
+            <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
+          <% end %>
+        <% end %>
+        <%= link_to "メッセージを送る", user_user_message_path(@user), class: "bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
+      </div>
       <div class="flex flex-wrap justify-center mt-2">
         <span class="mr-4">
           <% followers_count = @user.followers.count %>
@@ -45,14 +46,15 @@
       </div>
     </div>
   </div>
-<div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
-  <% @posts.each do |post| %> 
-    <div class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
-      <% if post.images.attached? %>
-        <%= link_to user_post_path(post.user, post), class: "group relative block h-full overflow-hidden" do %>
-          <%= image_tag(post.images.first, class: "object-cover w-full h-full") %>
+  <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+    <% @posts.each do |post| %> 
+      <div class="group relative mb-2 block h-96 overflow-hidden rounded-lg bg-gray-100 shadow-lg lg:mb-3">
+        <% if post.images.attached? %>
+          <%= link_to user_post_path(post.user, post), class: "group relative block h-full overflow-hidden" do %>
+            <%= image_tag(post.images.first, class: "object-cover w-full h-full") %>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
