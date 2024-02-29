@@ -107,7 +107,7 @@
         <a href="<%= nices_user_user_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
           <i class="fa-solid fa-heart text-2xl" style="color: #000;"></i>
         </a>
-          <a href="<%= user_posts_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
+          <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
             <% if user_signed_in? && @user_current.profile_image.present? %>
               <%= image_tag @user_current.profile_image, class: "h-10 w-10 rounded-full" %>
             <% else %>
