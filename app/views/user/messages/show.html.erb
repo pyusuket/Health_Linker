@@ -5,26 +5,31 @@
         <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
       </a>
       <% if @user.profile_image.present? %>
-        <%= image_tag @user.profile_image, class: "w-10 h-10 rounded-full" %>
+        <%= link_to user_user_path(@user) do %> 
+          <%= image_tag @user.profile_image, class: "w-10 h-10 rounded-full" %>
+        <% end %>
       <% else %>
-        <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
+        <%= link_to user_user_path(@user) do %> 
+          <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
+        <% end %>
       <% end %>
-      <h2 class="text-lg font-semibold ml-2"><%= @user.user_name %></h2>
+      <h2 class="text-lg font-semibold ml-2">
+        <%= link_to @user.user_name, user_user_path(@user) %> 
+      </h2>
     </div>
   </div>
 </div>
 
 <div class="flex-1 mt-20" id="messages-container" style="overflow-y: auto;">
-  <div class="p-4">
     <div class="flex-1 border-gray-300">
       <% @messages.reverse.each do |message| %>
         <div class="p-4 flex items-start">
           <% if message.sender_id == @user_current.id %>
             <div class="flex items-start w-full justify-end">
-              <% if @user_current.profile_image.present? %>
               <div class="bg-gray-200 rounded-lg p-2 mb-2">
                 <%= message.content %>
               </div>
+              <% if @user_current.profile_image.present? %>
                 <%= image_tag @user_current.profile_image, class: "w-6 h-6 rounded-full ml-2" %>
               <% else %>
                 <%= image_tag "no_image.jpg", class: "w-6 h-6 rounded-full ml-2" %>
@@ -32,7 +37,7 @@
             </div>
           <% else %>
             <div class="flex items-start w-full">
-                <% if @user.profile_image.present? %>
+              <% if @user.profile_image.present? %>
                 <%= image_tag @user.profile_image, class: "w-6 h-6 rounded-full mr-2" %>
               <% else %>
                 <%= image_tag "no_image.jpg", class: "w-6 h-6 rounded-full mr-2" %>
@@ -45,7 +50,6 @@
         </div>
       <% end %>
     </div>
-  </div>
 </div>
 
 <!-- 送信フォーム -->

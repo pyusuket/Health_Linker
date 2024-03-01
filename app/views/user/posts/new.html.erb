@@ -1,11 +1,11 @@
-<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4">新規投稿</h1>
+<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4 mt-20">新規投稿</h1>
 <%= form_with model: @post, url: user_posts_path, method: :post, multipart: true do |f| %>
-  <div class="px-4 sm:px-0 flex justify-center"> 
+  <div class="px-2 flex justify-center"> 
     <div class="sm:max-w-md w-full"> 
       <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="col-span-full">
           <%= f.label :写真, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-        <div id="selected-images" class="col-span-full grid grid-cols-3 gap-4"></div>
+          <div id="selected-images" class="col-span-full grid grid-cols-3 gap-4"></div>
           <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div class="text-center">
               <label for="image-upload" class="cursor-pointer">
@@ -15,24 +15,25 @@
                 <div class="flex text-sm leading-6 text-gray-600">
                   <span id="image-upload-label">ファイルを選択（最大6枚まで）</span>
                   <%= file_field_tag 'images[]', multiple: true, accept: "image/*", class: "hidden", id: "image-upload" %>
+                </div>
               </label>
             </div>
           </div>
         </div>
         <div class="col-span-full mt-2">
           <%= f.label :本文, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-          <%= f.text_area :body, placeholder: "本文を入力してください", class: "w-full rounded border bg-gray-50 px-3 py-6 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %> <!-- 本文の高さを調整 -->
+          <%= f.text_area :body, placeholder: "本文を入力してください", class: "w-full rounded border bg-gray-50 px-2 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100" %> <!-- 本文の高さを調整 -->
         </div>
         <div class="sm:col-span-full mt-2">
           <div>
             <%= f.label :タグ（複数選択可）, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%= f.select :tagging, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring", multiple: true } %>
+            <%= f.select :tagging, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100", multiple: true } %>
           </div>
         </div>
-      <div class="mt-2 flex items-center justify-end gap-x-6">
-        <%= link_to "取り消し", user_posts_path, class: "text-sm font-semibold leading-6 text-gray-900" %> 
-        <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %> <!-- ② 投稿ボタンの色を緑に変更 -->
-      </div>
+        <div class="mt-2 flex items-center justify-end gap-x-6">
+          <%= link_to "取り消し", user_posts_path, class: "text-sm font-semibold leading-6 text-gray-900" %> 
+          <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %> <!-- ② 投稿ボタンの色を緑に変更 -->
+        </div>
       </div>
     </div>
   </div>
@@ -69,5 +70,4 @@
       reader.readAsDataURL(file); // 画像を読み込む
     }
   });
-  
 </script>

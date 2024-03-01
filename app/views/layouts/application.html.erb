@@ -65,13 +65,13 @@
           <i class="fa-solid fa-house text-2xl" style="color: #000;"></i>
         </a>
         <a href="<%= user_user_messages_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-solid fa-magnifying-glass text-2xl" style="color: #000;"></i>
+          <i class="fa-regular fa-envelope text-2xl" style="color: #000;"></i>
         </a>
         <a href="<%= new_user_post_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
           <i class="fa-regular fa-square-plus text-2xl" style="color: #000;"></i>
         </a>
         <a href="<%= nices_user_user_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-solid fa-heart text-2xl" style="color: #000;"></i>
+          <i class="fa-regular fa-heart text-2xl" style="color: #000;"></i>
         </a>
           <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
             <% if user_signed_in? && @user_current.profile_image.present? %>
@@ -124,7 +124,7 @@
   </div>
 
   <!-- メインコンテンツ -->
-  <main class="md:ml-64 bg-white text-brown-900 font-sans text-lg font-medium">
+  <main class="md:ml-64 bg-white text-brown-900 font-sans text-lg font-medium mb-14">
     <%= yield %>
   </main>
 

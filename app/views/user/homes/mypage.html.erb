@@ -9,8 +9,8 @@
     <%= flash[:alert] %>
   </div>
 <% end %>
-<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4">マイページ</h1>
-<div class="flex items-center flex-col md:flex-row mb-8">
+<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4 mt-20">マイページ</h1>
+<div class="flex items-center flex-col md:flex-row">
   <div class="mb-4 md:mb-0 md:mr-4">
     <% if @user.profile_image.present? %>
       <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
@@ -25,32 +25,32 @@
     <% if @user == current_user %>
       <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
     <% end %>
-      <div class="flex flex-wrap justify-center mt-2">
-        <span class="mr-4">
-          <% followers_count = @user.followers.count %>
-          <% if followers_count > 10000 %>
-            <% ten_thousands = followers_count / 10000 %>
-            <%= link_to "フォロワー : #{ten_thousands} 万人", user_user_followers_path(@user) %>
-          <% else %>
-            <%= link_to "フォロワー : #{number_with_delimiter(followers_count)} 人", user_user_followers_path(@user) %>
-          <% end %>
-        </span>
-        <span class="mr-4">
-          <% followings_count = @user.followings.count %>
-          <% if followings_count > 10000 %>
-            <% ten_thousands = followings_count / 10000 %>
-            <%= link_to "フォロー中 : #{ten_thousands} 万人", user_user_followings_path(@user) %>
-          <% else %>
-            <%= link_to "フォロー中 : #{number_with_delimiter(followings_count)} 人", user_user_followings_path(@user) %>
-          <% end %>
-        </span>
-      </div>
+    <div class="flex flex-wrap justify-center mt-2">
+      <span class="mr-4">
+        <% followers_count = @user.followers.count %>
+        <% if followers_count > 10000 %>
+          <% ten_thousands = followers_count / 10000 %>
+          <%= link_to "フォロワー : #{ten_thousands} 万人", user_user_followers_path(@user) %>
+        <% else %>
+          <%= link_to "フォロワー : #{number_with_delimiter(followers_count)} 人", user_user_followers_path(@user) %>
+        <% end %>
+      </span>
+      <span class="mr-4">
+        <% followings_count = @user.followings.count %>
+        <% if followings_count > 10000 %>
+          <% ten_thousands = followings_count / 10000 %>
+          <%= link_to "フォロー中 : #{ten_thousands} 万人", user_user_followings_path(@user) %>
+        <% else %>
+          <%= link_to "フォロー中 : #{number_with_delimiter(followings_count)} 人", user_user_followings_path(@user) %>
+        <% end %>
+      </span>
     </div>
-    </div>
-<div class="mt-4 grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 justify-center items-center">
+  </div>
+</div>
+<div class="grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-2 lg:grid-cols-3 xl:grid-cols-4">
   <% @posts.each do |post| %>
-    <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
-      <div class="relative mb-2 post">
+    <div class="h-full w-full relative block overflow-hidden rounded-lg">
+      <div class="relative post">
         <div class="slick-carousel text-center">
           <% if post.images.attached? %>
             <%= link_to user_post_path(post) do %>
@@ -62,7 +62,7 @@
             <% end %>
           <% end %>
         </div>
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center m-2">
           <div class="flex items-center">
             <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1 ml-2"></i>
             <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %> </span>
