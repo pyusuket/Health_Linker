@@ -1,11 +1,11 @@
 class User::MessagesController < ApplicationController
   def index
-    @user_current = current_user
-    @messages = Message.where(receiver_id: current_user.id)
+    sent_messages = Message.where(sender_id: current_user.id)
+    received_messages = Message.where(receiver_id: current_user.id)
+    @messages = (sent_messages + received_messages).sort_by(&:created_at).reverse
   end
   
   def show
-    @user_current = current_user
     @user = User.find(params[:user_id])
     @message = Message.new
     @messages = Message.where(sender_id: [@user_current.id, @user.id], receiver_id: [@user_current.id, @user.id]).order(created_at: :desc)

@@ -13,14 +13,12 @@ class User::FollowsController < ApplicationController
   end
   
   def followings
-    @user_current = current_user
     user = User.find(params[:user_id])
     @user = User.find(params[:user_id])
     @users = user.followings
   end
   
   def followers
-    @user_current = current_user
     @user = User.find(params[:user_id])
     @users = @user.followers
     @following_user = @user_current.following?(@user) if user_signed_in? && @user_current != @user

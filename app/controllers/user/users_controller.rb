@@ -2,19 +2,15 @@ class User::UsersController < ApplicationController
   before_action :is_current_user, only: [:edit, :update, :nices, :destroy]
   
   def index
-    @user_current = current_user
-    @user = current_user 
-    @posts = @user.posts.order(created_at: :desc)
+    @users = User.all.order(created_at: :desc)
   end
   
   def show
-    @user_current = current_user
     @user = User.find(params[:id])
     @posts = @user.posts.order(created_at: :desc)
   end
   
   def edit
-    @user_current = current_user
     @user = User.find(params[:id])
   end
   
@@ -38,7 +34,6 @@ class User::UsersController < ApplicationController
   end
   
   def nices
-    @user_current = current_user
     @user = User.find(params[:id])
     @posts = @user.nices.includes(:post).map(&:post)
   end

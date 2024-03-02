@@ -3,7 +3,6 @@ class User::PostsController < ApplicationController
    
   def new
     @post = Post.new
-    @user_current = current_user
     @tags = Tag.all
     6.times { @post.images.build }
   end
@@ -30,7 +29,6 @@ class User::PostsController < ApplicationController
   end
   
   def index
-    @user_current = current_user
     @posts = Post.order(created_at: :desc)
     @comment = Comment.new
   end
@@ -39,7 +37,6 @@ class User::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post.increment!(:views_count)
     @user = @post.user
-    @user_current = current_user
     @comment = Comment.all
     @comment = Comment.new
   end

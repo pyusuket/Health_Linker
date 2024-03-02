@@ -1,46 +1,47 @@
-<div class="sticky top-0 bg-white border-b border-gray-300 z-50">
-  <div class="container mx-auto p-2 flex justify-between items-center">
-    <div class="flex items-center">
-      <a href="<%= user_user_messages_path %>" class="mr-4 ml-2">
-        <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
-      </a>
-      <% if @user.profile_image.present? %>
-        <%= link_to user_user_path(@user) do %> 
-          <%= image_tag @user.profile_image, class: "w-10 h-10 rounded-full" %>
+<div class="flex flex-col min-h-screen">
+  <div class="sticky top-0 bg-white border-b border-gray-300 z-50">
+    <div class="container mx-auto p-2 flex justify-between items-center">
+      <div class="flex items-center">
+        <a href="<%= user_user_messages_path %>" class="mr-4 ml-2">
+          <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
+        </a>
+        <% if @user.profile_image.present? %>
+          <%= link_to user_user_path(@user) do %> 
+            <%= image_tag @user.profile_image, class: "w-10 h-10 rounded-full" %>
+          <% end %>
+        <% else %>
+          <%= link_to user_user_path(@user) do %> 
+            <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
+          <% end %>
         <% end %>
-      <% else %>
-        <%= link_to user_user_path(@user) do %> 
-          <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
-        <% end %>
-      <% end %>
-      <h2 class="text-lg font-semibold ml-2">
-        <%= link_to @user.user_name, user_user_path(@user) %> 
-      </h2>
+        <h2 class="text-lg font-semibold ml-2">
+          <%= link_to @user.user_name, user_user_path(@user) %> 
+        </h2>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="flex-1 mt-20" id="messages-container" style="overflow-y: auto;">
+  <div class="flex-1 mt-20" id="messages-container" style="overflow-y: auto;">
     <div class="flex-1 border-gray-300">
       <% @messages.reverse.each do |message| %>
-        <div class="p-4 flex items-start">
+        <div class="p-2 flex items-start">
           <% if message.sender_id == @user_current.id %>
             <div class="flex items-start w-full justify-end">
               <div class="bg-gray-200 rounded-lg p-2 mb-2">
                 <%= message.content %>
               </div>
               <% if @user_current.profile_image.present? %>
-                <%= image_tag @user_current.profile_image, class: "w-6 h-6 rounded-full ml-2" %>
+                <%= image_tag @user_current.profile_image, class: "w-8 h-8 rounded-full ml-2" %>
               <% else %>
-                <%= image_tag "no_image.jpg", class: "w-6 h-6 rounded-full ml-2" %>
+                <%= image_tag "no_image.jpg", class: "w-8 h-8 rounded-full ml-2" %>
               <% end %>
             </div>
           <% else %>
             <div class="flex items-start w-full">
               <% if @user.profile_image.present? %>
-                <%= image_tag @user.profile_image, class: "w-6 h-6 rounded-full mr-2" %>
+                <%= image_tag @user.profile_image, class: "w-8 h-8 rounded-full mr-2" %>
               <% else %>
-                <%= image_tag "no_image.jpg", class: "w-6 h-6 rounded-full mr-2" %>
+                <%= image_tag "no_image.jpg", class: "w-8 h-8 rounded-full mr-2" %>
               <% end %>
               <div class="bg-gray-200 rounded-lg p-2 mb-2">
                 <%= message.content %>
@@ -50,33 +51,34 @@
         </div>
       <% end %>
     </div>
-</div>
+  </div>
 
-<!-- 送信フォーム -->
-<div class="fixed bottom-0 bg-white border-gray-300 z-50 w-full">
+<div class="fixed bottom-0 w-full bg-white border-gray-300 lg:static lg:bottom-auto lg:bg-transparent lg:border-none lg:w-auto">
   <div class="container mx-auto p-2">
-    <%= form_with model: @message, url: user_user_messages_path(user_id: params[:user_id]), method: :post, multipart: true, class: "flex items-center justify-between" do |f| %> 
-      <div class="flex items-center w-full">
-        <%= f.text_field :content, placeholder: "メッセージを入力...", class: "border border-gray-300 p-2 rounded-lg mb-2 mr-2 flex-1 h-full" %>
-        <%= f.submit "送信", class: "bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg h-full submit-button" %>
+    <%= form_with model: @message, url: user_user_messages_path(user_id: params[:user_id]), method: :post, multipart: true do |f| %> 
+      <div class="flex items-center justify-between">
+        <%= f.text_field :content, placeholder: "メッセージを入力...", class: "border border-gray-300 rounded-lg m-2 px-4 flex-1 h-full" %>
+        <%= f.submit "送信", class: "bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg submit-button" %>
       </div>
     <% end %>
   </div>
 </div>
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-  $('.submit-button').on('click', function() {
-    // Assuming the message is sent asynchronously, wait a bit for the message to be sent
-    setTimeout(scrollToBottom, 100);
+  $(document).ready(function() {
+    scrollToBottom();
+
+    $('.submit-button').on('click', function() {
+      setTimeout(scrollToBottom, 100);
+    });
+
+    $(window).on('beforeunload', function() {
+      window.scrollTo(0, document.body.scrollHeight);
+    });
   });
-});
 
-function scrollToBottom() {
-  var messagesContainer = document.getElementById('messages-container');
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
+  function scrollToBottom() {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
 </script>
-

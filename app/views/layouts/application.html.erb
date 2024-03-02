@@ -64,14 +64,18 @@
         <a href="<%= user_posts_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
           <i class="fa-solid fa-house text-2xl" style="color: #000;"></i>
         </a>
-        <a href="<%= user_user_messages_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-regular fa-envelope text-2xl" style="color: #000;"></i>
+        <a href="<%= nices_user_user_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+          <i class="fa-regular fa-heart text-2xl" style="color: #000;"></i>
         </a>
         <a href="<%= new_user_post_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
           <i class="fa-regular fa-square-plus text-2xl" style="color: #000;"></i>
         </a>
-        <a href="<%= nices_user_user_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
-          <i class="fa-regular fa-heart text-2xl" style="color: #000;"></i>
+        <a href="<%= user_user_messages_path(current_user) %>" class="relative flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+          <i class="fa-regular fa-envelope text-2xl" style="color: #000;"></i>
+          <% if @unread_messages_count > 0 %>
+            <% display_count = @unread_messages_count > 99 ? "99+" : @unread_messages_count %>
+            <span class="absolute top-1 right-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs"><%= display_count %></span>
+          <% end %>
         </a>
           <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
             <% if user_signed_in? && @user_current.profile_image.present? %>
@@ -124,7 +128,7 @@
   </div>
 
   <!-- メインコンテンツ -->
-  <main class="md:ml-64 bg-white text-brown-900 font-sans text-lg font-medium mb-14">
+  <main class="md:ml-64 bg-white text-brown-900 font-sans text-lg font-medium mb-16">
     <%= yield %>
   </main>
 
