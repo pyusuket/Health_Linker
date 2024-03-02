@@ -18,3 +18,7 @@ Turbolinks.start()
 ActiveStorage.start()
 
 import 'slick-carousel';
+
+require("turbolinks").start()
+require("@rails/activestorage").start()
+require("channels")
