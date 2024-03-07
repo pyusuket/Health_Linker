@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'events', to: "user/events#index"
-  root 'user/homes#index'
+  root 'user/homes#mypage'
   
   devise_scope :user do
     get  'users/sign_out',      to: 'user/sessions#destroy'
