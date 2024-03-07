@@ -21,34 +21,17 @@
  <body class="bg-white">
    <% if params[:controller] != "user/messages" || params[:action] != "show" %>
   <!-- メニューバー -->
-  <div class="md:hidden fixed top-0 left-0 z-50 w-full bg-gray-800 shadow">
+  <div class="md:hidden fixed top-0 left-0 z-50 w-full bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-          <span class="text-white font-semibold text-xl ml-2">Health Linker</span>
+          <%= link_to user_posts_path do %>
+            <%= image_tag "logo.png", class: "h-14 w-50 flex-none" %>
+          <% end %>
         </div>
         <div class="flex items-center">
-          <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:text-white focus:bg-gray-700 p-2 rounded-md">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- メニューバー -->
-  <div class="md:hidden fixed top-0 left-0 z-50 w-full bg-gray-800 shadow">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-          <span class="text-white font-semibold text-xl ml-2">Health Linker</span>
-        </div>
-        <div class="flex items-center">
-          <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:text-white focus:bg-gray-700 p-2 rounded-md" id="menu-toggle">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button type="button" class="text-gray-400 hover:text-gray focus:outline-none focus:text-white focus:bg-gray-700 p-2 rounded-md" id="menu-toggle">
+            <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
@@ -61,67 +44,68 @@
   <div class="md:hidden fixed bottom-0 left-0 z-50 w-full bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
-        <a href="<%= user_posts_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+        <a href="<%= user_posts_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 p-3 rounded-full">
           <i class="fa-solid fa-house text-2xl" style="color: #000;"></i>
         </a>
-        <a href="<%= user_user_tasks_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+        <a href="<%= user_user_events_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 p-3 rounded-full">
           <i class="fa-regular fa-calendar-days text-2xl" style="color: #000;"></i>
         </a>
-        <a href="<%= new_user_post_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+        <a href="<%= new_user_post_path %>" class="flex items-center justify-center text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 p-3 rounded-full">
           <i class="fa-regular fa-square-plus text-2xl" style="color: #000;"></i>
         </a>
-        <a href="<%= user_user_messages_path(current_user) %>" class="relative flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white p-3 rounded-full">
+        <a href="<%= user_user_messages_path(current_user) %>" class="relative flex items-center justify-center text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 p-3 rounded-full">
           <i class="fa-regular fa-envelope text-2xl" style="color: #000;"></i>
           <% if @unread_messages_count > 0 %>
             <% display_count = @unread_messages_count > 99 ? "99+" : @unread_messages_count %>
             <span class="absolute top-1 right-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs"><%= display_count %></span>
           <% end %>
         </a>
-          <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-200 focus:outline-none focus:text-white rounded-full">
-            <% if user_signed_in? && @user_current.profile_image.present? %>
-              <%= image_tag @user_current.profile_image, class: "h-10 w-10 rounded-full" %>
-            <% else %>
-              <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
-            <% end %>
-          </a>
+        <a href="<%= user_homes_mypage_path(current_user) %>" class="flex items-center justify-center text-gray-800 hover:text-gray-500 focus:outline-none focus:text-gray-500 rounded-full">
+          <% if user_signed_in? && @user_current.profile_image.present? %>
+            <%= image_tag @user_current.profile_image, class: "h-10 w-10 rounded-full" %>
+          <% else %>
+            <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full" %>
+          <% end %>
+        </a>
       </div>
     </div>
   </div>
   <% end %>
   <% end %>
   <!-- サイドバー -->
-  <div class="md:flex md:flex-col md:h-full md:w-64 md:fixed md:left-0 md:top-0 md:justify-between bg-gray-800 hidden" id="sidebar">
+  <div class="md:flex md:flex-col md:h-full md:w-64 md:fixed md:left-0 md:top-0 md:justify-between bg-white hidden" id="sidebar">
     <div class="p-4">
       <div class="flex items-center mb-6">
-        <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-        <span class="text-white font-semibold text-xl ml-2">Health Linker</span>
+        <%= link_to user_posts_path do %>
+            <%= image_tag "logo.png", class: "h-12 w-50 flex-none" %>
+        <% end %>
       </div>
       <ul class="space-y-2">
         <% if user_signed_in? %>
-          <div class="flex items-center text-white">
+          <div class="flex items-center text-brown">
             <% if @user_current && @user_current.profile_image.present? %>
               <%= image_tag @user_current.profile_image, class: "h-8 w-8 rounded-full ml-3" %>
             <% else %>
               <%= image_tag "no_image.jpg", class: "w-8 h-8 rounded-full ml-3" %>
             <% end %>
             <% if @user_current && @user_current.user_name.present? %>
-              <p class="text-sm font-medium ml-2">
+              <p class="text-sm font-medium ml-2 text-brown">
                 <%= link_to @user_current.user_name, user_posts_path(@user) %>
               </p>
             <% end %>
           </div>
-          <li><%= link_to "投稿一覧", user_posts_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "お気に入り一覧", nices_user_user_path(current_user), class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "投稿一覧", user_posts_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "お気に入り一覧", nices_user_user_path(current_user), class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% elsif admin_signed_in? %>
-          <li><%= link_to "全体管理", admin_homes_top_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ユーザー管理", admin_users_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "投稿管理", admin_posts_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "全体管理", admin_homes_top_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ユーザー管理", admin_users_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "投稿管理", admin_posts_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% else %>
-          <li><%= link_to "新規登録", new_user_registration_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ログイン", new_user_session_path, class:"text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium" %></li>
+          <li><%= link_to "新規登録", new_user_registration_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ログイン", new_user_session_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium" %></li>
         <% end %>
       </ul>
     </div>

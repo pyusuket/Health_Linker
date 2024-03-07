@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'events', to: "user/events#index"
   root 'user/homes#index'
   
   devise_scope :user do
@@ -23,7 +24,7 @@ Rails.application.routes.draw do
       get "followers"  => "follows#followers", as: "followers"
       resources :messages,      only: [:index, :show, :create] 
       resources :notifications, only: [:index, :show] 
-      resources :tasks, only: [:index, :show] 
+      resources :events 
   end
     resources :posts do
       resources :comments, only: [:create]
