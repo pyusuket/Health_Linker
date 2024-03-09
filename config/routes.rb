@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  
+  root to: 'user/homes#mypage'
    # Devise routes
   devise_for :users, skip: [:passwords], controllers: {
     registrations: "user/registrations",
@@ -40,6 +42,5 @@ Rails.application.routes.draw do
   devise_scope :user do
     get  'users/sign_out', to: 'user/sessions#destroy'
     post "users/guest_sign_in", to: "user/sessions#guest_sign_in"
-    root 'user/sessions#new'
   end
 end
