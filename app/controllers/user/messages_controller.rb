@@ -1,4 +1,5 @@
 class User::MessagesController < ApplicationController
+  before_action :authenticate_user!
   def index
     sent_messages = Message.where(sender_id: current_user.id)
     received_messages = Message.where(receiver_id: current_user.id)

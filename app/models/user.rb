@@ -8,15 +8,18 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :nices, dependent: :destroy
   
-  GUEST_USER_EMAIL = "guest@test.com"
-
   # ゲストログイン
+  GUEST_USER_EMAIL = "guest@example.com"
   def self.guest
     find_or_create_by!(email: GUEST_USER_EMAIL) do |user|
       user.password = SecureRandom.urlsafe_base64
       user.user_name = "ゲストユーザー"
       user.introduction = "ゲストユーザーです。よろしくお願いします。"
+    end
   end
+  
+  def guest_user?
+    email == GUEST_USER_EMAIL
   end
   
   # 画像取得処理

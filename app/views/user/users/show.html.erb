@@ -1,6 +1,6 @@
 <div class="mx-auto max-w-screen-2xl px-4 md:px-8m mt-20">
-  <div class="flex flex-col md:flex-row">
-    <div class="mb-2 md:mb-0 md:mr-4">
+  <div class="flex items-center flex-col md:flex-row mb-4 px-2">
+    <div class="mb-4 md:mb-0 md:mr-4">
       <% if @user.profile_image.present? %>
         <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
       <% else %>
@@ -11,7 +11,7 @@
       <h1 class="text-2xl font-semibold mb-2 md:mb-0">
         <%= link_to @user.user_name, user_posts_path(@user) %>
       </h1>
-      <% if @user == current_user %>
+      <% if @user == current_user && @user.email != "guest@example.com" %>
         <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
       <% end %>
       <div class="flex items-center">

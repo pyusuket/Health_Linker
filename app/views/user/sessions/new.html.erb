@@ -14,7 +14,7 @@
         <%= f.password_field :password, autocomplete: "current-password", class:"w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
       </div>
       <%= f.submit 'ログイン', class:"block rounded-lg bg-blue-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-blue-600 focus-visible:ring active:bg-blue-700 md:text-base" %>
-      <%= f.submit "ゲストログイン（閲覧用）", url: users_guest_sign_in_path, class:"block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
+      <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class:"block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
       <%= link_to "ゲストログイン（管理者用）", new_admin_session_path, class: "block rounded-lg bg-gray-800 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-gray-700 focus-visible:ring active:bg-gray-600 md:text-base" %>
       <div class="flex items-center justify-center bg-gray-100 p-4">
         <p class="text-center text-sm text-gray-500">アカウントをお持ちでない方はこちら <%= link_to "新規登録", new_user_registration_path, class:"text-indigo-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700" %>

@@ -1,5 +1,5 @@
 class User::PostsController < ApplicationController
-  before_action :is_current_user, only: [:destroy]
+  before_action :authenticate_user!
    
   def new
     @post = Post.new
