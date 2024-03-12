@@ -1,6 +1,6 @@
 /*global $ */
-$(document).ready(function() {
-  setTimeout(function() {
-    $('#flash-notice, #flash-alert').fadeOut();
-  }, 3000); 
-});
+  $(document).ready(function() {
+    setTimeout(function() {
+      $('#flash-notice, #flash-alert').fadeOut();
+    }, 3000); 
+  });
