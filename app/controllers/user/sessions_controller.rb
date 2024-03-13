@@ -9,9 +9,10 @@ class User::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    flash[:notice] = "ログインしました。"
+    redirect_to user_posts_path
+  end
 
   # DELETE /resource/sign_out
   # def destroy
@@ -32,7 +33,7 @@ class User::SessionsController < Devise::SessionsController
   end
   
   def after_sign_in_path_for(resource)
-    user_posts_path 
+    user_posts_path
   end
   
   def after_sign_out_path_for(resource)

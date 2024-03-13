@@ -94,18 +94,21 @@
               </p>
             <% end %>
           </div>
-          <li><%= link_to "投稿一覧", user_posts_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "お気に入り一覧", nices_user_user_path(current_user), class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "投稿一覧", user_posts_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "新規投稿", new_user_post_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "カレンダー", user_events_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "メッセージ", user_user_messages_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "お気に入り一覧", nices_user_user_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% elsif admin_signed_in? %>
-          <li><%= link_to "全体管理", admin_homes_top_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ユーザー管理", admin_users_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "投稿管理", admin_posts_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "全体管理", admin_homes_top_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ユーザー管理", admin_users_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "投稿管理", admin_posts_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% else %>
-          <li><%= link_to "新規登録", new_user_registration_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "ログイン", new_user_session_path, class:"text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium" %></li>
+          <li><%= link_to "新規登録", new_user_registration_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "ログイン", new_user_session_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium" %></li>
         <% end %>
       </ul>
     </div>

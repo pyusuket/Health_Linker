@@ -1,106 +1,86 @@
-<h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4 mt-20">投稿詳細</h1>
-<div class="flex items-center flex-col md:flex-row mb-8 px-4">
-  <div class="mb-4 md:mb-0 md:mr-4">
-    <% if @user.profile_image.present? %>
-      <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
-    <% else %>
-      <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
+<div class="flex mt-20 items-center">
+  <a href="<%= user_posts_path %>" class="mr-4 ml-2">
+    <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
+  </a>
+  <h1 class="text-2xl font-bold text-gray-800">投稿詳細</h1>
+</div>
+
+<div class="flex items-center justify-start md:space-x-4 mx-2 my-2">
+  <% user_path = current_user && current_user.id == @post.user.id ? user_homes_mypage_path : user_user_path(@post.user.id) %>
+  <%= link_to user_path do %>
+    <%= image_tag(@post.user.profile_image.presence || "no_image.jpg", class: "w-10 h-10 rounded-full md:m-2") %>
+  <% end %>
+  <span class="text-center md:text-left ml-2"><%= @post.user.user_name %></span>
+  <div class="flex items-center ml-auto">
+    <% if current_user && current_user != @user %>
+      <% if current_user.following?(@user) %>
+        <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded" %>
+      <% else %>
+        <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+      <% end %>
     <% end %>
   </div>
-  <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
-    <h1 class="text-2xl font-semibold mb-2 md:mb-0">
-      <%= link_to @user.user_name, user_posts_path(@user) %>
-    </h1>
-    <div class="flex items-center">
-      <% if current_user && current_user != @user %>
-        <% if current_user.following?(@user) %>
-          <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
-        <% else %>
-          <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
-        <% end %>
-      <% end %>
-    </div>
-      <div class="flex flex-wrap justify-center mt-2">
-        <span class="mr-4">
-          <% followers_count = @user.followers.count %>
-          <% if followers_count > 10000 %>
-            <% ten_thousands = followers_count / 10000 %>
-            <%= link_to "フォロワー : #{ten_thousands} 万人", user_user_followers_path(@user) %>
-          <% else %>
-            <%= link_to "フォロワー : #{number_with_delimiter(followers_count)} 人", user_user_followers_path(@user) %>
-          <% end %>
-        </span>
-        <span class="mr-4">
-          <% followings_count = @user.followings.count %>
-          <% if followings_count > 10000 %>
-            <% ten_thousands = followings_count / 10000 %>
-            <%= link_to "フォロー中 : #{ten_thousands} 万人", user_user_followings_path(@user) %>
-          <% else %>
-            <%= link_to "フォロー中 : #{number_with_delimiter(followings_count)} 人", user_user_followings_path(@user) %>
-          <% end %>
-        </span>
-      </div>
-    </div>
+</div>
+
+<div class="h-full w-full relative mb-2 mt-2 block overflow-hidden rounded-lg lg:mb-3">
+  <div class="slick-carousel text-center">
+    <% @post.images.each do |image| %>
+      <%= image_tag(image, class: "w-full h-full object-cover") %>
+    <% end %>
   </div>
 
-  <div class="h-full w-full relative mb-2 block overflow-hidden rounded-lg lg:mb-3">
-    <div class="slick-carousel text-center">
-      <% @post.images.each do |image| %>
-        <%= image_tag(image, class: "w-full h-full object-cover") %>
+  <div class="flex items-center justify-between px-4 py-2">
+    <div class="flex items-center">
+      <% if @post.nices.exists?(user_id: current_user.id) %>
+        <%= link_to user_post_nices_path(@post), method: :delete, class: "nice-link" do %>
+          <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
+          <span class="text-sm text-gray-500"><%= @post.nices.count %></span> 
+        <% end %>
+      <% else %>
+        <%= link_to user_post_nices_path(@post), method: :post, class: "nice-link" do %>
+          <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
+          <span class="text-sm text-gray-500"><%= @post.nices.count %></span>
+        <% end %>
       <% end %>
+      <div class="flex items-center ml-4">
+        <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1"></i>
+        <span class="text-sm text-gray-500"><%= @post.comments.count %></span>
+      </div>
     </div>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center">
-        <% if @post.nices.exists?(user_id: current_user.id) %>
-          <%= link_to user_post_nices_path(@post), method: :delete, class: "nice-link" do %>
-            <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
-            <span class="text-sm text-gray-500"><%= @post.nices.count %></span> 
-          <% end %>
+      <p class="text-sm text-gray-500 ml-auto"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
+  </div>
+    <div class="flex items-center px-4">
+      <% @post.tags.each do |tag| %>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
+      <% end %>
+    <% if user_signed_in? && current_user.id == @post.user_id %>
+      <%= link_to user_post_path(@post), method: :delete, class: "ml-auto", data: { confirm: "本当に削除しますか？" } do %>
+        <i class="fa-solid fa-trash-can text-gray-500"></i>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+  <p class="px-4 py-2"><%= @post.body %></p>
+
+  <div class="mt-4 px-4">
+    <h1 class="text-xl font-semibold">コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
+    <% @post.comments.each do |comment| %>
+      <div class="flex items-center mb-2">
+        <% if comment.user.profile_image.present? %>
+          <%= image_tag comment.user.profile_image, class: "w-10 h-10 rounded-full mr-2" %>
         <% else %>
-          <%= link_to user_post_nices_path(@post), method: :post, class: "nice-link" do %>
-            <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
-            <span class="text-sm text-gray-500"><%= @post.nices.count %></span>
-          <% end %>
+          <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2" %>
         <% end %>
-        <div class="flex items-center ml-4">
-          <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1"></i>
-          <span class="text-sm text-gray-500"><%= @post.comments.count %></span>
+        <div>
+          <p class="font-semibold"><%= comment.user.user_name %></p>
+          <p><%= comment.body %></p>
+          <p class="text-gray-500"><%= comment.created_at.strftime('%Y/%m/%d') %></p>
         </div>
       </div>
-      <p class="text-sm text-gray-500"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
-    </div>
-    
-    <div class="mt-2">
-      <div class="flex flex-wrap gap-2 items-center">
-        <% @post.tags.each do |tag| %>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
-        <% end %>
-        <% if user_signed_in? && current_user.id == @post.user_id %>
-          <%= link_to user_post_path, method: :delete, class: "ml-auto", data: { confirm: "本当に削除しますか？" } do %>
-            <i class="fa-solid fa-trash-can text-gray-500"></i>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-    <p><%= @post.body %></p>
-    <div class="mt-10">
-      <h1>コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
-      <% @post.comments.each do |comment| %>
-        <div class="flex items-center mb-2">
-          <% if comment.user.profile_image.present? %>
-            <%= image_tag comment.user.profile_image, class: "w-10 h-10 rounded-full mr-2" %>
-          <% else %>
-            <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2" %>
-          <% end %>
-          <div>
-            <%= comment.user.user_name %>
-            <p><%= comment.body %></p>
-            <p><%= comment.created_at.strftime('%Y/%m/%d') %></p>
-          </div>
-        </div>
-      <% end %>
-      </div>
-    </div>
+    <% end %>
+  </div>
+</div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -114,3 +94,4 @@
   });
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+

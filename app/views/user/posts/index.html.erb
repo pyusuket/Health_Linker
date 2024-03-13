@@ -1,9 +1,4 @@
-<!--フラッシュメッセージ-->
-  <% flash.each do |type, message| %>
-    <div id="flash-<%= type %>" class="<%= type == :notice ? 'bg-green-100 border border-green-400 text-green-700' : 'bg-red-100 border border-red-400 text-red-700' %> px-2 py-3 rounded relative" role="alert">
-      <%= message %>
-    </div>
-  <% end %>
+<%= render 'user/shared/flash_message' %>
 
 <!--検索フォーム-->
 <div class="mb-6 mx-auto max-w-screen-2xl flex flex-col md:flex-row items-center justify-between gap-4 mt-16">
@@ -17,15 +12,19 @@
   <% end %>
 </div>
 
+<div id="no-results-message" class="text-center text-gray-500 mt-4" style="display: none;">
+  検索に一致する投稿がありませんでした。
+</div>
+
 <div class="px-2 grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-2 lg:grid-cols-3 xl:grid-cols-4">
   <% @posts.each do |post| %>
+    <% user_path = current_user && current_user.id == post.user.id ? user_homes_mypage_path : user_user_path(post.user.id) %>
     <div class="relative post">
       <div class="flex items-center"> 
-        <% user_path = user_user_path(post.user.id) %>
         <%= link_to user_path do %>
           <%= image_tag(post.user.profile_image.presence || "no_image.jpg", class: "w-10 h-10 rounded-full m-2") %>
         <% end %>
-        <span class="font-bold"><%= link_to post.user.user_name, user_user_path(post.user.id) %></span> 
+        <span class="font-bold"><%= link_to post.user.user_name, user_path %></span> 
       </div>
         <%= post.images.attached? ? link_to(user_post_path(post)) { image_tag(post.images.first, class: "w-full h-80 object-cover rounded-lg") } : content_tag(:p, "no_image", class: "w-full h-80 object-cover rounded-lg") %>
       <div class="flex items-center justify-between m-2">
@@ -97,31 +96,41 @@
       });
     });
   });
-  
-    document.addEventListener('DOMContentLoaded', function() {
+
+  // 検索フォーム（キーワード絞り込み）
+  document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('form input[type="text"]');
     const posts = document.querySelectorAll('.post');
-
+    const noResultsMessage = document.getElementById('no-results-message');
+  
     searchInput.addEventListener('keyup', function() {
       const searchTerm = searchInput.value.trim().toLowerCase();
-
+      let foundMatch = false;
+  
       posts.forEach(post => {
-        const postBody = post.querySelector('p').textContent.toLowerCase();
+        const postBody = post.querySelector('.whitespace-pre-line').textContent.toLowerCase(); // 本文全体を取得
         const postTags = post.querySelectorAll('.tag');
         let tagContent = '';
         postTags.forEach(tag => {
           tagContent += tag.textContent.toLowerCase() + ' ';
         });
-        const postContainer = post.closest('.post');
+  
         if (postBody.includes(searchTerm) || tagContent.includes(searchTerm)) {
-          postContainer.style.display = 'block';
+          post.style.display = 'block';
+          foundMatch = true;
         } else {
-          postContainer.style.display = 'none';
+          post.style.display = 'none';
         }
       });
+  
+      if (!foundMatch) {
+        noResultsMessage.style.display = 'block';
+      } else {
+        noResultsMessage.style.display = 'none';
+      }
     });
   });
-  
+
   // フォーム内を空にする
   function clearSearchField() {
     document.querySelector("#search-field").value = "";

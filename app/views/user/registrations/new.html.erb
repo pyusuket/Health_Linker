@@ -1,8 +1,7 @@
 <%= form_with model: @user, url: user_registration_path, method: :post do |f| %>
   <div class="mt-20 mx-auto max-w-lg rounded-lg flex flex-col gap-4 p-4 md:p-8">
     <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">新規登録</h2>
-      <%= flash_message(:alert) %>
-      <%= flash_message(:notice) %>
+      <%= render 'user/shared/flash_message' %>
       <div class="sm:col-span-2">
         <%= f.label :メールアドレス, class:"mb-2 inline-block" %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
