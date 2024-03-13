@@ -13,7 +13,9 @@ class User::EventsController < ApplicationController
   def create
     @event = current_user.events.new(event_params)
     @event.save
-    redirect_to user_user_events_path
+    @events = current_user.events
+    render json: @events
+    # redirect_to user_user_events_path
   end
   
   def show
@@ -23,6 +25,6 @@ class User::EventsController < ApplicationController
   private
   
   def event_params
-    params.require(:event).permit(:title, :start, :end)
+    params.require(:event).permit(:title, :start, :end, :time,)
   end
 end

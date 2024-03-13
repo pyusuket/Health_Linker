@@ -13,7 +13,7 @@ import "popper.js";
 import "bootstrap";
 
 Rails.start()
-Turbolinks.start()
+//Turbolinks.start()
 ActiveStorage.start()
 
 import 'slick-carousel';

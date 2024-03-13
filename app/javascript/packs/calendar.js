@@ -5,6 +5,8 @@ import jaLocale from '@fullcalendar/core/locales/ja';
 import timeGridPlugin from '@fullcalendar/timegrid'
 
 document.addEventListener('DOMContentLoaded', function() {
+  //window.document.addEventListener('turbolinks:load', function() {
+  console.log("calendar");
   var calendarEl = document.getElementById('calendar');
 
   var calendar = new Calendar(calendarEl, {
@@ -16,7 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay' // user can switch between the two
     },
-    events: '/events.json',
+    events: '/user/events.json',
+    eventClick: function(info) {
+      // 登録されたイベントに対する処理
+    alert('Event: ' + info.event.title);
+    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+    alert('View: ' + info.view.type);
+
+    // change the border color just for fun
+    info.el.style.borderColor = 'red';
+  },
     dateClick: function(info){
             //クリックした日付の情報を取得
             const year  = info.date.getFullYear();
@@ -53,4 +64,29 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
   calendar.render();
+   document.getElementById('myForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // デフォルトのフォーム送信を停止
+
+    // FormDataオブジェクトを作成
+    var formData = new FormData(this);
+
+    // Ajaxリクエストの送信
+    fetch(this.action, {
+      method: this.method,
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest' // リクエストがAjaxであることを示すヘッダーを追加
+      }
+    })
+    .then(response => response.json()) // JSON形式でレスポンスを解析
+    .then(data => {
+      // 成功した場合の処理を記述
+      closeModal(); 
+      calendar.refetchEvents()
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
 });
+
