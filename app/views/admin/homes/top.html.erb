@@ -1,92 +1,26 @@
-  <!-- アクティブユーザー数 -->
-  <div class="mb-8">
-    <h2 class="text-lg font-bold mb-4">アクティブユーザー数</h2>
-    <canvas id="activeUsersChart"></canvas>
-    <script>
-      var activeUserCounts = <%= @daily_active_users.to_json.html_safe %>;
-      var dailyData = Object.values(activeUserCounts);
-      var dates = Object.keys(activeUserCounts);
-      var ctx = document.getElementById('activeUsersChart').getContext('2d');
-      var activeUsersChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: dates,
-          datasets: [{
-            label: 'アクティブユーザー数',
-            data: dailyData,
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    </script>
-  </div>
-
-  <!-- 新規登録数 -->
-  <div class="mb-8">
-    <h2 class="text-lg font-bold mb-4">新規登録数</h2>
-      <canvas id="newUsersChart"></canvas>
-    <script>
-      var newUsersData = <%= @daily_new_active_users.to_json.html_safe %>;
-      var newdayData = Object.values(newUsersData);
-      var newdates = Object.keys(newUsersData);
-      var ctx2 = document.getElementById('newUsersChart').getContext('2d');
-      var newUsersChart = new Chart(ctx2, {
-        type: 'line',
-        data: {
-          labels: newdates,
-          datasets: [{
-            label: '新規登録者数',
-            data: newdayData,
-            fill: false,
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-      var newUsersChartCanvas = document.getElementById('newUsersChart');
-      newUsersChartCanvas.width = newUsersChartCanvas.parentElement.clientWidth;
-      newUsersChartCanvas.height = newUsersChartCanvas.parentElement.clientHeight;
-    </script>
-  </div>
+<div class="flex items-center mt-20 m-2">
+  <h1 class="text-2xl font-bold text-gray-800">管理グラフ</h1>
 </div>
 
-<!-- ページビュー数 -->
-<div class="mb-8">
-  <h2 class="text-lg font-bold mb-4">ページビュー数</h2>
-  <canvas id="pageViewsChart" width="800" height="400"></canvas>
-</div>
-
-<script>
-  document.addEventListener('turbolinks:load', function () {
-    var pageViewsData = <%= @page_views_data.to_json.html_safe %>;
-    var pageIds = Object.keys(pageViewsData);
-    var pageViews = Object.values(pageViewsData);
-    var ctx = document.getElementById('pageViewsChart').getContext('2d');
-    window.pageViewsChart = new Chart(ctx, {
-      type: 'bar',
+<!-- アクティブユーザー数 -->
+<div class="mb-8 mt-4">
+  <h2 class="text-lg font-bold mb-4">アクティブユーザー数</h2>
+  <canvas id="activeUsersChart"></canvas>
+  <script>
+    var activeUserCounts = <%= @daily_active_users.to_json.html_safe %>;
+    var dailyData = Object.values(activeUserCounts);
+    var dates = Object.keys(activeUserCounts);
+    var ctx = document.getElementById('activeUsersChart').getContext('2d');
+    var activeUsersChart = new Chart(ctx, {
+      type: 'line',
       data: {
-        labels: pageIds,
+        labels: dates,
         datasets: [{
-          label: 'ページビュー数',
-          data: pageViews,
-          backgroundColor: 'rgb(75, 192, 192)',
-          borderWidth: 1
+          label: 'アクティブユーザー数',
+          data: dailyData,
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
         }]
       },
       options: {
@@ -97,7 +31,73 @@
         }
       }
     });
-  });
-</script>
+  </script>
+</div>
 
+<!-- 新規登録数 -->
+<div class="mb-8">
+  <h2 class="text-lg font-bold mb-4">新規登録数</h2>
+    <canvas id="newUsersChart"></canvas>
+  <script>
+    var newUsersData = <%= @daily_new_active_users.to_json.html_safe %>;
+    var newdayData = Object.values(newUsersData);
+    var newdates = Object.keys(newUsersData);
+    var ctx2 = document.getElementById('newUsersChart').getContext('2d');
+    var newUsersChart = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: newdates,
+        datasets: [{
+          label: '新規登録者数',
+          data: newdayData,
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    var newUsersChartCanvas = document.getElementById('newUsersChart');
+    newUsersChartCanvas.width = newUsersChartCanvas.parentElement.clientWidth;
+    newUsersChartCanvas.height = newUsersChartCanvas.parentElement.clientHeight;
+  </script>
+</div>
+
+<!-- ページビュー数 -->
+<div class="mb-8">
+  <h2 class="text-lg font-bold mb-4">ページビュー数</h2>
+  <canvas id="pageViewsChart" width="800" height="400"></canvas>
+  <script>
+    document.addEventListener('turbolinks:load', function () {
+      var pageViewsData = <%= @page_views_data.to_json.html_safe %>;
+      var pageIds = Object.keys(pageViewsData);
+      var pageViews = Object.values(pageViewsData);
+      var ctx = document.getElementById('pageViewsChart').getContext('2d');
+      window.pageViewsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: pageIds,
+          datasets: [{
+            label: 'ページビュー数',
+            data: pageViews,
+            backgroundColor: 'rgb(75, 192, 192)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    });
+  </script>
 </div>

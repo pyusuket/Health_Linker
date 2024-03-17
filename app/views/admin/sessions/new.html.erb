@@ -1,26 +1,24 @@
-<h2>Log in</h2>
+<div class="mt-20 mx-auto max-w-lg rounded-lg flex flex-col gap-4 p-4 md:p-8">
+  <h2 class="text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">管理者ログイン</h2>
+  
+  <!--フラッシュメッセージ-->
+  <%= render 'user/shared/flash_message' %>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
+  <!--ログインフォーム-->
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <%= f.label :メールアドレス, class: "mb-2 inline-block text-sm text-gray-800 sm:text-base" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+    </div>
+  
+    <div class="field mt-5">
+      <%= f.label :パスワード, class: "mb-2 inline-block text-sm text-gray-800 sm:text-base"%>
+      <%= f.password_field :password, autocomplete: "current-password", class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
+    </div>
+  
+    <div class="actions mt-5">
+      <%= f.submit "ログイン", class: "w-full my-2 block rounded-lg bg-blue-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-blue-600 focus-visible:ring active:bg-blue-700 md:text-base" %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "admin/shared/links" %>
+</div>

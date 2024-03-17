@@ -8,22 +8,27 @@ class User::PostsController < ApplicationController
   end
   
   def create
-    @post = current_user.posts.build(post_params)
-  
+  @post = current_user.posts.build(post_params)
+
     if @post.save
       # 画像が送信されている場合のみ処理を行う
-      if params[:images].present?
-        params[:images].each do |image|
+      if params[:post][:images].present?
+        params[:post][:images].each do |image|
           @post.images.attach(image)
         end
       end
   
       # タグの処理
-      tag_ids = params[:post][:tagging]
+      tag_ids = params[:post][:tag_ids]
       @post.tags << Tag.where(id: tag_ids)
   
       redirect_to user_posts_path, notice: '投稿が完了しました'
     else
+      error_messages = []
+      error_messages << "写真を選択してください。" if @post.images.empty?
+      error_messages << "本文を入力してください。" if @post.body.blank?
+      error_messages << "タグを選択してください。" if @post.taggings.blank?
+      flash.now[:alert] = error_messages.join('<br>').html_safe
       render :new
     end
   end
@@ -54,14 +59,7 @@ class User::PostsController < ApplicationController
   private
   
   def post_params
-    params.require(:post).permit(:images,:body)
-  end
-  
-  def is_current_user
-    @post = Post.find(params[:id])
-    unless @post.user == current_user
-      redirect_to user_posts_path
-    end
+    params.require(:post).permit(:images, :body, tag_ids: [])
   end
   
 end

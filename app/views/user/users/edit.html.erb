@@ -1,15 +1,8 @@
 <div class="flex items-center mt-20 m-2">
-  <a href="javascript:history.back()" class="mr-4 ml-2">
-    <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
-  </a>
+  <%= render 'user/shared/return'%>
   <h1 class="text-2xl font-bold text-gray-800">プロフィール編集</h1>
 </div>
-  <% if flash[:alert] %>
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-      <strong class="font-bold">エラー:</strong>
-      <span class="block sm:inline"><%= flash[:alert] %></span>
-    </div>
-  <% end %>
+<%= render 'user/shared/error_message' %>
 <div class="flex justify-center mb-16">
   <%= form_with model: @user, url: user_user_path, method: :patch do |f| %>
       <div class="grid gap-x-2 gap-y-4">
@@ -80,7 +73,7 @@
         <div class="col-span-full">
           <%= f.label :email, "メールアドレス",class:"inline-block" %>              
           <div class="mt-2">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "sample@example.com", class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"%>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "sample@example.com", class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", required: true %>
           </div>
         </div>
       <div class="flex items-center justify-end gap-x-6">
@@ -101,6 +94,7 @@
 <%= javascript_pack_tag 'api_zip_address' %>  
 
 <script>
+// 退会ボタンクリック後のアラート
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('.delete-user').forEach(function(element) {
     element.addEventListener('click', function(event) {

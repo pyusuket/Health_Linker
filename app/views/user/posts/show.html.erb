@@ -14,9 +14,9 @@
   <div class="flex items-center ml-auto">
     <% if current_user && current_user != @user %>
       <% if current_user.following?(@user) %>
-        <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded" %>
+        <%= link_to "フォロー解除", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded" %>
       <% else %>
-        <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
+        <%= link_to "フォロー", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
       <% end %>
     <% end %>
   </div>
@@ -61,37 +61,42 @@
   </div>
 </div>
 
-  <p class="px-4 py-2"><%= @post.body %></p>
+<p class="px-4 py-2"><%= @post.body %></p>
 
-  <div class="mt-4 px-4">
-    <h1 class="text-xl font-semibold">コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
-    <% @post.comments.each do |comment| %>
-      <div class="flex items-center mb-2">
-        <% if comment.user.profile_image.present? %>
-          <%= image_tag comment.user.profile_image, class: "w-10 h-10 rounded-full mr-2" %>
-        <% else %>
-          <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2" %>
-        <% end %>
-        <div>
-          <p class="font-semibold"><%= comment.user.user_name %></p>
-          <p><%= comment.body %></p>
-          <p class="text-gray-500"><%= comment.created_at.strftime('%Y/%m/%d') %></p>
-        </div>
+<div class="mt-4 px-4">
+  <h1 class="text-xl font-semibold">コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
+  <% @post.comments.each do |comment| %>
+    <div class="flex items-center mb-2">
+      <% if comment.user.profile_image.present? %>
+        <%= image_tag comment.user.profile_image, class: "w-10 h-10 rounded-full mr-2" %>
+      <% else %>
+        <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full mr-2" %>
+      <% end %>
+      <div>
+        <p class="font-semibold"><%= comment.user.user_name %></p>
+        <p><%= comment.body %></p>
+        <p class="text-gray-500"><%= comment.created_at.strftime('%Y/%m/%d') %></p>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    $('.slick-carousel').slick({
-      dots: true,
-      infinite: true,
-      speed: 300,
-      slidesToShow: 1,
-      slidesToScroll: 1
-    });
+document.addEventListener("turbolinks:load", function() {
+  $('.slick-carousel').slick({
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 2, 
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1
+        }
+      }
+    ]
   });
+});
 </script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-

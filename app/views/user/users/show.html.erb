@@ -17,12 +17,12 @@
       <div class="flex items-center">
         <% if current_user && current_user != @user %>
           <% if current_user.following?(@user) %>
-            <%= link_to "フォロー外す", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
+            <%= link_to "フォロー解除", user_user_follow_path(@user), method: :delete, class: "bg-slate-100 hover:bg-neutral-400 text-bg font-bold py-2 px-4 rounded mr-2" %>
           <% else %>
-            <%= link_to "フォローする", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
+            <%= link_to "フォロー", user_user_follow_path(@user), method: :post, class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2" %>
           <% end %>
-        <% end %>
         <%= link_to "メッセージを送る", user_user_message_path(@user), class: "bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
+        <% end %>
       </div>
       <div class="flex flex-wrap justify-center mt-2">
         <span class="mr-4">

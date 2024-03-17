@@ -20,6 +20,7 @@ class User::UsersController < ApplicationController
       flash[:notice] = "編集が完了しました。"
       redirect_to user_homes_mypage_path(current_user)
     else
+      flash[:alert] = "編集ができませんでした。"
       render :edit
     end
   end
@@ -36,13 +37,13 @@ class User::UsersController < ApplicationController
   
   def nices
     @user = User.find(params[:id])
-    @posts = @user.nices.includes(:post).map(&:post)
+    @posts = @user.nices.includes(:post).order(created_at: :desc).map(&:post)
   end
   
   private
   
   def user_params
-    params.require(:user).permit(:profile_image, :user_name, :introduction, :birthday, :sex, :postal_code, :prefecture, :city, :apartment)
+    params.require(:user).permit(:profile_image, :user_name, :introduction, :birthday, :sex, :postal_code, :prefecture, :city, :apartment, :email)
   end
   
   def is_current_user

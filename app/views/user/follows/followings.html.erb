@@ -1,42 +1,45 @@
-<h1 class="text-2xl font-bold text-gray-800 ml-4">フォロー</h1>
-    <div class="py-6 sm:py-8 lg:py-12">
-      <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-          <% @users.each do |user| %>
-          <ul role="list" class="divide-y divide-gray-100">
-          <li class="flex justify-between gap-x-6 py-5">
-            <div class="flex min-w-0 gap-x-4">
-              <% if user.profile_image.present? %>
-                <%= link_to user_users_path do %>
-                  <%= image_tag user.profile_image, class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
-                <% end %>
-              <% else %>
-                <%= link_to user_users_path do %>
-                  <%= image_tag "no_image.jpg", class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
-                <% end %>
-              <% end %>
-              <div class="min-w-0 flex-auto">
-                <p class="text-sm font-semibold leading-6 text-gray-900"><%= user.user_name %></p>
-                <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= user.email %></p>
-              </div>
-            </div>
-            <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <% if user_signed_in? && @user_current != user %>
-              <% if @user_current.following?(user) %>
-                <%= link_to "フォロー解除する", user_user_follow_path(user), method: :delete, class: "text-gray-500" %>
-              <% else %>
-                <%= link_to "フォローする", user_user_follow_path(user), method: :post, class: "ml-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" %>
-              <% end %>
+<div class="flex items-center mt-20 m-2">
+  <a href="<%= user_user_path(@user.id) %>" class="mr-4 ml-2">
+    <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
+  </a>
+  <h1 class="text-2xl font-bold text-gray-800"><%= @user.user_name %>さん　のフォロー中のユーザー</h1>
+</div>
+<div class="mx-auto max-w-screen-2xl px-2 md:px-2">
+  <% @users.each do |user| %>
+    <% unless user_signed_in? && user == current_user %>
+      <div class="bg-white shadow-md rounded-lg p-2 mb-2">
+        <div class="flex items-center">
+          <% if user.profile_image.present? %>
+            <%= link_to user_users_path do %>
+              <%= image_tag user.profile_image, class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
             <% end %>
-              <div class="mt-1 flex items-center gap-x-1.5">
-                <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-                  <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
-                </div>
-                <p class="text-xs leading-5 text-gray-500">Online</p>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <% end %>
+          <% else %>
+            <%= link_to user_users_path do %>
+              <%= image_tag "no_image.jpg", class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
+            <% end %>
+          <% end %>
+          <div class="ml-4">
+            <p class="text-lg font-semibold text-gray-900"><%= user.user_name %></p>
+            <p class="text-sm text-gray-600"><%= user.email %></p>
+          </div>
+          <% if user_signed_in? && @user_current != user %>
+            <% if @user_current.following?(user) %>
+              <%= link_to "フォロー解除", user_user_follow_path(user), method: :delete, class: "text-gray-500 ml-auto mr-2 border border-gray-500 rounded-full px-3 py-1" %>
+            <% else %>
+              <%= link_to "フォロー", user_user_follow_path(user), method: :post, class: "ml-auto bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" %>
+            <% end %>
+          <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="flex flex-col items-center mt-8 text-center">
+  <i class="fa-solid fa-user-plus text-6xl mb-4" style="color: #FF7E5F;"></i>
+  <p class="text-lg text-gray-700 mb-6">新しいつながりを見つけましょう！</p>
+  <%= link_to user_users_path , class: "inline-block bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105" do %>
+    他のユーザーをフォローする
+  <% end %>
+</div>
 

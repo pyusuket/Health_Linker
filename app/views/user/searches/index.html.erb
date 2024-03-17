@@ -1,7 +1,5 @@
 <div class="flex mt-20 items-center">
-  <a href="<%= user_posts_path %>" class="mr-4 ml-2">
-    <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
-  </a>
+  <%= render 'user/shared/return'%>
   <h1 class="text-2xl font-bold text-gray-800"> #<%= @tag.name %> の検索結果一覧</h1>
 </div>
 <div class="px-2 grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -50,76 +48,4 @@
   <% end %>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.nice-link').forEach(function(link) {
-      link.addEventListener('click', function(event) {
-        event.preventDefault();
-        var postId = this.dataset.postId;
-        var nicenessCount = this.querySelector('.niceness-count');
-        
-        fetch(this.href, {
-          method: 'POST', 
-          headers: {
-            'X-CSRF-Token': '<%= form_authenticity_token %>',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ postId: postId })
-        })
-        .then(response => response.json())
-        .then(data => {
-          nicenessCount.textContent = data.nices_count;
-          var heartIcon = this.querySelector('i');
-          if (data.niced_by_current_user) {
-            heartIcon.classList.remove('fa-regular');
-            heartIcon.classList.add('fa-solid');
-            heartIcon.style.color = '#f882bb';
-          } else {
-            heartIcon.classList.remove('fa-solid');
-            heartIcon.classList.add('fa-regular');
-            heartIcon.style.color = '#d9d3d6';
-          }
-        })
-        .catch(error => console.error('Error:', error));
-      });
-    });
-  });
-  
-    document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('form input[type="text"]');
-    const posts = document.querySelectorAll('.post');
-
-    searchInput.addEventListener('keyup', function() {
-      const searchTerm = searchInput.value.trim().toLowerCase();
-
-      posts.forEach(post => {
-        const postBody = post.querySelector('p').textContent.toLowerCase();
-        const postTags = post.querySelectorAll('.tag');
-        let tagContent = '';
-        postTags.forEach(tag => {
-          tagContent += tag.textContent.toLowerCase() + ' ';
-        });
-        const postContainer = post.closest('.post');
-        if (postBody.includes(searchTerm) || tagContent.includes(searchTerm)) {
-          postContainer.style.display = 'block';
-        } else {
-          postContainer.style.display = 'none';
-        }
-      });
-    });
-  });
-  
-  // フォーム内を空にする
-  function clearSearchField() {
-    document.querySelector("#search-field").value = "";
-    location.reload();
-  }
-  
-  // フラッシュメッセージを5秒後に非表示にする
-  $(document).ready(function() {
-    setTimeout(function() {
-      $('#flash-notice, #flash-alert').fadeOut();
-    }, 3000); 
-  });
-  
-</script>
+<%= javascript_pack_tag 'scroll_hold' %>

@@ -1,4 +1,6 @@
+<%= render 'user/shared/flash_message' %>
 <h1 class="text-2xl font-bold text-gray-800 mb-4 ml-4 mt-20">新規投稿</h1>
+
 <%= form_with model: @post, url: user_posts_path, method: :post, multipart: true do |f| %>
   <div class="px-2 flex justify-center"> 
     <div class="sm:max-w-md w-full"> 
@@ -14,7 +16,7 @@
                 </svg>
                 <div class="flex text-sm leading-6 text-gray-600">
                   <span id="image-upload-label">ファイルを選択（最大6枚まで）</span>
-                  <%= file_field_tag 'images[]', multiple: true, accept: "image/*", class: "hidden", id: "image-upload" %>
+                  <%= file_field_tag :images, multiple: true, accept: "image/*", class: "hidden", id: "image-upload" %>
                 </div>
               </label>
             </div>
@@ -27,25 +29,25 @@
         <div class="sm:col-span-full mt-2">
           <div>
             <%= f.label :タグ（複数選択可）, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%= f.select :tagging, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100", multiple: true } %>
+            <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100", multiple: true } %>
           </div>
         </div>
-        <div class="mt-2 flex items-center justify-end gap-x-6">
-          <%= link_to "取り消し", user_posts_path, class: "text-sm font-semibold leading-6 text-gray-900" %> 
-          <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %> <!-- ② 投稿ボタンの色を緑に変更 -->
-        </div>
+      </div>
+      <div class="mt-2 flex items-center justify-end gap-x-6">
+        <%= link_to "取り消し", user_posts_path, class: "text-sm font-semibold leading-6 text-gray-900" %> 
+        <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %>
       </div>
     </div>
   </div>
 <% end %>
 
 <script>
+  //最大6枚までの画像を処理するための記述
   document.getElementById('image-upload').addEventListener('change', function(e) {
-    const files = e.target.files; // 選択されたすべてのファイルを取得
-    const selectedImagesContainer = document.getElementById('selected-images'); // 選択された画像を表示するコンテナ
-    const uploadLabel = document.getElementById('image-upload-label'); // ファイルを選択のラベル
+    const files = e.target.files; 
+    const selectedImagesContainer = document.getElementById('selected-images');
+    const uploadLabel = document.getElementById('image-upload-label');
 
-    // 最大6枚までの画像を処理する
     const maxImages = 6;
     const remainingImages = maxImages - selectedImagesContainer.children.length;
     if (files.length > remainingImages) {
@@ -53,21 +55,20 @@
       return;
     }
 
-    // 選択されたすべての画像について処理
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
 
       reader.onload = function(e) {
-        const imageDiv = document.createElement('div'); // 画像を表示するための<div>要素を作成
+        const imageDiv = document.createElement('div'); 
         imageDiv.style.backgroundImage = `url('${e.target.result}')`;
         imageDiv.style.backgroundSize = 'cover';
         imageDiv.style.backgroundPosition = 'center';
-        imageDiv.classList.add('w-full', 'h-40', 'bg-gray-200', 'rounded-lg'); // 画像のスタイルを追加
-        selectedImagesContainer.appendChild(imageDiv); // 画像をコンテナに追加
+        imageDiv.classList.add('w-full', 'h-40', 'bg-gray-200', 'rounded-lg');
+        selectedImagesContainer.appendChild(imageDiv);
       }
 
-      reader.readAsDataURL(file); // 画像を読み込む
+      reader.readAsDataURL(file);
     }
   });
 </script>

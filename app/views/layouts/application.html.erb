@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%#= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%#= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>  
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://kit.fontawesome.com/51a709218e.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://kit.fontawesome.com/51a709218e.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
  <body class="bg-white">
@@ -39,7 +35,7 @@
       </div>
     </div>
   </div>
-    <!-- ナビゲーションバー -->
+  <!-- ナビゲーションバー -->
   <% if user_signed_in? %>
   <div class="md:hidden fixed bottom-0 left-0 z-50 w-full bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,5 +120,9 @@
       document.getElementById('sidebar').classList.toggle('hidden');
     });
   </script>
+  
+  <!--java script pack_tag-->
+  <%= javascript_pack_tag 'disappear_message' %>
+  
 </body>
 </html>

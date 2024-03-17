@@ -14,16 +14,16 @@ Rails.application.routes.draw do
   namespace :user do
     get '/homes/mypage', to: 'homes#mypage', as: 'homes_mypage'
     resources :users, only: [:index, :show, :edit, :update, :destroy] do
-      member do 
-        get "nices" 
-      end 
       resource :follow, only: [:create, :destroy]
       get "followings" => "follows#followings", as: "followings"
       get "followers"  => "follows#followers", as: "followers"
       resources :messages, only: [:index, :show, :create] 
       resources :notifications, only: [:index, :show] 
+      member do 
+        get "nices" 
+      end 
     end
-      resources :events 
+    resources :events 
     resources :posts do
       resources :comments, only: [:create]
       resource  :nices,    only: [:create, :destroy]

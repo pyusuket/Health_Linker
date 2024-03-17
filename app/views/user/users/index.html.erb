@@ -1,5 +1,5 @@
 <div class="flex items-center mt-20 m-2">
-  <a href="javascript:history.back()" class="mr-4 ml-2">
+  <a href="<%= user_user_followings_path(current_user) %>" class="mr-4 ml-2">
     <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
   </a>
   <h1 class="text-2xl font-bold text-gray-800">すべてのユーザー 一覧</h1>
@@ -13,6 +13,8 @@
     </button>
   </div>
 <% end %>
+
+<div id="no-results" class="text-center mt-4 text-gray-600 hidden">該当するユーザーが見つかりませんでした。</div>
 
 <div class="mx-auto max-w-screen-2xl px-2 md:px-2" id="user-list">
   <% @users.each do |user| %>
@@ -47,19 +49,36 @@
 document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.querySelector('#search-field');
   const userList = document.querySelector('#user-list');
+  const noResults = document.querySelector('#no-results');
 
   searchInput.addEventListener('keyup', function() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     const users = userList.querySelectorAll('.bg-white');
+    let foundMatch = false;
 
     users.forEach(user => {
       const userName = user.querySelector('.text-lg').textContent.toLowerCase();
       if (userName.includes(searchTerm)) {
         user.style.display = 'block';
+        foundMatch = true;
       } else {
         user.style.display = 'none';
       }
     });
+
+    if (!foundMatch) {
+      noResults.style.display = 'block';
+    } else {
+      noResults.style.display = 'none';
+    }
   });
 });
+
+  // フォーム内を空にする
+  function clearSearchField() {
+    document.querySelector("#search-field").value = "";
+    location.reload();
+  }
 </script>
+
+<%= javascript_pack_tag 'scroll_hold' %>

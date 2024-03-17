@@ -64,21 +64,20 @@
   </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  $(document).ready(function() {
-    scrollToBottom();
+document.addEventListener("DOMContentLoaded", function() {
+  scrollToBottom();
 
-    $('.submit-button').on('click', function() {
-      setTimeout(scrollToBottom, 100);
-    });
-
-    $(window).on('beforeunload', function() {
-      window.scrollTo(0, document.body.scrollHeight);
-    });
+  $('.submit-button').on('click', function() {
+    setTimeout(scrollToBottom, 100);
   });
 
-  function scrollToBottom() {
+  $(window).on('beforeunload', function() {
     window.scrollTo(0, document.body.scrollHeight);
-  }
+  });
+});
+
+function scrollToBottom() {
+  window.scrollTo(0, document.body.scrollHeight);
+}
 </script>

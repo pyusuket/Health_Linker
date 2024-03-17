@@ -56,4 +56,8 @@ class User < ApplicationRecord
   
   # カレンダー機能
   has_many :events, dependent: :destroy
+  
+  # メールアドレスバリエーション
+  validates :email, presence: true, format: { with: /\A[\w+\-.]+@(?!test\.c$|test\.co$)[a-z\d\-.]+\.[a-z]+\z/i, message: "が正しい形式ではありません" }, unless: Proc.new { |user| user.email.blank? }
+
 end
