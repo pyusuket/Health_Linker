@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  has_many_attached :images
+  has_many_attached :images 
   has_many          :taggings, dependent: :destroy
   has_many          :tags    , through:   :taggings 
   has_many          :comments, dependent: :destroy
@@ -9,9 +9,9 @@ class Post < ApplicationRecord
   accepts_nested_attributes_for :taggings
   
   # バリデーション
-  validate  :validate_images_presence
-  validates :body            , presence: true
-  validates :taggings        , presence: true
+  validates :body, presence: true
+  validates :tags, presence: true
+  validates :images, presence: true
   
   def niced_by?(user)
     nices.exists?(user_id: user.id)
@@ -29,16 +29,6 @@ class Post < ApplicationRecord
     new_tags.each do |new_name|
       workout_tag = WorkoutTag.find_or_create_by(name:new_name)
       self.workout_tags << workout_tag
-    end
-  end
-  
-  private
-
-  def validate_images_presence
-    if images.attached? && images.size > 6
-      errors.add(:images, "は最大で6枚までです。")
-    elsif images.blank?
-      errors.add(:images, "を選択してください。")
     end
   end
   

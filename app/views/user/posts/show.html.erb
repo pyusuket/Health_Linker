@@ -49,15 +49,25 @@
     </div>
       <p class="text-sm text-gray-500 ml-auto"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
   </div>
-    <div class="flex items-center px-4">
-      <% @post.tags.each do |tag| %>
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#<%= tag.name %></span>
+  <div class="flex items-center justify-between px-2">
+    <div class="tags m-2">
+      <% @post.tags.limit(4).each do |tag| %>
+        <%= link_to "##{tag.name}", user_post_searches_path(post_id: @post.id, tag_id: tag.id), class: "tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700" %>
       <% end %>
-    <% if user_signed_in? && current_user.id == @post.user_id %>
-      <%= link_to user_post_path(@post), method: :delete, class: "ml-auto", data: { confirm: "本当に削除しますか？" } do %>
-        <i class="fa-solid fa-trash-can text-gray-500"></i>
+      <% if @post.tags.count > 4 %>
+        <span class="tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700">...</span>
       <% end %>
-    <% end %>
+    </div>
+    <div class="flex items-center">
+      <% if user_signed_in? && current_user.id == @post.user_id %>
+        <%= link_to edit_user_post_path(@post), class: "ml-auto" do %>
+          <i class="fa-solid fa-pen-to-square text-gray-500"></i>
+        <% end %>
+        <%= link_to user_post_path(@post), method: :delete, class: "ml-4", data: { confirm: "本当に削除しますか？" } do %>
+          <i class="fa-solid fa-trash-can text-gray-500"></i>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 

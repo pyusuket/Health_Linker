@@ -2,13 +2,21 @@
 
 <%= render 'user/shared/error_messages',resource: @post %>
 
-<%= form_with model: @post, url: user_posts_path, method: :post, multipart: true do |f| %>
+<%= form_with model: @post, url: user_post_path, method: :patch, multipart: true do |f| %>
   <div class="px-2 flex justify-center"> 
     <div class="sm:max-w-md w-full"> 
       <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="col-span-full">
           <%= f.label :写真, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-          <div id="selected-images" class="col-span-full grid grid-cols-3 gap-4"></div>
+          <% if @selected_images.any? %>
+            <div id="selected-images" class="col-span-full grid grid-cols-3 gap-4">
+              <% @selected_images.each do |image| %>
+                <div>
+                  <%= image_tag(image, class: "w-full h-40 rounded-lg cover") %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
           <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div class="text-center">
               <label for="image-upload" class="cursor-pointer">
@@ -35,7 +43,7 @@
         </div>
       </div>
       <div class="mt-2 flex items-center justify-end gap-x-6">
-        <%= link_to "取り消し", user_posts_path, class: "text-sm font-semibold leading-6 text-gray-900" %> 
+        <%= link_to "取り消し", user_post_path(@post), class: "text-sm font-semibold leading-6 text-gray-900" %> 
         <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %>
       </div>
     </div>
