@@ -1,41 +1,99 @@
 <div class="items-center mt-20 m-2">
   <h1 class="text-2xl font-bold text-gray-800 mb-4">ユーザー一覧</h1>
-  <div class="py-2">
-    <%= render 'user/shared/flash_message' %>
+  <!--検索フォーム-->
+  <div class="mb-6 mx-auto max-w-screen-2xl flex flex-col md:flex-row items-center justify-between gap-4 mt-16">
+    <%= form_with(url: admin_users_path, method: "get", class: "flex w-full md:w-auto") do |form| %>
+      <div class="relative w-full md:w-full">
+        <%= form.text_field :search, id: "search-field", class: "rounded-lg border my-4 px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent w-full md:w-96", placeholder: "検索したいキーワードを入力してください" %>
+        <button type="button" class="absolute right-0 top-1/2 transform -translate-y-1/2 mr-2 py-2 text-gray-600" onclick="clearSearchField()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    <% end %>
   </div>
+  
+  <div id="no-results-message" class="text-center text-gray-500 py-4" style="display: none;">
+    検索に一致するユーザーは見つかりませんでした。
+  </div>
+  
+  <!-- ユーザーリスト -->
   <table class="table-auto w-full text-sm">
-    <thead>
-      <tr class="bg-gray-200">
-        <th class="px-4 py-2"></th>
-        <th class="px-4 py-2">ユーザーネーム</th>
-        <th class="px-4 py-2">メールアドレス</th>
-        <th class="px-4 py-2">生年月日</th>
-        <th class="px-4 py-2">性別</th>
-        <th class="px-4 py-2">郵便番号</th>
-        <th class="px-4 py-2">都道府県</th>
-        <th class="px-4 py-2">市町村</th>
-        <th class="px-4 py-2">マンション名等</th>
-        <th class="px-4 py-2">会員状況</th>
-        <th class="px-4 py-2">登録日</th>
-      </tr>
-    </thead>
-    <tbody>
-    <% @users.each do |user| %>
-      <tr class="border-b border-gray-200">
-        <td class="px-2 py-2"><%= link_to "退会", admin_user_path(user.id), method: :delete, class: "delete-user rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", data: { confirm: "本当に削除しますか？" } %></td>
-        <td class="px-4 py-2"><%= user.user_name %></td>
-        <td class="px-4 py-2"><%= user.email %></td>
-        <td class="px-4 py-2"><%= user.birthday %></td>
-        <td class="px-4 py-2"><%= user.sex == 'man' ? '男性' : (user.sex == 'woman' ? '女性' : '') %></td>
-        <td class="px-4 py-2"><%= user.postal_code %></td>
-        <td class="px-4 py-2"><%= user.prefecture %></td>
-        <td class="px-4 py-2"><%= user.city %></td>
-        <td class="px-4 py-2"><%= user.apartment %></td>
-        <td class="px-4 py-2"><%= user.user_status ? '登録中' : '退会' %></td>
-        <td class="px-4 py-2"><%= user.created_at.strftime("%Y-%m-%d") %></td>
+  <thead>
+    <tr class="bg-gray-200">
+      <th class="border px-4 py-2"></th>
+      <th class="border px-4 py-2">ユーザーネーム</th>
+      <th class="border px-4 py-2">メールアドレス</th>
+      <th class="border px-4 py-2">生年月日</th>
+      <th class="border px-4 py-2">性別</th>
+      <th class="border px-4 py-2">郵便番号</th>
+      <th class="border px-4 py-2">都道府県</th>
+      <th class="border px-4 py-2">市町村</th>
+      <th class="border px-4 py-2">マンション名等</th>
+      <th class="border px-4 py-2">会員状況</th>
+      <th class="border px-4 py-2">登録日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @users.present? %>
+      <% @users.each do |user| %>
+        <tr class="border-b border-gray-200">
+          <td class="border px-4 py-2"><%= link_to "退会", admin_user_path(user.id), method: :delete, class: "delete-user rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", data: { confirm: "本当に削除しますか？" } %></td>
+          <td class="border px-4 py-2"><%= user.user_name %></td>
+          <td class="border px-4 py-2"><%= user.email %></td>
+          <td class="border px-4 py-2"><%= user.birthday %></td>
+          <td class="border px-4 py-2"><%= user.sex == 'man' ? '男性' : (user.sex == 'woman' ? '女性' : '') %></td>
+          <td class="border px-4 py-2"><%= user.postal_code %></td>
+          <td class="border px-4 py-2"><%= user.prefecture %></td>
+          <td class="border px-4 py-2"><%= user.city %></td>
+          <td class="border px-4 py-2"><%= user.apartment %></td>
+          <td class="border px-4 py-2"><%= user.user_status ? '登録中' : '退会' %></td>
+          <td class="border px-4 py-2"><%= user.created_at.strftime("%Y-%m-%d") %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="11" class="border px-4 py-2 text-center">一致するユーザーは見つかりませんでした。</td>
       </tr>
     <% end %>
-    </tbody>
-  </table>
+  </tbody>
+</table>
+
 </div>
 <%= paginate @users %>
+
+<script>
+  // 検索フォーム（キーワード絞り込み）
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('form input[type="text"]');
+    const users = document.querySelectorAll('tbody tr');
+    const noResultsMessage = document.getElementById('no-results-message');
+  
+    searchInput.addEventListener('keyup', function() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      let foundMatch = false;
+  
+      users.forEach(user => {
+        const userName = user.querySelector('.px-4.py-2').textContent.toLowerCase(); // ユーザー名を取得
+  
+        if (userName.includes(searchTerm)) {
+          user.style.display = 'table-row'; // 一致するユーザーを表示
+          foundMatch = true;
+        } else {
+          user.style.display = 'none'; // 一致しないユーザーを非表示
+        }
+      });
+  
+      if (!foundMatch) {
+        noResultsMessage.style.display = 'block'; // 一致するユーザーがない場合はメッセージを表示
+      } else {
+        noResultsMessage.style.display = 'none';
+      }
+    });
+  });
+
+  // フォーム内を空にする
+  function clearSearchField() {
+    document.querySelector("#search-field").value = "";
+    location.reload();
+  }
+</script>

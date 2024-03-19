@@ -23,7 +23,7 @@
 </div>
 
 <div class="h-full w-full relative mb-2 mt-2 block overflow-hidden rounded-lg lg:mb-3">
-  <div class="slick-carousel text-center">
+  <div class="slick-carousel">
     <% @post.images.each do |image| %>
       <%= image_tag(image, class: "w-full h-full object-cover") %>
     <% end %>
@@ -92,21 +92,13 @@
 </div>
 
 <script>
-document.addEventListener("turbolinks:load", function() {
-  $('.slick-carousel').slick({
-    dots: true,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 2, 
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1
-        }
-      }
-    ]
+  $(document).ready(function(){
+    $('.slick-carousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1, // 1つのスライドに1枚の画像を表示
+      slidesToScroll: 1, // スライドする数
+    });
   });
-});
 </script>

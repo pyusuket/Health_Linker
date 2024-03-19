@@ -18,7 +18,6 @@ Rails.application.routes.draw do
       get "followings" => "follows#followings", as: "followings"
       get "followers"  => "follows#followers", as: "followers"
       resources :messages, only: [:index, :show, :create] 
-      resources :notifications, only: [:index, :show] 
       member do 
         get "nices" 
       end 
