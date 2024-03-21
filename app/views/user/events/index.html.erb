@@ -9,29 +9,65 @@
 </style>
 
 <!--カレンダーと予定追加ボタン-->
-<div class="container mx-auto mt-20 px-2">
+<div class="container mx-auto mt-20 px-2 flex flex-col">
   <div class="text-left mb-2">
-    <%= button_to "予定追加", "#", method: :get, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", onclick: "openModal()" %>
+    <%= button_to "予定追加", "#", method: :get, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", onclick: "openAddModal()" %>
   </div>
   <div id="calendar"></div>
 </div>
 
 <!--予定追加のモーダルウィンドウ-->
-<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+<div id="addModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
   <div class="bg-white p-4 rounded-lg shadow-xl">
     <h2 class="text-lg font-semibold">予定追加</h2>
-　　　<%= render 'user/events/form', event: @event %>
+    <%= render 'user/events/form.create', event: @event %>
   </div>
 </div>
 
-<!--モーダルを開閉するjava script-->
+<!--予定編集のモーダルウィンドウ-->
+<div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-4 rounded-lg shadow-xl">
+    <h2 class="text-lg font-semibold">予定編集</h2>
+    <%= render 'user/events/form.edit', event: @event %>
+  </div>
+</div>
+
 <script>
-  function openModal() {
-    document.getElementById('modal').classList.remove('hidden');
+  function openAddModal() {
+    document.getElementById('addModal').classList.remove('hidden');
+  }
+
+  function openEditModal() {
+    document.getElementById('editModal').classList.remove('hidden');
+  }
+
+  function closeAddModal() {
+    var modal = document.getElementById('addModal');
+    modal.classList.add('hidden');
+    modal.querySelector('form').reset();
+  }
+
+  function closeEditModal() {
+    var modal = document.getElementById('editModal');
+    modal.classList.add('hidden');
+    modal.querySelector('form').reset();
+  }
+
+  function openModal(modal) {
+    var titleInput = modal.querySelector('#event_plan');
+    var startInput = modal.querySelector('#event_start');
+    var endInput = modal.querySelector('#event_end');
+
+    titleInput.value = info.event.title;
+    startInput.value = info.event.start;
+    endInput.value = info.event.end;
+
+    modal.style.display = "block";
   }
 
   function closeModal() {
-    document.getElementById('modal').classList.add('hidden');
+    var modal = document.getElementById('editModal');
+    modal.style.display = "none";
   }
 </script>
 

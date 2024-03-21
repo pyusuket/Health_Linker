@@ -5,33 +5,78 @@
 <!-- アクティブユーザー数 -->
 <div class="mb-8 mt-4">
   <h2 class="text-lg font-bold mb-4">アクティブユーザー数</h2>
+  <div class="mb-8">
+    <label for="dateRange" class="text-lg font-bold mb-2">期間絞り込み</label>
+    <select id="dateRange" class="block w-full p-2 border border-gray-300 rounded-md">
+      <option value="7">過去7日間</option>
+      <option value="30">過去30日間</option>
+      <option value="90">過去90日間</option>
+      <option value="365">過去1年間</option>
+    </select>
+  </div>
+
   <canvas id="activeUsersChart"></canvas>
   <script>
-    var activeUserCounts = <%= @daily_active_users.to_json.html_safe %>;
-    var dailyData = Object.values(activeUserCounts);
-    var dates = Object.keys(activeUserCounts);
+  document.addEventListener('DOMContentLoaded', function() {
     var ctx = document.getElementById('activeUsersChart').getContext('2d');
-    var activeUsersChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: dates,
-        datasets: [{
-          label: 'アクティブユーザー数',
-          data: dailyData,
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+    var dateRangeSelect = document.getElementById('dateRange');
+    var activeUsersChart;
+
+    // チャートを初期化する関数
+    function initializeChart(data) {
+      activeUsersChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Object.keys(data),
+          datasets: [{
+            label: 'アクティブユーザー数',
+            data: Object.values(data),
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
           }
         }
-      }
+      });
+    }
+
+    // 初期チャートを描画
+    initializeChart(<%= raw @javascript_data %>);
+
+
+    // 期間絞り込みの変更を監視
+    dateRangeSelect.addEventListener('change', function() {
+      var selectedRange = this.value;
+      updateCharts(selectedRange);
     });
-  </script>
+
+    // チャートを更新する関数
+    function updateCharts(selectedRange) {
+      $.ajax({
+        url: '/admin/homes/top',
+        method: 'GET',
+        data: { range: selectedRange },
+        dataType: 'json',
+        success: function(data) {
+          // データを取得したらグラフを更新する
+          activeUsersChart.data.labels = Object.keys(data);
+          activeUsersChart.data.datasets[0].data = Object.values(data);
+          activeUsersChart.update();
+        },
+        error: function(xhr, status, error) {
+          console.error('データの取得に失敗しました:', error);
+        }
+      });
+    }
+  });
+</script>
+
 </div>
 
 <!-- 新規登録数 -->
@@ -101,3 +146,4 @@
     });
   </script>
 </div>
+

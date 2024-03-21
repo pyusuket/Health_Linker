@@ -37,7 +37,7 @@
     <% if @users.present? %>
       <% @users.each do |user| %>
         <tr class="border-b border-gray-200">
-          <td class="border px-4 py-2"><%= link_to "退会", admin_user_path(user.id), method: :delete, class: "delete-user rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", data: { confirm: "本当に削除しますか？" } %></td>
+          <td class="border px-4 py-2"><%= link_to "削除", admin_user_path(user.id), method: :delete, class: "delete-user rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", data: { confirm: "本当に削除しますか？" } %></td>
           <td class="border px-4 py-2"><%= user.user_name %></td>
           <td class="border px-4 py-2"><%= user.email %></td>
           <td class="border px-4 py-2"><%= user.birthday %></td>

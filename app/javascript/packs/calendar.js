@@ -5,8 +5,6 @@ import jaLocale from '@fullcalendar/core/locales/ja';
 import timeGridPlugin from '@fullcalendar/timegrid'
 
 document.addEventListener('DOMContentLoaded', function() {
-  //window.document.addEventListener('turbolinks:load', function() {
-  console.log("calendar");
   var calendarEl = document.getElementById('calendar');
 
   var calendar = new Calendar(calendarEl, {
@@ -16,76 +14,79 @@ document.addEventListener('DOMContentLoaded', function() {
     headerToolbar: {
       left: 'prev,next,today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay' // user can switch between the two
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
     events: '/user/events.json',
-    eventClick: function(info) {
-      // 登録されたイベントに対する処理
-    alert('Event: ' + info.event.title);
-    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-    alert('View: ' + info.view.type);
+  
+  // 予定編集
+  eventClick: function(info) {
+      openModal(document.getElementById('editModal'));
+    }
+  });
+  
+    function openModal(modal) {
+    var titleInput = modal.querySelector('#event_plan');
+    var startInput = modal.querySelector('#event_start');
+    var endInput = modal.querySelector('#event_end');
+    
+    titleInput.value = event.title;
+    startInput.value = event.start;
+    endInput.value = event.end;
+  
+    modal.style.display = "block";
+  }
 
-    // change the border color just for fun
-    info.el.style.borderColor = 'red';
-  },
-    dateClick: function(info){
-            //クリックした日付の情報を取得
-            const year  = info.date.getFullYear();
-            const month = (info.date.getMonth() + 1);
-            const day   = info.date.getDate();
+  function closeModal() {
+    var modal = document.getElementById('editModal');
+    modal.style.display = "none";
+  }
 
-            //ajaxでevents/newを着火させ、htmlを受け取ります
-            $.ajax({
-                type: 'GET',
-                url:  '/events/new',
-            }).done(function (res) {
-                // 成功処理
-                // 受け取ったhtmlをさっき追加したmodalのbodyの中に挿入します
-                $('.modal-body').html(res);
-
-                //フォームの年、月、日を自動入力
-                $('#event_start_1i').val(year);
-                $('#event_start_2i').val(month);
-                $('#event_start_3i').val(day);
-
-                $('#event_end_1i').val(year);
-                $('#event_end_2i').val(month);
-                $('#event_end_3i').val(day);
-
-                //ここのidはevents/newのurlにアクセスするとhtmlがコードとして表示されるので、
-                //開始時間と終了時間のフォームを表しているところのidを確認してもらうことが確実です
-
-                $('#modal').fadeIn();
-
-            }).fail(function (result) {
-                // 失敗処理
-                alert("failed");
-            });
-        },
-    });
   calendar.render();
-   document.getElementById('myForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // デフォルトのフォーム送信を停止
+  // 予定追加
+  document.getElementById('myForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    // FormDataオブジェクトを作成
     var formData = new FormData(this);
 
-    // Ajaxリクエストの送信
     fetch(this.action, {
       method: this.method,
       body: formData,
       headers: {
-        'X-Requested-With': 'XMLHttpRequest' // リクエストがAjaxであることを示すヘッダーを追加
+        'X-Requested-With': 'XMLHttpRequest'
       }
     })
-    .then(response => response.json()) // JSON形式でレスポンスを解析
+    .then(response => response.json())
     .then(data => {
-      // 成功した場合の処理を記述
       closeModal(); 
-      calendar.refetchEvents()
+      calendar.refetchEvents();
     })
     .catch(error => {
       console.error('Error:', error);
+    });
+  });
+
+  calendar.setOption('dateClick', function(info) {
+    const year  = info.date.getFullYear();
+    const month = (info.date.getMonth() + 1);
+    const day   = info.date.getDate();
+
+    $.ajax({
+      type: 'GET',
+      url:  '/events/new',
+    }).done(function (res) {
+      $('.modal-body').html(res);
+
+      $('#event_start_1i').val(year);
+      $('#event_start_2i').val(month);
+      $('#event_start_3i').val(day);
+
+      $('#event_end_1i').val(year);
+      $('#event_end_2i').val(month);
+      $('#event_end_3i').val(day);
+
+      $('#modal').fadeIn();
+    }).fail(function (result) {
+      alert("failed");
     });
   });
 });

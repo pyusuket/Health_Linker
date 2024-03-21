@@ -32,7 +32,10 @@ Rails.application.routes.draw do
   
   # Admin routes
   namespace :admin do
-    get '/homes/top', to: 'homes#top', as: 'homes_top'
+    resources :homes, only: [:index] do
+      get 'active_users_data', on: :collection # この行を追加する
+      get 'top', on: :collection
+      end
     resources :users
     resources :posts
   end

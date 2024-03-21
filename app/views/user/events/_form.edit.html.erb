@@ -1,0 +1,20 @@
+<%= form_with model: @event, url: "#", method: :patch, id: "myForm" do |f| %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="col-span-2">
+      <%= f.label :title, "予定内容", class: "block text-sm font-bold mb-2" %>
+      <%= f.text_field :title, id: "event_plan", class: "form-input w-full rounded-md shadow-sm", required: true %>
+    </div>
+    <div>
+      <%= f.label :start, "開始時刻", class: "block text-sm font-bold my-2" %>
+      <%= f.datetime_field :start, class: "form-input w-full rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= f.label :end, "終了時刻", class: "block text-sm font-bold my-2" %>
+      <%= f.datetime_field :end, class: "form-input w-full rounded-md shadow-sm" %>
+    </div>
+  </div>
+  <div class="flex justify-between my-4">
+    <button type="button" class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600" onclick="closeEditModal()">閉じる</button>
+    <%= f.submit "更新", class: "py-2 px-5 bg-green-500 hover:bg-green-700 text-white font-bold rounded focus:outline-none focus:shadow-outline" %>
+  </div>
+<% end %>

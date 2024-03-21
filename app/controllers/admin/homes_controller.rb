@@ -1,10 +1,10 @@
 class Admin::HomesController < ApplicationController
   def top
-  @users = User.all
+    @users = User.all
     # 基準日
     start_date = Date.new(2024, 2, 1)
     end_date = Date.today
-    
+  
     # アクティブユーザー
     daily_active_users = User.where("created_at >= ? AND user_status = ?", start_date, true)
                               .group("DATE(created_at)")
@@ -20,7 +20,9 @@ class Admin::HomesController < ApplicationController
       accumulated_count += count
       @daily_active_users[date_str] = accumulated_count
     end
-    
+    # JavaScriptに絞り込みデータを渡す
+    @javascript_data = @daily_active_users.to_json
+
     # 新規登録者数
     daily_new_active_users = User.where(created_at: start_date.beginning_of_day..end_date.end_of_day, user_status: true)
                               .group("DATE(created_at)")

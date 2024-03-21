@@ -99,7 +99,7 @@
           <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% elsif admin_signed_in? %>
-          <li><%= link_to "全体管理", admin_homes_top_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "全体管理", top_admin_homes_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ユーザー管理", admin_users_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "投稿管理", admin_posts_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
