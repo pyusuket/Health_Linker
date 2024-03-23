@@ -91,14 +91,18 @@
   <% end %>
 </div>
 
+<!-- JS -->
+<script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 <script>
-  $(document).ready(function(){
-    $('.slick-carousel').slick({
-      dots: true,
-      infinite: true,
-      speed: 300,
-      slidesToShow: 1, // 1つのスライドに1枚の画像を表示
-      slidesToScroll: 1, // スライドする数
+    $(document).ready(function(){
+        $('.slick-carousel').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
     });
-  });
 </script>

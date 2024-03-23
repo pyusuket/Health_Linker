@@ -8,11 +8,12 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
-import "jquery";
+import $ from 'jquery';
 import "popper.js";
 import "bootstrap";
 
 Rails.start()
 ActiveStorage.start()
 
-import 'slick-carousel';
+
+
