@@ -7,12 +7,15 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>  
-    <!-- Slick Carousel CSS -->
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <!-- Swiper css CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <!-- Tailwind css CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontawesome CDN -->
     <script src="https://kit.fontawesome.com/51a709218e.js" crossorigin="anonymous"></script>
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
@@ -100,7 +103,7 @@
           <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% elsif admin_signed_in? %>
-          <li><%= link_to "全体管理", top_admin_homes_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "全体管理", admin_homes_top_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ユーザー管理", admin_users_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "投稿管理", admin_posts_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>

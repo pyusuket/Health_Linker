@@ -32,14 +32,14 @@ Rails.application.routes.draw do
   
   # Admin routes
   namespace :admin do
-    resources :homes, only: [:index] do
-      get 'active_users_data', on: :collection # この行を追加する
-      get 'top', on: :collection
-      end
+    get 'homes/top', to: 'homes#top'
+    resources :homes, except: [:show] do
+      get 'active_users_data', on: :collection
+    end
     resources :users
     resources :posts
   end
-
+  
   # Devise scopes
   devise_scope :user do
     get  'users/sign_out', to: 'user/sessions#destroy'
