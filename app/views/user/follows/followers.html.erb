@@ -1,34 +1,30 @@
+<!--リンクとタイトル-->
 <div class="flex items-center mt-20 m-2">
   <a href="<%= user_user_path(@user.id) %>" class="mr-4 ml-2">
     <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
   </a>
   <h1 class="text-2xl font-bold text-gray-800">すべてのフォロワー</h1>
 </div>
+
+
+<!--フォロワー一覧-->
 <div class="mx-auto max-w-screen-2xl px-2 md:px-2">
   <% @users.each do |user| %>
-    <% unless user_signed_in? && user == current_user %>
-      <div class="bg-white shadow-md rounded-lg p-2 mb-2">
-        <div class="flex items-center">
-          <% if user.profile_image.present? %>
-            <%= link_to user_users_path do %>
-              <%= image_tag user.profile_image, class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
-            <% end %>
-          <% else %>
-            <%= link_to user_users_path do %>
-              <%= image_tag "no_image.jpg", class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
-            <% end %>
+    <div class="bg-white shadow-md rounded-lg p-2 mb-2">
+      <div class="flex items-center">
+          <%= link_to user_user_path(user.id) do %>
+            <%= image_tag(user.profile_image.presence || "no_image.jpg", class: "h-12 w-12 flex-none rounded-full bg-gray-50") %>
           <% end %>
-          <div class="ml-4">
-            <p class="text-lg font-semibold text-gray-900"><%= user.user_name %></p>
-            <p class="text-sm text-gray-600"><%= user.email %></p>
-          </div>
-          <% if user_signed_in? && @user_current != user %>
-            <% unless @user_current.following?(user) %>
-              <%= link_to "フォロー", user_user_follow_path(user), method: :post, class: "ml-auto bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" %>
-            <% end %>
-          <% end %>
+        <div class="ml-4">
+          <p class="text-lg font-semibold text-gray-900"><%= user.user_name %></p>
+          <p class="text-sm text-gray-600"><%= user.email %></p>
         </div>
+        <% if @user_current != user %>
+          <% unless @user_current.following?(user) %>
+            <%= link_to "フォロー", user_user_follow_path(user), method: :post, class: "ml-auto bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" %>
+          <% end %>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   <% end %>
 </div>

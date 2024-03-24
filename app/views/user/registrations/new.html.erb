@@ -3,17 +3,17 @@
     <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-8 lg:text-3xl">新規登録</h2>
       <%= render 'user/shared/flash_message' %>
       <div class="sm:col-span-2">
-        <%= f.label :メールアドレス, class:"mb-2 inline-block" %>
+        <%= f.label :email, class:"mb-2 inline-block" %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
       </div>  
       <div class="mt-2">
         <div class="field">
-          <%= f.label :パスワード, class:"mb-2 inline-block" %>
+          <%= f.label :password, class:"mb-2 inline-block" %>
           <% if @minimum_password_length %>(<%= @minimum_password_length %>文字以上)<% end %>
           <%= f.password_field :password, autocomplete: "current-password", class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
         </div>
         <div class="field mt-2">
-          <%= f.label :パスワード（確認用）, class:"mb-2 inline-block" %>
+          <%= f.label :password_confirmation, class:"mb-2 inline-block" %>
           <%= f.password_field :password_confirmation, autocomplete: "current-password", class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" %>
         </div>
       </div>

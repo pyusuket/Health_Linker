@@ -17,6 +17,7 @@
   </a>
   <h1 class="text-2xl font-bold text-gray-800">投稿詳細</h1>
 </div>
+<%= render 'user/shared/flash_message' %>
 
 <div class="flex items-center justify-start md:space-x-4 mx-2 my-2">
   <% user_path = current_user && current_user.id == @post.user.id ? user_homes_mypage_path : user_user_path(@post.user.id) %>
