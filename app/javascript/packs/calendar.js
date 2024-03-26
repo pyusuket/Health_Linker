@@ -20,28 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 予定編集
   eventClick: function(info) {
-      openModal(document.getElementById('editModal'));
+      openEditModal();
+      openModal(document.getElementById('editModal'),info);
     }
   });
-  
-    function openModal(modal) {
-    var titleInput = modal.querySelector('#event_plan');
-    var startInput = modal.querySelector('#event_start');
-    var endInput = modal.querySelector('#event_end');
-    
-    titleInput.value = event.title;
-    startInput.value = event.start;
-    endInput.value = event.end;
-  
-    modal.style.display = "block";
-  }
-
-  function closeModal() {
-    var modal = document.getElementById('editModal');
-    modal.style.display = "none";
-  }
 
   calendar.render();
+  
   // 予定追加
   document.getElementById('myForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -57,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(data => {
-      closeModal(); 
+      closeAddModal(); 
       calendar.refetchEvents();
     })
     .catch(error => {

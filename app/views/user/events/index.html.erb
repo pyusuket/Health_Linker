@@ -53,21 +53,40 @@
     modal.querySelector('form').reset();
   }
 
-  function openModal(modal) {
+  function openModal(modal,info) {
+    var form = document.getElementById('myEditForm')
+    var delete_botton = document.getElementById('delete_botton')
     var titleInput = modal.querySelector('#event_plan');
     var startInput = modal.querySelector('#event_start');
     var endInput = modal.querySelector('#event_end');
-
+    
+    form.action = "/user/events/"+ info.event.id;
+    delete_botton.setAttribute("href","/user/events/"+ info.event.id);
+    
+    var year = info.event.start.getFullYear()
+    var month = (info.event.start.getMonth()+1).toString().padStart(2, '0');
+    var date = info.event.start.getDate().toString().padStart(2, '0');
+    var hour = info.event.start.getHours().toString().padStart(2, '0');
+    var minute = info.event.start.getMinutes().toString().padStart(2, '0');
+    var start = `${year}-${month}-${date} ${hour}:${minute}`;
+    var year = info.event.end.getFullYear()
+    var month = (info.event.end.getMonth()+1).toString().padStart(2, '0');
+    var date = info.event.end.getDate().toString().padStart(2, '0');
+    var hour = info.event.end.getHours().toString().padStart(2, '0');
+    var minute = info.event.end.getMinutes().toString().padStart(2, '0');
+    var end = `${year}-${month}-${date} ${hour}:${minute}`;
+    
     titleInput.value = info.event.title;
-    startInput.value = info.event.start;
-    endInput.value = info.event.end;
-
-    modal.style.display = "block";
+    startInput.value = start
+    endInput.value = end
   }
 
   function closeModal() {
     var modal = document.getElementById('editModal');
     modal.style.display = "none";
+  }
+  function viewStart(obj){
+    console.log(obj.value);
   }
 </script>
 
