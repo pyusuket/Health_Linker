@@ -121,12 +121,19 @@
   </main>
 
   <script>
+    // メニューバーの表示
     document.getElementById('menu-toggle').addEventListener('click', function () {
       document.getElementById('sidebar').classList.toggle('hidden');
     });
+    
+    // フラッシュメッセージ消えるための処理
+    /*global $ */
+    $(document).ready(function() {
+      setTimeout(function() {
+        $('#flash-notice, #flash-alert').fadeOut();
+      }, 3000); 
+    });
   </script>
   
-</body>
-  <!--java script pack_tag-->
-  <%= javascript_pack_tag 'disappear_message' %>
+  </body>
 </html>
