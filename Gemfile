@@ -68,6 +68,8 @@ gem "enum_help"
 
 gem 'inline_svg'
 
+gem 'faker'
+
 gem 'dotenv-rails'
 group :production do
   gem 'mysql2'
