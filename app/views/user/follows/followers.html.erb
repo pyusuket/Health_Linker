@@ -19,6 +19,7 @@
           <p class="text-lg font-semibold text-gray-900"><%= user.user_name %></p>
           <p class="text-sm text-gray-600"><%= user.email %></p>
         </div>
+        <!--ログインユーザー出ない場合はフォローボタンを表示する-->
         <% if @user_current != user %>
           <% unless @user_current.following?(user) %>
             <%= link_to "フォロー", user_user_follow_path(user), method: :post, class: "ml-auto bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full" %>

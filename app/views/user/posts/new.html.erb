@@ -2,10 +2,12 @@
 
 <%= render 'user/shared/error_messages',resource: @post %>
 
+<!--投稿フォーム-->
 <%= form_with model: @post, url: user_posts_path, method: :post, multipart: true do |f| %>
   <div class="px-2 flex justify-center"> 
     <div class="sm:max-w-md w-full"> 
       <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <!--投稿写真-->
         <div class="col-span-full">
           <%= f.label :写真, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
           <div id="selected-images" class="col-span-full grid grid-cols-3 gap-4"></div>
@@ -23,10 +25,12 @@
             </div>
           </div>
         </div>
+        <!--投稿本文-->
         <div class="col-span-full mt-2">
           <%= f.label :本文, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
           <%= f.text_area :body, placeholder: "本文を入力してください", class: "w-full rounded border bg-gray-50 px-2 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100" %> <!-- 本文の高さを調整 -->
         </div>
+        <!--投稿タグ-->
         <div class="sm:col-span-full mt-2">
           <div>
             <%= f.label :タグ（複数選択可）, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>

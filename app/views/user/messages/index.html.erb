@@ -1,6 +1,8 @@
 <div class="mx-auto max-w-screen-2xl px-4 md:px-8 mt-16">
   <div class="mb-6 flex flex-col md:flex-row items-end justify-between gap-4">
+    <!--メッセージ一覧表示-->
     <div class="w-full border-gray-300">
+      <!--送受信者のメッセージを一つの行にまとめて表示する-->
       <ul id="messageList">
        <% if @messages.present? %>
         <% (@messages.group_by(&:sender_id).merge(@messages.group_by(&:receiver_id))).each do |id, messages| %>

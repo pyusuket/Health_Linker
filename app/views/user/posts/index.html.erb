@@ -11,22 +11,30 @@
     </div>
   <% end %>
 </div>
-
 <div id="no-results-message" class="text-center text-gray-500 mt-4" style="display: none;">
   検索に一致する投稿がありませんでした。
 </div>
 
+<!--投稿一覧-->
 <div class="px-2 grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-2 lg:grid-cols-3 xl:grid-cols-4">
   <% @posts.each do |post| %>
     <% user_path = current_user && current_user.id == post.user.id ? user_homes_mypage_path : user_user_path(post.user.id) %>
     <div class="relative post">
+      
+      <!--投稿したユーザーとユーザーネーム-->
       <div class="flex items-center"> 
         <%= link_to user_path do %>
           <%= image_tag(post.user.profile_image.presence || "no_image.jpg", class: "w-10 h-10 rounded-full m-2") %>
         <% end %>
         <span class="font-bold"><%= link_to post.user.user_name, user_path %></span> 
       </div>
+      
+      <!--投稿画像-->
+      <div>
         <%= post.images.attached? ? link_to(user_post_path(post)) { image_tag(post.images.first, class: "w-full h-80 object-cover rounded-lg") } : content_tag(:p, "no_image", class: "w-full h-80 object-cover rounded-lg") %>
+      </div>
+      
+      <!--いいね・コメント・投稿日時など-->
       <div class="flex items-center justify-between m-2">
         <div class="flex items-center">
           <% niceness_class = post.nices.exists?(user_id: current_user.id) ? "fa-solid fa-heart fa-xl text-pink-500" : "fa-regular fa-heart fa-xl" %>
@@ -42,8 +50,14 @@
         </div>
         <p class="text-sm text-gray-500"><%= post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
       </div>
-      <% truncated_body = post.body.length > 20 ? post.body[0..20] + '...' : post.body %>
-      <p class="whitespace-pre-line m-2"><%= truncated_body %></p>
+      
+      <!--投稿本文-->
+      <div>
+        <% truncated_body = post.body.length > 20 ? post.body[0..20] + '...' : post.body %>
+        <p class="whitespace-pre-line m-2"><%= truncated_body %></p>
+      </div>
+      
+      <!--タグ-->
       <div class="tags m-2">
         <% post.tags.limit(4).each do |tag| %>
           <%= link_to "##{tag.name}", user_post_searches_path(post_id: post.id, tag_id: tag.id), class: "tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700" %>
@@ -52,12 +66,17 @@
           <span class="tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700">...</span>
         <% end %>
       </div>
-      <%= form_with(model: [post, Comment.new], url: user_post_comments_path(post)) do |f| %>
-        <div class="m-2 flex justify-end">
+      
+      <!--コメントフォーム-->
+      <div>
+        <%= form_with(model: [post, Comment.new], url: user_post_comments_path(post)) do |f| %>
+          <div class="m-2 flex justify-end">
           <%= f.text_area :body, rows: '1', placeholder: "コメントをここに", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-indigo-500 text-sm" %>
           <%= f.submit "送信", class: "ml-2 rounded-lg border bg-green-500 hover:bg-green-600 focus:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 px-4 py-2 text-center text-sm font-semibold text-white transition duration-300 ease-in-out md:px-8 md:py-3 md:text-base" %>
         </div>
-      <% end %>
+        <% end %>
+      </div>
+    
     </div>
   <% end %>
 </div>

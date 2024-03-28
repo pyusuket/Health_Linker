@@ -5,7 +5,10 @@
 <%= form_with model: @post, url: user_post_path, method: :patch, multipart: true do |f| %>
   <div class="px-2 flex justify-center"> 
     <div class="sm:max-w-md w-full"> 
+    　<!--投稿編集-->
       <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        
+        <!--投稿画像-->
         <div class="col-span-full">
           <%= f.label :写真, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
           <% if @selected_images.any? %>
@@ -31,21 +34,27 @@
             </div>
           </div>
         </div>
+        
+        <!--本文-->
         <div class="col-span-full mt-2">
           <%= f.label :本文, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
           <%= f.text_area :body, placeholder: "本文を入力してください", class: "w-full rounded border bg-gray-50 px-2 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100" %> <!-- 本文の高さを調整 -->
         </div>
+        
+        <!--タグ-->
         <div class="sm:col-span-full mt-2">
-          <div>
-            <%= f.label :タグ（複数選択可）, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
-            <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100", multiple: true } %>
-          </div>
+          <%= f.label :タグ（複数選択可）, class: "mb-2 inline-block text-medium text-gray-800 sm:text-base" %>
+          <%= f.select :tag_ids, Tag.all.map { |tag| [tag.name, tag.id] }, {}, { class: "w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-gray-100", multiple: true } %>
         </div>
+        
       </div>
+      
+      <!--更新ボタン-->
       <div class="mt-2 flex items-center justify-end gap-x-6">
         <%= link_to "取り消し", user_post_path(@post), class: "text-sm font-semibold leading-6 text-gray-900" %> 
         <%= f.submit '投稿', class: "rounded-md bg-green-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 py-3" %>
       </div>
+      
     </div>
   </div>
 <% end %>

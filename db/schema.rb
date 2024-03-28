@@ -96,14 +96,6 @@ ActiveRecord::Schema.define(version: 2024_03_02_152526) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.integer "user_id", default: 0, null: false
-    t.text "content", default: "", null: false
-    t.boolean "read", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "page_views", force: :cascade do |t|
     t.integer "post_id", null: false
     t.integer "views_count", default: 0

@@ -1,3 +1,4 @@
+<!--swiperのstyle-->
 <style>
 .swiper-image {
   max-width: 100%;
@@ -11,15 +12,19 @@
 }
 </style>
 
+<!--フラッシュメッセージとタイトル-->
 <div class="flex mt-20 items-center">
   <a href="<%= user_posts_path %>" class="mr-4 ml-2">
     <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
   </a>
   <h1 class="text-2xl font-bold text-gray-800">投稿詳細</h1>
 </div>
+
 <%= render 'user/shared/flash_message' %>
 
+<!--投稿したユーザーとボタン表示-->
 <div class="flex items-center justify-start md:space-x-4 mx-2 my-2">
+  <!--ログインユーザーであれば、マイページへ、それ以外は、ユーザーの投稿一覧画面へ-->
   <% user_path = current_user && current_user.id == @post.user.id ? user_homes_mypage_path : user_user_path(@post.user.id) %>
   <%= link_to user_path do %>
     <%= image_tag(@post.user.profile_image.presence || "no_image.jpg", class: "w-10 h-10 rounded-full md:m-2") %>
@@ -36,7 +41,9 @@
   </div>
 </div>
 
+<!--投稿画像-->
 <div class="h-full w-full relative mb-2 mt-2 block overflow-hidden rounded-lg lg:mb-3">
+  <!--swiperの要素-->
   <div class="swiper-container swiper">
     <div class="swiper-wrapper">
       <% @post.images.each do |image| %>
@@ -51,51 +58,56 @@
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
   </div>
+</div>
 
-  <div class="flex items-center justify-between px-4 py-2">
-    <div class="flex items-center">
-      <% if @post.nices.exists?(user_id: current_user.id) %>
-        <%= link_to user_post_nices_path(@post), method: :delete, class: "nice-link" do %>
-          <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
-          <span class="text-sm text-gray-500"><%= @post.nices.count %></span> 
-        <% end %>
-      <% else %>
-        <%= link_to user_post_nices_path(@post), method: :post, class: "nice-link" do %>
-          <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
-          <span class="text-sm text-gray-500"><%= @post.nices.count %></span>
-        <% end %>
+<!--いいねボタンと投稿日時など-->
+<div class="flex items-center justify-between px-4 py-2">
+  <div class="flex items-center">
+    <% if @post.nices.exists?(user_id: current_user.id) %>
+      <%= link_to user_post_nices_path(@post), method: :delete, class: "nice-link" do %>
+        <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
+        <span class="text-sm text-gray-500"><%= @post.nices.count %></span> 
       <% end %>
-      <div class="flex items-center ml-4">
-        <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1"></i>
-        <span class="text-sm text-gray-500"><%= @post.comments.count %></span>
-      </div>
+    <% else %>
+      <%= link_to user_post_nices_path(@post), method: :post, class: "nice-link" do %>
+        <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
+        <span class="text-sm text-gray-500"><%= @post.nices.count %></span>
+      <% end %>
+    <% end %>
+    <div class="flex items-center ml-4">
+      <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1"></i>
+      <span class="text-sm text-gray-500"><%= @post.comments.count %></span>
     </div>
-      <p class="text-sm text-gray-500 ml-auto"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
   </div>
-  <div class="flex items-center justify-between px-2">
-    <div class="tags m-2">
-      <% @post.tags.limit(4).each do |tag| %>
-        <%= link_to "##{tag.name}", user_post_searches_path(post_id: @post.id, tag_id: tag.id), class: "tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700" %>
+  <p class="text-sm text-gray-500 ml-auto"><%= @post.created_at.strftime("%Y/%-m/%-d %-H:%M") %></p>
+</div>
+
+<!--タグと投稿編集削除ボタン-->
+<div class="flex items-center justify-between px-2">
+  <div class="tags m-2">
+    <% @post.tags.limit(4).each do |tag| %>
+      <%= link_to "##{tag.name}", user_post_searches_path(post_id: @post.id, tag_id: tag.id), class: "tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700" %>
+    <% end %>
+    <% if @post.tags.count > 4 %>
+      <span class="tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700">...</span>
+    <% end %>
+  </div>
+  <div class="flex items-center">
+    <% if user_signed_in? && current_user.id == @post.user_id %>
+      <%= link_to edit_user_post_path(@post), class: "ml-auto" do %>
+        <i class="fa-solid fa-pen-to-square text-gray-500"></i>
       <% end %>
-      <% if @post.tags.count > 4 %>
-        <span class="tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700">...</span>
+      <%= link_to user_post_path(@post), method: :delete, class: "ml-4", data: { confirm: "本当に削除しますか？" } do %>
+        <i class="fa-solid fa-trash-can text-gray-500"></i>
       <% end %>
-    </div>
-    <div class="flex items-center">
-      <% if user_signed_in? && current_user.id == @post.user_id %>
-        <%= link_to edit_user_post_path(@post), class: "ml-auto" do %>
-          <i class="fa-solid fa-pen-to-square text-gray-500"></i>
-        <% end %>
-        <%= link_to user_post_path(@post), method: :delete, class: "ml-4", data: { confirm: "本当に削除しますか？" } do %>
-          <i class="fa-solid fa-trash-can text-gray-500"></i>
-        <% end %>
-      <% end %>
-    </div>
+    <% end %>
   </div>
 </div>
 
+<!--投稿内容-->
 <p class="px-4 py-2"><%= @post.body %></p>
 
+<!--コメント欄-->
 <div class="mt-4 px-4">
   <h1 class="text-xl font-semibold">コメント欄（コメント件数：<%= @post.comments.count %>）</h1>
   <% @post.comments.each do |comment| %>
@@ -114,17 +126,16 @@
   <% end %>
 </div>
 
-<!-- SwiperのCDNを読み込む -->
+<!-- SwiperのCDNとjava script -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   var swiper = new Swiper('.swiper', {
     loop: true,
-    navigation: { // ナビゲーションボタンの設定
-      nextEl: '.swiper-button-next', // 「次へ」ボタン
-      prevEl: '.swiper-button-prev', // 「前へ」ボタン
+    navigation: {
+      nextEl: '.swiper-button-next', 
+      prevEl: '.swiper-button-prev', 
     },
     pagination: { 
       el: '.swiper-pagination',

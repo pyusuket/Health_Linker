@@ -1,5 +1,6 @@
 <div class="mx-auto max-w-screen-2xl px-4 md:px-8m mt-20">
   <div class="flex items-center flex-col md:flex-row mb-4 px-2">
+    <!--プロフィール画像-->
     <div class="mb-4 md:mb-0 md:mr-4">
       <% if @user.profile_image.present? %>
         <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
@@ -7,13 +8,21 @@
         <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
       <% end %>
     </div>
+    
+    <!--プロフィール編集・フォロー・メッセージボタン-->
     <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
-      <h1 class="text-2xl font-semibold mb-2 md:mb-0">
-        <%= link_to @user.user_name, user_posts_path(@user) %>
-      </h1>
-      <% if @user == current_user && @user.email != "guest@example.com" %>
-        <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
-      <% end %>
+      
+      <!--プロフィール編集ボタン-->
+      <div>
+        <h1 class="text-2xl font-semibold mb-2 md:mb-0">
+          <%= link_to @user.user_name, user_posts_path(@user) %>
+        </h1>
+        <% if @user == current_user && @user.email != "guest@example.com" %>
+          <%= link_to "プロフィール編集", edit_user_user_path(current_user), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
+        <% end %>
+      </div>
+      
+      <!--フォロー・メッセージボタン-->
       <div class="flex items-center">
         <% if current_user && current_user != @user %>
           <% if current_user.following?(@user) %>
@@ -24,6 +33,8 @@
         <%= link_to "メッセージを送る", user_user_message_path(@user), class: "bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105" %>
         <% end %>
       </div>
+      
+      <!--フォロー・フォロワーボタン-->
       <div class="flex flex-wrap justify-center mt-2">
         <span class="mr-4">
           <% followers_count = @user.followers.count %>
@@ -44,12 +55,17 @@
           <% end %>
         </span>
       </div>
+      
     </div>
   </div>
+
+<!--投稿詳細-->
 <div class="grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-2 lg:grid-cols-3 xl:grid-cols-4">
   <% @posts.each do |post| %>
     <div class="h-full w-full relative block overflow-hidden rounded-lg">
       <div class="relative post">
+        
+        <!--プロフィール画像とユーザーネーム-->
         <div class="flex items-center"> 
           <% if post.user.profile_image.attached? %>
             <%= link_to user_user_path(post.user.id) do %>
@@ -61,7 +77,9 @@
             <% end %>
           <% end %>
           <span class="font-bold mr-2"><%= link_to post.user.user_name, user_user_path(post.user.id) %></span> 
-        </div> 
+        </div>
+        
+        <!--投稿画像-->
         <div class="slick-carousel text-center">
           <% if post.images.attached? %>
             <%= link_to user_post_path(post) do %>
@@ -71,24 +89,27 @@
             <p class="w-full h-80 object-cover rounded-lg">no_image</p>
           <% end %>
         </div>
+        
+        <!--いいねと投稿日時-->
         <div class="flex justify-between items-center m-2">
-            <div class="flex items-center">
-              <% if post.nices.exists?(user_id: current_user.id) %>
-                <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
-                  <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
-                  <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span> 
-                <% end %>
-              <% else %>
-                <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
-                  <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
-                  <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span>
-                <% end %>
+          <div class="flex items-center">
+            <% if post.nices.exists?(user_id: current_user.id) %>
+              <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
+                <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
+                <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span> 
               <% end %>
-              <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1 ml-2"></i>
-              <span class="text-sm text-gray-500"><%= post.comments.count %></span>
-            </div>
+            <% else %>
+              <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
+                <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
+                <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span>
+              <% end %>
+            <% end %>
+            <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1 ml-2"></i>
+            <span class="text-sm text-gray-500"><%= post.comments.count %></span>
+          </div>
           <p class="text-sm text-gray-500"><%= post.created_at.strftime("%Y/%-m/%-d") %></p>
         </div>
+        
       </div>
     </div>
   <% end %>

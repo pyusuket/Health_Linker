@@ -1,25 +1,26 @@
 class Admin::HomesController < ApplicationController
   def top
     @users = User.all
-    # 基準日
-    start_date = Date.new(2024, 2, 1)
-    end_date = Date.today
-  
-    # アクティブユーザー
-    daily_active_users = User.where("created_at >= ? AND user_status = ?", start_date, true)
+    # 開始日と終了日の取得
+    start_date = params[:start_date].presence || Date.new(2024, 2, 1) # 開始日を受け取る。デフォルトは2024年2月1日
+    end_date = params[:end_date].presence || Date.today # 終了日を受け取る。デフォルトは今日
+    
+    # アクティブユーザーの取得
+    daily_active_users = User.where("created_at >= ? AND created_at <= ? AND user_status = ?", start_date, end_date, true)
                               .group("DATE(created_at)")
                               .order("DATE(created_at)")
                               .count
-  
+    
     @daily_active_users = {}
     accumulated_count = 0
-  
+    
     start_date.upto(end_date) do |date|
       date_str = date.strftime("%Y-%m-%d")
       count = daily_active_users[date_str] || 0
       accumulated_count += count
       @daily_active_users[date_str] = accumulated_count
     end
+    
     # JavaScriptに絞り込みデータを渡す
     @javascript_data = @daily_active_users.to_json
 
