@@ -1,0 +1,104 @@
+<!--フラッシュメッセージとタイトル-->
+<div class="flex mt-20 items-center">
+  <a href="<%= admin_users_path %>" class="mr-4 ml-2">
+    <i class="fa-solid fa-chevron-left" style="color: #000000;"></i>      
+  </a>
+  <h1 class="text-2xl font-bold text-gray-800">ユーザー詳細</h1>
+</div>
+
+<%= render 'user/shared/flash_message' %>
+
+<div class="mx-auto max-w-screen-2xl px-4 md:px-8m mt-20">
+  <div class="flex items-center flex-col md:flex-row mb-4 px-2">
+    <!--プロフィール画像-->
+    <div class="mb-4 md:mb-0 md:mr-4">
+      <% if @user.present? && @user.profile_image.present? %>
+        <%= image_tag @user.profile_image, class: "w-24 h-24 rounded-full" %>
+      <% else %>
+        <%= image_tag "no_image.jpg", class: "w-24 h-24 rounded-full" %>
+      <% end %>
+    </div>
+    
+    <!--プロフィール編集・フォロー・メッセージボタン-->
+    <div class="w-full md:w-3/4 flex flex-col md:flex-row justify-between items-center">
+      
+      <!--フォロー・フォロワーボタン-->
+      <div class="flex flex-wrap justify-center mt-2">
+        <span class="mr-4">
+          <% followers_count = @user.followers.count %>
+          <% if followers_count > 10000 %>
+            <% ten_thousands = followers_count / 10000 %>
+            <%= link_to "フォロワー : #{ten_thousands} 万人", user_user_followers_path(@user) %>
+          <% else %>
+            <%= link_to "フォロワー : #{number_with_delimiter(followers_count)} 人", user_user_followers_path(@user) %>
+          <% end %>
+        </span>
+        <span class="mr-4">
+          <% followings_count = @user.followings.count %>
+          <% if followings_count > 10000 %>
+            <% ten_thousands = followings_count / 10000 %>
+            <%= link_to "フォロー中 : #{ten_thousands} 万人", user_user_followings_path(@user) %>
+          <% else %>
+            <%= link_to "フォロー中 : #{number_with_delimiter(followings_count)} 人", user_user_followings_path(@user) %>
+          <% end %>
+        </span>
+      </div>
+      
+    </div>
+  </div>
+
+<!--投稿詳細-->
+<div class="grid gap-x-2 gap-y-2 sm:grid-cols-2 md:gap-x-2 lg:grid-cols-3 xl:grid-cols-4">
+  <% @posts.each do |post| %>
+    <div class="h-full w-full relative block overflow-hidden rounded-lg">
+      <div class="relative post">
+        
+        <!--プロフィール画像とユーザーネーム-->
+        <div class="flex items-center"> 
+          <% if post.user.profile_image.attached? %>
+            <%= link_to user_user_path(post.user.id) do %>
+              <%= image_tag post.user.profile_image, class: "w-10 h-10 rounded-full m-2" %>
+            <% end %>
+          <% else %>
+            <%= link_to user_user_path(post.user.id) do %>
+              <%= image_tag "no_image.jpg", class: "w-10 h-10 rounded-full m-2" %>
+            <% end %>
+          <% end %>
+          <span class="font-bold mr-2"><%= link_to post.user.user_name, user_user_path(post.user.id) %></span> 
+        </div>
+        
+        <!--投稿画像-->
+        <div class="slick-carousel text-center">
+          <% if post.images.attached? %>
+            <%= link_to user_post_path(post) do %>
+              <%= image_tag post.images.first, class: "w-full h-80 object-cover rounded-lg" %>
+            <% end %>
+          <% else %>
+            <p class="w-full h-80 object-cover rounded-lg">no_image</p>
+          <% end %>
+        </div>
+        
+        <!--いいねと投稿日時-->
+        <div class="flex justify-between items-center m-2">
+          <div class="flex items-center">
+            <% if post.nices.exists? %>
+              <%= link_to user_post_nices_path(post), method: :delete, class: "nice-link" do %>
+                <i class="fa-solid fa-heart fa-lg text-pink-500 mr-1"></i>
+                <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span> 
+              <% end %>
+            <% else %>
+              <%= link_to user_post_nices_path(post), method: :post, class: "nice-link" do %>
+                <i class="fa-regular fa-heart fa-lg" style="color: #777777;"></i>              
+                <span class="text-sm text-gray-500 mr-2"><%= post.nices.count %></span>
+              <% end %>
+            <% end %>
+            <i class="fa-solid fa-comment fa-lg text-yellow-500 mr-1 ml-2"></i>
+            <span class="text-sm text-gray-500"><%= post.comments.count %></span>
+          </div>
+          <p class="text-sm text-gray-500"><%= post.created_at.strftime("%Y/%-m/%-d") %></p>
+        </div>
+        
+      </div>
+    </div>
+  <% end %>
+</div>

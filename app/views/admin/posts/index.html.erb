@@ -33,14 +33,12 @@
           <tr class="border-b border-gray-200 post">
             <td class="px-2 py-2"><%= link_to "削除", admin_post_path(post.id), method: :delete, class: "delete-user rounded-md bg-red-500 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700", data: { confirm: "本当に削除しますか？" } %></td>
             <td class="text-center">
-              <%= link_to user_post_path(post), class: "text-blue-500 hover:text-blue-700" do %>
+              <%= link_to admin_post_path(post), class: "text-blue-500 hover:text-blue-700" do %>
                 <%= post.id %>
               <% end %>
             </td>
             <td class="text-center">
-              <%= link_to user_user_path(post.user), class: "text-blue-500 hover:text-blue-700" do %>
-                <%= post.user.user_name %>
-              <% end %>
+              <%= post.user.user_name %>
             </td>
             <td class="text-left overflow-hidden whitespace-nowrap">
               <%= post.body.length > 20 ? post.body.slice(0, 20) + '...' : post.body %>
