@@ -1,6 +1,6 @@
 class User::UsersController < ApplicationController
   before_action :is_current_user, only: [:edit, :update, :nices, :destroy]
-  
+  before_action :authenticate_user!
   def index
     @users = User.all.order(created_at: :desc)
   end

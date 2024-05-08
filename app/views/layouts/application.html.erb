@@ -10,7 +10,6 @@
     <!-- Swiper css CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-    <link rel="stylesheet" href="style.css" />
     <!-- Tailwind css CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Fontawesome CDN -->
@@ -100,7 +99,7 @@
           <li><%= link_to "カレンダー", user_events_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "メッセージ", user_user_messages_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "お気に入り一覧", nices_user_user_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
-          <li><%= link_to "マイページ", user_homes_mypage_path(current_user), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
+          <li><%= link_to "マイページ", user_homes_mypage_path(), class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>
         <% elsif admin_signed_in? %>
           <li><%= link_to "全体管理", admin_homes_top_path, class: "text-brown-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-sm font-medium"%></li>

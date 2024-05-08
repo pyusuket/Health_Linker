@@ -85,7 +85,7 @@
 <!--タグと投稿編集削除ボタン-->
 <div class="flex items-center justify-between px-2">
   <div class="tags m-2">
-    <% @post.tags.limit(4).each do |tag| %>
+    <% @post.tags.each do |tag| %>
       <%= link_to "##{tag.name}", user_post_searches_path(post_id: @post.id, tag_id: tag.id), class: "tag inline-block bg-gray-200 rounded-md px-3 py-1 text-sm font-semibold text-gray-700" %>
     <% end %>
     <% if @post.tags.count > 4 %>
